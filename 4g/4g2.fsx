@@ -1,0 +1,1 @@
+//For a polygone with n-> infinity the length (i.e. circumference) goes towords that of a perfect circle. 
