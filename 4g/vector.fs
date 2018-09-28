@@ -11,27 +11,11 @@ let createVectorAngLen (vector : float * float) (ang : float) (len : float) =
 
     (x,y)
 
-let createVectorAngLenDecimal (vector : decimal * decimal) (ang : decimal) (len : decimal) =
-    let vectorx = fst vector
-    let vectory = snd vector
-    let x = len * (decimal (cos ang))
-    let y = len * (decimal (sin ang))
-
-    (x,y)
-
 let getLength vector =
     let x = fst vector
     let y = snd vector
 
     let len : float = sqrt (x**2.0+y**2.0)
-
-    len
-
-let getLengthDecimal (vector : decimal * decimal) =
-    let x = fst vector
-    let y = snd vector
-
-    let len : decimal = sqrt (x**2.0+y**2.0)
 
     len
 
@@ -41,19 +25,7 @@ let getAngle vector =
 
     atan2 y x
 
-let subtractVectors (vector1 : float * float) (vector2 : float * float) : float * float =
-    let x1 = fst vector1
-    let x2 = fst vector2
-
-    let y1 = snd vector1
-    let y2 = snd vector2
-
-    let x3 = abs (x1 - x2)
-    let y3 = abs (y1 - y2)
-
-    (x3, y3)
-
-let subtractVectorDecimal (vector1 : decimal * decimal) (vector2 : decimal * decimal) : decimal * decimal =
+let subtractVector (vector1 : float * float) (vector2 : float * float) : float * float =
     let x1 = fst vector1
     let x2 = fst vector2
 
@@ -104,9 +76,6 @@ let getPi =
 let convertDegreeToRadian (n : float) =
     ((n * (float getPi))/(float 180))
 
-let convertDegreeToRadianDecimal (n : decimal) =
-    ((n * (decimal getPi))/(decimal 180))
-
 // n = antallet af punkter
 let polyLen (n : int) (r : float) : float =
     let angle : float = (float 360) / (float n)
@@ -119,31 +88,11 @@ let polyLen (n : int) (r : float) : float =
     let letnewVector = createVectorAngLen startVector (float radianAngle) r
     //printfn "vector: (%f, %f)\nlen: %f\n\n" (fst letnewVector) (snd letnewVector) (getLength letnewVector)
 
-    let newvec = subtractVectorDecimal startVector letnewVector
+    let newvec = subtractVector startVector letnewVector
     //printfn "vector: (%f, %f)\nlen: %f\n\n" (fst letnewVector) (snd newvec) (getLength newvec)
 
 
     let len = getLength newvec
-    //printfn "len: %f" len 
-    
-    (len * (float n))
-
-let polyLenDecimal (n : int) (r : float) : decimal =
-    let angle : decimal = (decimal 360) / (decimal n)
-    let radianAngle : decimal = convertDegreeToRadianDecimal float angle
-    //printfn "%f\n%f" angle radianAngle
-
-    let startVector = createVector r 0.0
-    //printfn "vector: (%f, %f)\nlen: %f\n\n" (fst startVector) (snd startVector) (getLength startVector)
-
-    let letnewVector = createVectorAngLenDecimal startVector (float radianAngle) r
-    //printfn "vector: (%f, %f)\nlen: %f\n\n" (fst letnewVector) (snd letnewVector) (getLength letnewVector)
-
-    let newvec = subtractVectors startVector letnewVector
-    //printfn "vector: (%f, %f)\nlen: %f\n\n" (fst letnewVector) (snd newvec) (getLength newvec)
-
-
-    let len = getLengthDecimal newvec
     //printfn "len: %f" len 
     
     (len * (float n))
