@@ -83,7 +83,7 @@ let polyLen (n : int) (r : float) : float =
 
     let startVector = createVector r 0.0
 
-    let letnewVector = createVectorAngLen startVector (float radianAngle) r
+    let letnewVector = createVectorAngLen (float radianAngle) r
 
     let newvec = subtractVector startVector letnewVector
 
