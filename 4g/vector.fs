@@ -3,9 +3,7 @@ module vec2d
 let createVector (x : float) (y : float) =
     (x,y)
 
-let createVectorAngLen (vector : float * float) (ang : float) (len : float) =
-    let vectorx = fst vector
-    let vectory = snd vector
+let createVectorAngLen (ang : float) (len : float) =
     let x = len * (cos ang)
     let y = len * (sin ang)
 
@@ -19,7 +17,7 @@ let getLength vector =
 
     len
 
-let getAngle vector =
+let getAngle  vector =
     let x = fst vector
     let y = snd vector
 
@@ -59,7 +57,9 @@ let vectorProduct (vector1 : float * float) (vector2 : float * float) =
     let x3 = x1 * x2
     let y3 = y1 * y2
 
-    (x3, y3)
+    let dotProdukt = x3 + y3
+
+    dotProdukt
 
 let multiplyVector (vector1 : float * float) (a : float) =
     let x : float = fst vector1
@@ -80,20 +80,14 @@ let convertDegreeToRadian (n : float) =
 let polyLen (n : int) (r : float) : float =
     let angle : float = (float 360) / (float n)
     let radianAngle : float = convertDegreeToRadian angle
-    //printfn "%f\n%f" angle radianAngle
 
     let startVector = createVector r 0.0
-    //printfn "vector: (%f, %f)\nlen: %f\n\n" (fst startVector) (snd startVector) (getLength startVector)
 
-    let letnewVector = createVectorAngLen startVector (float radianAngle) r
-    //printfn "vector: (%f, %f)\nlen: %f\n\n" (fst letnewVector) (snd letnewVector) (getLength letnewVector)
+    let letnewVector = createVectorAngLen (float radianAngle) r
 
     let newvec = subtractVector startVector letnewVector
-    //printfn "vector: (%f, %f)\nlen: %f\n\n" (fst letnewVector) (snd newvec) (getLength newvec)
-
 
     let len = getLength newvec
-    //printfn "len: %f" len 
     
     (len * (float n))
 
