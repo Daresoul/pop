@@ -1,7 +1,6 @@
 /// A 2 dimensional vector libary
 /// Vectors are represented as a string contaning the starting point and end point of the vector.
-/// Tne format of the string is "1;y1;x2;y2" where x1 and x2 is the starting coordinate and ending coordinate respectively.
-/// The same formate applies for the y-values. 
+/// Tne format of the string is "x1;y1;x2;y2" where x1 and x2 is the starting and ending coordinate respectively. The same formate applies for the y-values. 
 /// In this setup the starting point of a vector is not pre-defined. (i.e. it is not just (0;0))
 
 module stringVector2D
