@@ -1,4 +1,4 @@
-///This program whitebox tests the functions in the file, vector.fs. It also prints a table showing what works and what does'nt
+///This program whitebox-tests the functions in the file, vector.fs. It also prints a table showing what works and what does'nt
 
 printfn "WhiteBox test.\nFunction name: Relevant vector information for calculation => answer == expected answer => Are they the same. Numerical numbers are estimated within a 1 procent margin.\n"
 let mutable functionName = "getAngle"

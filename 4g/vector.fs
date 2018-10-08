@@ -1,6 +1,6 @@
 module vec2d
 
-///This Function takes 2 arguments shoves in a tuple and then returns the tuple.
+///This Function takes 2 arguments shoves it in a tuple and then returns the tuple.
 ///<parameter>x, y</parameter>
 ///<return>a tuple (x, y)</return>
 let createVector (x : float) (y : float) =
@@ -86,7 +86,9 @@ let vectorProduct (vector1 : float * float) (vector2 : float * float) =
     dotProdukt
 
 
-
+///Multiplies the x's and y's of two vectors.
+///<parameter>vector1, vector2</parameter>
+///<return>(x2, y2)</return>
 let multiplyVector (vector1 : float * float) (a : float) =
     let x : float = fst vector1
     let y : float = snd vector1
@@ -96,12 +98,21 @@ let multiplyVector (vector1 : float * float) (a : float) =
 
     (x2, y2)
 
+///It's to avoid too much writing.
+///<return>pi</return>
 let getPi =
     System.Math.PI
 
+///Converts n degrees to radians.
+///<parameter>n</parameter>
+///<return>float</return>
 let convertDegreeToRadian (n : float) =
     ((n * (float getPi))/(float 180))
 
+
+///Calculates the length of a pseudo circle with n edges.
+///<parameter>n, r, float</parameter>
+///<return>float</return>
 // n = antallet af punkter
 let polyLen (n : int) (r : float) : float =
     let angle : float = (float 360) / (float n)

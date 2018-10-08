@@ -1,3 +1,5 @@
+///This program prints a table show what 
+
 let circlecurcomfrance : float = 7.
 printfn "%15s %15s %15s %15s" "n" "polygon-value" "cirkel value" "diff"
 for i = 0 to 25 do
