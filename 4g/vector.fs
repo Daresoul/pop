@@ -1,7 +1,9 @@
 module vec2d
 
+///This Function takes 2 arguments shoves in a tuple and then returns the tuple.
 let createVector (x : float) (y : float) =
     (x,y)
+
 
 let createVectorAngLen (ang : float) (len : float) =
     let x = len * (cos ang)
@@ -9,6 +11,8 @@ let createVectorAngLen (ang : float) (len : float) =
 
     (x,y)
 
+
+///Calculates and returns the length of the vector.
 let getLength vector =
     let x = fst vector
     let y = snd vector
@@ -17,12 +21,16 @@ let getLength vector =
 
     len
 
+
+///Calculates and returns the angle of the vector.
 let getAngle  vector =
     let x = fst vector
     let y = snd vector
 
     atan2 y x
 
+
+///Calculates and returns subtraction of a vector from a vector.
 let subtractVector (vector1 : float * float) (vector2 : float * float) : float * float =
     let x1 = fst vector1
     let x2 = fst vector2
@@ -35,6 +43,8 @@ let subtractVector (vector1 : float * float) (vector2 : float * float) : float *
 
     (x3, y3)
 
+
+///Calculates and returns addition of a vector to a vector.
 let addVectors (vector1 : float * float) (vector2 : float * float) =
     let x1 = fst vector1
     let x2 = fst vector2
@@ -47,6 +57,8 @@ let addVectors (vector1 : float * float) (vector2 : float * float) =
 
     (x3, y3)
 
+
+///Calculates and returns dot product of 2 vectors.
 let vectorProduct (vector1 : float * float) (vector2 : float * float) = 
     let x1 = fst vector1
     let x2 = fst vector2
@@ -60,6 +72,8 @@ let vectorProduct (vector1 : float * float) (vector2 : float * float) =
     let dotProdukt = x3 + y3
 
     dotProdukt
+
+
 
 let multiplyVector (vector1 : float * float) (a : float) =
     let x : float = fst vector1
