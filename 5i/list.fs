@@ -76,9 +76,7 @@ let concat (lst : 'a list list) =
 
 let gennemsnit (lst : float list) =
     // Sums all numbers in the list
-    let thisgennemsnit = List.fold (fun newsum (x) ->  match x with
-                                                        | float -> (newsum+x)
-                                                        | _ -> None) 0.0 lst
+    let thisgennemsnit = Some (List.fold (fun newsum (x) -> ( x + newsum)) 0.0 lst / float lst.Length)
 
     // Returns the median
     thisgennemsnit
