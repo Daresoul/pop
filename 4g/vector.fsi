@@ -24,10 +24,11 @@ val getLength : float * float -> float
 val getAngle : float * float -> float
 
 ///Takes two floats and adds them.
+///Calculates and returns dot product of 2 vectors.
 val addVectors : float * float -> float * float -> float * float
 
-///Takes two vectors and returns dot product. 
+///Takes two vectors and returns dot product.
 val vectorProduct : float * float -> float * float -> float * float
 
-
+///Multiplies the x's and the y's of two vectors.
 val multiplyVector : float * float -> float -> float * float
