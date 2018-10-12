@@ -1,3 +1,6 @@
+///This program prints a table showing what polyLen n returns if n is from 1 to 10
+///<parameter>n</parameter>
+///<return>length of megagon<return/>
 let circlecurcomfrance : float = 7.
 printfn "%15s %15s %15s %15s" "n" "polygon-value" "cirkel value" "diff"
 for i = 0 to 25 do
