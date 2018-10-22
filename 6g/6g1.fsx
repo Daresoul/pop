@@ -1,6 +1,6 @@
 
-//<summary> Takes a float and returns its numerator as part fraction with a denominator of 10 to the power of n.
-//<remarks> 3.254 would be returned as 3254. We are returning a aproximation.
+///<summary> Takes a float and returns its numerator as part fraction with a denominator of 10 to the power of n.</summary>
+///<remarks> 3.254 would be returned as 3254. We are returning a aproximation. </remarks>
 let rec decimal2fraction(number: float) : float =
     let r = ceil number
     let r2 = number - r
@@ -10,9 +10,9 @@ let rec decimal2fraction(number: float) : float =
     else 
         number   
 
-//<summary> Aproximate the continued fraction of a float and returns it as an int list.
-//<remarks>  A few type casting are done to reduce risk of overflow during calulations. Finally the returned list is a Int32,since it is estimated that the risk of an overflow in the return list indexes is little to none. Pressision of an apriximation on the number pi goes to the 9th continued fraction index. 
-//<remarks>According to oeis.org (A001203) at index 10 it should have been 14, not 4. The exact reason is not known, and is beyond the scope of this assigment. (Potential causes are: a longer row of decimals of pi is used at oeis.org or an conversion error. While printfn statments showed no sign of the error in the calculation, it is assumed it is due to the shorter use of the pi decimals.)
+///<summary> Aproximate the continued fraction of a float and returns it as an int list. </summary>
+///<remarks>  A few type casting are done to reduce risk of overflow during calulations. Finally the returned list is a Int32,since it is estimated that the risk of an overflow in the return list indexes is little to none. Pressision of an apriximation on the number pi goes to the 9th continued fraction index. 
+///<remarks>According to oeis.org (A001203) at index 10 it should have been 14, not 4. The exact reason is not known, and is beyond the scope of this assigment. (Potential causes are: a longer row of decimals of pi is used at oeis.org or an conversion error. While printfn statments showed no sign of the error in the calculation, it is assumed it is due to the shorter use of the pi decimals.) </remarks>
 let float2cfrac (number: float ) : int list =
     if number = 0.0 then 
         let lst = [0]
@@ -22,15 +22,15 @@ let float2cfrac (number: float ) : int list =
         let x2 = System.Convert.ToInt64(x1)
         let y1 = x1/number
         let y2 = System.Convert.ToInt64(y1)
-        let rec calculation (r1: int64)(r2: int64): int list =
+        let rec calculation (r1: int64)(r2: int64): int list = //Function in function start.
             let ri2 = r1
             let ri = r1 % r2
             let qi = r1/r2
             let pass = r2
             let lst = [System.Convert.ToInt32(qi)]
             if ri > (System.Convert.ToInt64(0)) then lst@calculation(pass)(System.Convert.ToInt64(ri))
-            else lst
-        let lst = calculation(x2)(y2)
+            else lst //Function in function end.
+        let lst = calculation(x2)(y2) //<- Function in function called. 
         lst
         
 [<EntryPoint>]
