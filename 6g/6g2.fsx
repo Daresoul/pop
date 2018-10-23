@@ -1,5 +1,5 @@
-//<summary> Calculates the continued fraction of a fraction based upon two integers.
-//<remarks> Returns an empty list if dividing with zero. 
+///<summary> Calculates the continued fraction of a fraction based upon two integers.</summary>
+/// <remarks> Returns an empty list if dividing with zero. </remarks>
 let rec frac2cfrac (t:int)(n:int): int list =
     if n = 0 then
         let lst = List.empty<int> 

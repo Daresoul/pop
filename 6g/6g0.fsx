@@ -1,5 +1,5 @@
-//<summary> Takes a list of int and returns a float calculated as a continued fraction (i.e. q0 + 1/(q1+1/(q2...etc))
-//<remarks> It returns 0.0 if the list is empty.
+///<summary> Takes a list of int and returns a float calculated as a continued fraction (i.e. q0 + 1/(q1+1/(q2...etc))</summary>
+///<remarks> It returns 0.0 if the list is empty.</remarks>
 let rec cfrac2float (lst: int list) : float =
     if lst.IsEmpty then 0.0
     elif lst.Length<2 then 
