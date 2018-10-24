@@ -1,5 +1,6 @@
 module lists
 
+// Function used for 5i.0a
 let isTable (thislist : 'a list list) =
     // Boolean to check if lists are all the same len
     let mutable tableisTrue = true
@@ -20,16 +21,8 @@ let isTable (thislist : 'a list list) =
 
     tableisTrue
 
-let isTableNew (thislist : 'a list list) =
-    let listlen = thislist.Head.Length
 
-    if thislist.IsEmpty then
-        false
-    else
-        let istable = List.forall (fun x -> x.Length = listlen) thislist
-        istalbe
-
-
+// Function used for 5i.0b
 let firstColumn (thislist : 'a list list) : 'a list =
     // the list to return
     let mutable newlist : 'a list = []
@@ -45,6 +38,7 @@ let firstColumn (thislist : 'a list list) : 'a list =
             newlist <- thisitem::newlist
     newlist
 
+// Function used for 5i.0c
 let dropFirstColumn (thislist : 'a list list) : 'a list list =
     // Creates a new list
     let mutable newlist : 'a list list = []
@@ -62,6 +56,7 @@ let dropFirstColumn (thislist : 'a list list) : 'a list list =
     // Returner en ny liste uden det første element i hvert element
     newlist
 
+// Function used for 5i.0d
 let transpose (thislist : 'a list list) : 'a list list =
 
     let mutable thisnewlist : 'a list list = thislist
@@ -78,15 +73,15 @@ let transpose (thislist : 'a list list) : 'a list list =
 
     (List.rev newlist)
 
+// Function used for 5i.1
 let concat (lst : 'a list list) =
     let newlst = lst |> List.collect (fun x -> x)
     newlst
 
+// Function used for 5i.2
 let gennemsnit (lst : float list) =
     // Sums all numbers in the list
-    let sum : float = List.fold (fun newsum (x) -> (newsum+x)) 0.0 lst
-    // Deviding by the length of the list
-    let gennemsnit : float = sum / (float lst.Length)
+    let thisgennemsnit = Some (List.fold (fun newsum (x) -> ( x + newsum)) 0.0 lst / float lst.Length)
 
     // Returns the median
-    gennemsnit
+    thisgennemsnit

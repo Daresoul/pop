@@ -1,5 +1,8 @@
 ///<summary> Calculates the continued fraction of a fraction based upon two integers.</summary>
 /// <remarks> Returns an empty list if dividing with zero. </remarks>
+///<param name="t">The number you wanna create a continued fraction of</param>
+///<param name="n">The number you wanna create a continued fraction of</param>
+///<returns>Returns a list with the numbers for the continued fraction</returns>
 let rec frac2cfrac (t:int)(n:int): int list =
     if n = 0 then
         let lst = List.empty<int> 
@@ -19,6 +22,8 @@ let rec frac2cfrac (t:int)(n:int): int list =
         
 [<EntryPoint>]
 let main args =
+
+    printfn "BlackBoxTest \n\n\n"
     let t1 = 649
     let n1 = 200
     let r1 = frac2cfrac(t1)(n1)
