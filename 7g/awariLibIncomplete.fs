@@ -1,5 +1,5 @@
 module Awari
-//type pit = // intentionally left empty
+type pit = int
 type board = int list
 type player = Player1 | Player2
 
@@ -47,3 +47,25 @@ let isGameOver (b : board) : bool =
       player2gameover
     else
       false
+
+let isHome (b : board) (p : player) (i : pit) : bool =
+
+  if b.IsEmpty then
+    false
+  else
+    let halfBoardLen = b.Length / 2
+    let player1Home = halfBoardLen - halfBoardLen
+    let player2Home = b.Length - halfBoardLen
+
+    match p with
+    | Player1 ->
+      if i = player1Home then
+        true
+      else
+        false
+
+    | Player2 ->
+      if i = player2Home then
+        true
+      else
+        false
