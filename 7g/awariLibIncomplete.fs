@@ -5,7 +5,7 @@ type player = Player1 | Player2
 
 // intentionally many missing implementations and additions
 
-(*let turn (b : board) (p : player) : board =
+let turn (b : board) (p : player) : board =
   let rec repeat (b: board) (p: player) (n: int) : board =
     printBoard b
     let str =
@@ -32,7 +32,7 @@ let rec play (b : board) (p : player) : board =
         Player2
       else
         Player1
-    play newB nextP*)
+    play newB nextP
 
 let isGameOver (b : board) : bool =
   if b.IsEmpty then
