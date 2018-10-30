@@ -12,13 +12,13 @@ let field = [3;3;3;3;3;3;0;3;3;3;3;3;3;0]
 let clearPit (l: int list) (i: int) =
     l.[0..i-1] @ [0] @ l.[i+1..13]
 
-// This places 1 bean everytime we move from one index to another.
+// This places a bean everytime we move from one index to another.
 let rec addBeans (l: int list) (i: int) (b: int) =
 
     // "æ" is all unchanged element before "ø".
     let æ = l.[0..i-1]
 
-    // "ø" is the element with +1 bean.
+    // "ø" is the element we place a bean.
     let ø = [l.[i]+1]
 
     // "å" is all unchanged element after "ø".
