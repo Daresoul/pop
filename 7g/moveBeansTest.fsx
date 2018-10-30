@@ -13,8 +13,11 @@ let rec addBeans (l: int list) (i: int) (b: int) =
 let getItem (l: int list) i =
     l.[i]
 
-printf "\nPlayer 1, enter an integer between 1 to 6\n"
-let choice = int (System.Console.ReadLine()) - 1
+let mutable choice = -1
+
+while choice<0 || choice>5 do
+    printf "\nPlayer 1, enter an integer between 1 to 6\n"
+    choice <- int (System.Console.ReadLine()) - 1
 
 printfn "\n%A" field
 printfn "\n%A" (clearPit field choice)
