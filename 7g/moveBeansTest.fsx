@@ -8,7 +8,7 @@ let field = [3;3;3;3;3;3;0;3;3;3;3;3;3;0]
 //      "i" is the index we are situated at.
 //      "b" is the number of beans we are holding.
 
-// This saves the number of beans from the chosen pit.
+// This returns the number of beans from the chosen pit.
 let getItem (l: int list) i =
     l.[i]
 
@@ -19,13 +19,13 @@ let clearPit (l: int list) (i: int) =
 // This places a bean everytime we move from one index to another.
 let rec addBean (l: int list) (i: int) (b: int) =
 
-    // "æ" is all unchanged element before "ø".
+    // "æ" is all unchanged elements before "ø".
     let æ = l.[0..i-1]
 
     // "ø" is the element we place a bean.
     let ø = [l.[i]+1]
 
-    // "å" is all unchanged element after "ø".
+    // "å" is all unchanged elements after "ø".
     let å = l.[i+1..13]
 
     // "uL" is the updated list.
