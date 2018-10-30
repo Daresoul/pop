@@ -13,7 +13,7 @@ let clearPit (l: int list) (i: int) =
     l.[0..i-1] @ [0] @ l.[i+1..13]
 
 // This places a bean everytime we move from one index to another.
-let rec addBeans (l: int list) (i: int) (b: int) =
+let rec addBean (l: int list) (i: int) (b: int) =
 
     // "æ" is all unchanged element before "ø".
     let æ = l.[0..i-1]
@@ -29,17 +29,17 @@ let rec addBeans (l: int list) (i: int) (b: int) =
 
     // This allows us to keep placing beans.
     if i >= 13 then
-        addBeans uL 0 (b-1)
+        addBean uL 0 (b-1)
     
-    // This is the end condition for "addBeans".
+    // This is the end condition for "addBean".
     elif b = 1 then
         uL
     
-    // If the condition is not met "addBeans"'s life purpose continues.
+    // If the condition is not met "addBean"'s life purpose continues.
     else
         // We write "i+1", because we want to move to the next index.
         // We write "b-1", because we placed a bean
-        addBeans uL (i+1) (b-1)
+        addBean uL (i+1) (b-1)
 
 // This takes the beans from the chosen pit.
 let getItem (l: int list) i =
@@ -51,7 +51,7 @@ let choice = int (System.Console.ReadLine())
 
 let rec ask choice =
         if choice>=0 && choice<=5 || choice>=7 && choice<=12 then
-            printfn "\n%A" (addBeans (clearPit field choice) (choice+1) (getItem field choice))
+            printfn "\n%A" (addBean (clearPit field choice) (choice+1) (getItem field choice))
         else
             printfn "\n\n\n%A" field
             printf "\nEnter an integer between 0 to 5 or 7 to 12: "
