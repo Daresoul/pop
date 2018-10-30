@@ -19,19 +19,19 @@ let clearPit (l: int list) (i: int) =
 // This places a bean everytime we move from one index to another.
 let rec addBean (l: int list) (i: int) (b: int) =
 
-    // "æ" is all unchanged elements before "ø".
+    // "æ" is all the unchanged elements before "ø".
     let æ = l.[0..i-1]
 
-    // "ø" is the element we place a bean.
+    // "ø" is the element where we place a bean.
     let ø = [l.[i]+1]
 
-    // "å" is all unchanged elements after "ø".
+    // "å" is all the unchanged elements after "ø".
     let å = l.[i+1..13]
 
     // "uL" is the updated list.
     let uL = æ @ ø @ å
 
-    // This allows us to keep placing beans.
+    // This allows us to cycle through the list as we place beans.
     if i >= 13 then
         addBean uL 0 (b-1)
     
