@@ -9,9 +9,12 @@ let isGameOver (b : board) : bool =
   if b.IsEmpty then
     true
   else
-    let player1gameover = List.forall (fun elem -> elem = 0) b.[1..6]
-    let player2gameover = List.forall (fun elem -> elem = 0) b.[8..13]
+    // checker om player1's side består af 0 pinde
+    let player2gameover = List.forall (fun elem -> elem = 0) b.[1..6]
+    // checker om player2's side består af 0 pinde
+    let player1gameover = List.forall (fun elem -> elem = 0) b.[8..13]
   
+    // Returner resultater fra udregninger ovenfor
     if player1gameover then
       player1gameover
     elif player2gameover then
@@ -21,13 +24,20 @@ let isGameOver (b : board) : bool =
 
 let isHome (b : board) (p : player) (i : pit) : bool =
 
+  // Hvis listen er tom er der ingen hjem derfor return false
   if b.IsEmpty then
     false
   else
+    // Finder ud af hvor stort halvdelen af boardet er
     let halfBoardLen = b.Length / 2
+
+    // Plyayer 1's hjem er det første elem (kan også udregnes som 0) men det samme som halvdelen af boardets længde minus halvdelen af boardets længde
     let player1Home = halfBoardLen - halfBoardLen
+
+    // Player 2's hjem kan udregnes ved at halvere boardets længde (kan også bare laves som halfBoardLen)
     let player2Home = b.Length - halfBoardLen
 
+    // Checker hvilken spiller der skal tjekkes om er hjemme
     match p with
     | Player1 ->
       if i = player1Home then
