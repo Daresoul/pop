@@ -5,7 +5,9 @@ let clearPit (l: int list) (i: int) =
     l.[0..i-1] @ [0] @ l.[i+1..13]
 
 let rec addBeans (l: int list) (i: int) (b: int) =
-    if b = 1 then
+    if i >= 13 then
+        addBeans (l.[0..i-1] @ [l.[i]+1] @ l.[i+1..13]) 0 (b-1)
+    elif b = 1 then
         l.[0..i-1] @ [l.[i]+1] @ l.[i+1..13]
     else
         addBeans (l.[0..i-1] @ [l.[i]+1] @ l.[i+1..13]) (i+1) (b-1)
@@ -15,12 +17,10 @@ let getItem (l: int list) i =
 
 let mutable choice = -1
 
-while choice<0 || choice>5 do
-    printf "\nPlayer 1, enter an integer between 1 to 6\n"
-    choice <- int (System.Console.ReadLine()) - 1
+while choice<0 || choice=6 || choice>13 do
+    printfn "\n%A" field
+    printf "\nEnter an integer between 0 to 5 or 7 to 12: "
+    choice <- int (System.Console.ReadLine())
 
-printfn "\n%A" field
-printfn "\n%A" (clearPit field choice)
 printfn "\n%A" (addBeans (clearPit field choice) (choice+1) (getItem field choice))
-
 ;;
