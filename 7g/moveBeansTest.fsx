@@ -3,10 +3,10 @@
 let field = [3;3;3;3;3;3;0;3;3;3;3;3;3;0]
 
 // REMEMBER!
-// There are 3 important variables used for the various functions.
-//   "l" (not one, but ell) is the list we working with.
-//   "i" is the index we are situated at.
-//   "b" is the number of beans we are holding.
+// There are 3 important variables used for the various functions below.
+//      "l" (not one, but ell) is the list we working with.
+//      "i" is the index we are situated at.
+//      "b" is the number of beans we are holding.
 
 // This empties the pit that the player chooses.
 let clearPit (l: int list) (i: int) =
