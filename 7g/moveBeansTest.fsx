@@ -8,6 +8,10 @@ let field = [3;3;3;3;3;3;0;3;3;3;3;3;3;0]
 //      "i" is the index we are situated at.
 //      "b" is the number of beans we are holding.
 
+// This saves the number of beans from the chosen pit.
+let getItem (l: int list) i =
+    l.[i]
+
 // This empties the pit that the player chooses.
 let clearPit (l: int list) (i: int) =
     l.[0..i-1] @ [0] @ l.[i+1..13]
@@ -40,10 +44,6 @@ let rec addBean (l: int list) (i: int) (b: int) =
         // We write "i+1", because we want to move to the next index.
         // We write "b-1", because we placed a bean
         addBean uL (i+1) (b-1)
-
-// This takes the beans from the chosen pit.
-let getItem (l: int list) i =
-    l.[i]
 
 printfn "\n\n\n%A" field
 printf "\nEnter an integer between 0 to 5 or 7 to 12: "
