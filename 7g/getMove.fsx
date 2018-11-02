@@ -1,0 +1,1 @@
+printfn "%A" (Awari.getMove ([]) (Awari.Player2) (""))
