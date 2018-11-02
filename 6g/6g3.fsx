@@ -23,7 +23,7 @@ let cfrac2float (lst: int list) (i : int) : float =
 let rec decimal2fraction(number: float) : float =
     let r = ceil number
     let r2 = number - r
-    let r3 = -0.00001
+    let r3 = -0.1
     if (r2<r3) then 
         decimal2fraction(number*10.0)
     else 
@@ -43,7 +43,7 @@ let cfrac2frac(lst: int list)(i: int): int*int=
     (int returnNævner,int returnTæller)
 
 
-let cfToScalar cf = List.foldBack (fun elem acc -> float elem + (1.0 / float acc)) cf System.Double.MaxValue
+//let cfToScalar cf = List.foldBack (fun elem acc -> float elem + (1.0 / float acc)) cf System.Double.MaxValue
 
 [<EntryPoint>]
 let main args =
@@ -51,9 +51,9 @@ let main args =
     let lst2 = [3;4;12;4]
     let lst3 = []
 
-    printfn "%f" (cfToScalar lst)
+   // printfn "%f" (cfToScalar lst)
 
-    //printfn "The list [3;7;15;1;292;1] makes the continued fraction: %i %i" <|| (cfrac2frac (lst) (3))
-    //printfn "The list [3;4;12;4] makes the continued fraction: %i %i" <|| (cfrac2frac (lst2) (3)) 
+    printfn "The list [3;4;12;4] makes the continued fraction: %i %i" <|| (cfrac2frac (lst2) (3)) 
     //printfn "The list [] makes the continued fraction: %i %i" <|| (cfrac2frac (lst3) (1))
+    printfn "The list [3;7;15;1;292;1] makes the continued fraction: %i %i" <|| (cfrac2frac (lst) (3))
     0
