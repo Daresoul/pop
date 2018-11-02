@@ -5,6 +5,45 @@ type player = Player1 | Player2
 
 // intentionally many missing implementations and additions
 
+let getItem (l: int list) p =
+    l.[p]
+
+let clearPit (l: int list) p =
+    let æ = l.[0..p-1]
+    let ø = [0]
+    let å = l.[p+1..13]
+    æ @ ø @ å
+
+let rec distribute (l: board) (p : pit) (b : int) : board * pit =
+    let æ = l.[0..p-1]
+    let ø = [l.[p]+1]
+    let å = l.[p+1..13]
+    let uL = æ @ ø @ å
+
+    if p >= 13 then
+        distribute uL 0 (b-1)
+    elif b <= 1 then
+        (uL, p)
+    else
+        distribute uL (p+1) (b-1)
+
+let printBoard (l: int list) =
+    let w = 5
+    printf "\n\n%*s" w ""
+
+    let æ = List.rev l.[0..5]
+    for e in æ do
+        printf "%-*i" w e
+    printf "\n"
+
+    printf "%-*i%*s%*s%*s%*s%*s%*s%-*i\n%*s" w l.[6] w "" w "" w "" w "" w "" w "" w l.[13] w ""
+
+    let å = l.[7..12]
+    for e in å do
+        printf "%-*i" w e
+
+    printf "\nEnter an integer between 0 to 5 or 7 to 12: "
+
 let isGameOver (b : board) : bool =
   if b.IsEmpty then
     true
@@ -69,20 +108,24 @@ let getMove (b : board) (p:player) (q:string) : pit =
   | _           -> -1
 
 let turn (b : board) (p : player) : board =
+  
+  
   let rec repeat (b: board) (p: player) (n: int) : board =
     printBoard b
-    let str =
+    let str = 
       if n = 0 then
         sprintf "Player %A's move? " p
       else 
         "Again? "
     let i = getMove b p str
-    let (newB, finalPitsPlayer, finalPit) = distribute b p i
-    if not (isHome b finalPitsPlayer finalPit) 
-       || (isGameOver b) then
+    let (newB, finalPit) = (distribute b i (getItem b i))
+    if not (isHome b p finalPit) 
+       || (isGameOver newB) then
       newB
     else
       repeat newB p (n + 1)
+
+
   repeat b p 0 
 
 let rec play (b : board) (p : player) : board =

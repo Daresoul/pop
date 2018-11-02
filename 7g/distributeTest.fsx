@@ -21,9 +21,8 @@ let rec addBean (l: int list) p b =
     else
         addBean uL (p+1) (b-1)
 
-let w = 5
-
 let board (l: int list) =
+    let w = 5
     printf "\n\n%*s" w ""
 
     let æ = List.rev l.[0..5]
