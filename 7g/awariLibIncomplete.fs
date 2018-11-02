@@ -51,7 +51,17 @@ let isHome (b : board) (p : player) (i : pit) : bool =
       else
         false
 
-let turn (b : board) (p : player) : board =
+let getMove (b : board) (p:player) (q:string) : pit =
+  printfn "Enter pit number:"
+
+  let userInput = System.Console.ReadLine()
+
+  let userInt = System.Int32.TryParse(userInput)
+  let someInt = userInput |> int
+
+  someInt
+
+(*let turn (b : board) (p : player) : board =
   let rec repeat (b: board) (p: player) (n: int) : board =
     printBoard b
     let str =
@@ -78,4 +88,4 @@ let rec play (b : board) (p : player) : board =
         Player2
       else
         Player1
-    play newB nextP
+    play newB nextP*)
