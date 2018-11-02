@@ -52,16 +52,23 @@ let isHome (b : board) (p : player) (i : pit) : bool =
         false
 
 let getMove (b : board) (p:player) (q:string) : pit =
-  printfn "Enter pit number:"
+  printfn "%s" q
 
   let userInput = System.Console.ReadLine()
 
   let userInt = System.Int32.TryParse(userInput)
-  let someInt = userInput |> int
 
-  someInt
+  match userInt with
+  | (true, pitValue) ->
+    if pitValue < 7 && pitValue > 0 then
+      match p with
+      | Player1     -> abs pitValue
+      | Player2     -> b.Length - abs pitValue
+    else
+      -1
+  | _           -> -1
 
-(*let turn (b : board) (p : player) : board =
+let turn (b : board) (p : player) : board =
   let rec repeat (b: board) (p: player) (n: int) : board =
     printBoard b
     let str =
@@ -70,7 +77,7 @@ let getMove (b : board) (p:player) (q:string) : pit =
       else 
         "Again? "
     let i = getMove b p str
-    let (newB, finalPitsPlayer, finalPit)= distribute b p i
+    let (newB, finalPitsPlayer, finalPit) = distribute b p i
     if not (isHome b finalPitsPlayer finalPit) 
        || (isGameOver b) then
       newB
@@ -88,4 +95,4 @@ let rec play (b : board) (p : player) : board =
         Player2
       else
         Player1
-    play newB nextP*)
+    play newB nextP
