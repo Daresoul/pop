@@ -27,22 +27,9 @@ let rec distribute (l: board) (p : pit) (b : int) : board * pit =
     else
         distribute uL (p+1) (b-1)
 
-let printBoard (l: int list) =
-    let w = 5
-    printf "\n\n%*s" w ""
-
-    let æ = List.rev l.[0..5]
-    for e in æ do
-        printf "%-*i" w e
-    printf "\n"
-
-    printf "%-*i%*s%*s%*s%*s%*s%*s%-*i\n%*s" w l.[6] w "" w "" w "" w "" w "" w "" w l.[13] w ""
-
-    let å = l.[7..12]
-    for e in å do
-        printf "%-*i" w e
-
-    printf "\nEnter an integer between 0 to 5 or 7 to 12: "
+let printBoard(b: board): unit = //For printing the board a variation of the Maurits-printing-metoed seen in previus assigment.
+  printfn "\n    %i  %i  %i  %i  %i  %i\n %i        Awari       %i\n    %i  %i  %i  %i  %i  %i" (b.Item(6)) (b.Item(5)) (b.Item(4)) (b.Item(3)) (b.Item(2)) (b.Item(1)) (b.Item(7)) (b.Item(0)) (b.Item(8)) (b.Item(9)) (b.Item(10)) (b.Item(11)) (b.Item(12)) (b.Item(13))  
+  //Spacial locality? What is that... 
 
 let isGameOver (b : board) : bool =
   if b.IsEmpty then
@@ -118,7 +105,7 @@ let turn (b : board) (p : player) : board =
       else 
         "Again? "
     let i = getMove b p str
-    let (newB, finalPit) = (distribute b i (getItem b i))
+    let (newB, finalPit) = (distribute (clearPit b i) (1+i) (getItem b i))
     if not (isHome b p finalPit) 
        || (isGameOver newB) then
       newB
