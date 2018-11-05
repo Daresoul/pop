@@ -15,21 +15,33 @@ let clearPit (l: int list) p =
     æ @ ø @ å
 
 let rec distribute (l: board) (p : pit) (b : int) : board * pit =
-    let æ = l.[0..p-1]
-    let ø = [l.[p]+1]
-    let å = l.[p+1..13]
-    let uL = æ @ ø @ å
 
-    if p >= 13 then
-        distribute uL 0 (b-1)
-    elif b <= 1 then
-        (uL, p)
-    else
-        distribute uL (p+1) (b-1)
+  let æ = l.[0..p-1]
+  let ø = [l.[p]+1]
+  let å = l.[p+1..13]
+  let uL = æ @ ø @ å
+
+  if p >= 13 then
+      distribute uL 0 (b-1)
+  elif b <= 1 then
+      (uL, p)
+  else
+      distribute uL (p+1) (b-1)
 
 let printBoard(b: board): unit = //For printing the board a variation of the Maurits-printing-metoed seen in previus assigment.
-  printfn "\n    %i  %i  %i  %i  %i  %i\n %i        Awari       %i\n    %i  %i  %i  %i  %i  %i" (b.Item(6)) (b.Item(5)) (b.Item(4)) (b.Item(3)) (b.Item(2)) (b.Item(1)) (b.Item(7)) (b.Item(0)) (b.Item(8)) (b.Item(9)) (b.Item(10)) (b.Item(11)) (b.Item(12)) (b.Item(13))  
+  printfn "    1  2  3  4  5  6\n\n    %i  %i  %i  %i  %i  %i\n %i        Awari       %i\n    %i  %i  %i  %i  %i  %i" (b.Item(6)) (b.Item(5)) (b.Item(4)) (b.Item(3)) (b.Item(2)) (b.Item(1)) (b.Item(7)) (b.Item(0)) (b.Item(8)) (b.Item(9)) (b.Item(10)) (b.Item(11)) (b.Item(12)) (b.Item(13))  
   //Spacial locality? What is that... 
+
+let findWinner (b : board) : string =
+  let player1Pit = b.[7]
+  let player2Pit = b.[0]
+
+  if(player1Pit > player2Pit) then
+    sprintf "Player 1 won with %i points, while Player 2 had %i" player1Pit player2Pit
+  else
+    sprintf "Player 2 won with %i points, while Player 1 had %i" player2Pit player1Pit
+
+
 
 let isGameOver (b : board) : bool =
   if b.IsEmpty then
@@ -66,13 +78,13 @@ let isHome (b : board) (p : player) (i : pit) : bool =
     // Checker hvilken spiller der skal tjekkes om er hjemme
     match p with
     | Player1 ->
-      if i = player1Home then
+      if i = 7 then
         true
       else
         false
 
     | Player2 ->
-      if i = player2Home then
+      if i = 0 then
         true
       else
         false
@@ -88,8 +100,8 @@ let getMove (b : board) (p:player) (q:string) : pit =
   | (true, pitValue) ->
     if pitValue < 7 && pitValue > 0 then
       match p with
-      | Player1     -> abs pitValue
-      | Player2     -> b.Length - abs pitValue
+      | Player1     -> (b.Length / 2) - abs pitValue
+      | Player2     -> (b.Length / 2) + abs pitValue
     else
       -1
   | _           -> -1
@@ -105,18 +117,33 @@ let turn (b : board) (p : player) : board =
       else 
         "Again? "
     let i = getMove b p str
-    let (newB, finalPit) = (distribute (clearPit b i) (1+i) (getItem b i))
-    if not (isHome b p finalPit) 
-       || (isGameOver newB) then
-      newB
+    if i <> -1 then
+
+      if(i = 13) then
+        let (newB, finalPit) = (distribute (clearPit b i) (0) (getItem b i))
+        printfn "%b" (isHome b p finalPit)
+        if not (isHome b p finalPit) || (isGameOver newB) then
+          newB
+        else
+          //printfn "Yass it is called"
+          repeat newB p (n + 1)
+      else
+        let (newB, finalPit) = (distribute (clearPit b i) (1+i) (getItem b i))
+        printfn "%b" (isHome b p finalPit)
+        if not (isHome b p finalPit) || (isGameOver newB) then
+          newB
+        else
+          //printfn "yass it is called"
+          repeat newB p (n + 1)
     else
-      repeat newB p (n + 1)
+      repeat b p n
 
 
   repeat b p 0 
 
 let rec play (b : board) (p : player) : board =
   if isGameOver b then
+    printfn "%s" (findWinner b)
     b
   else
     let newB = turn b p
