@@ -109,13 +109,19 @@ let getMove (b : board) (p:player) (q:string) : pit =
 let turn (b : board) (p : player) : board =
   
   
-  let rec repeat (b: board) (p: player) (n: int) : board =
+  let rec repeat (b: board) (p: player) (n: int) (t : bool) : board =
     printBoard b
     let str = 
       if n = 0 then
-        sprintf "Player %A's move? " p
-      else 
-        "Again? "
+        if t then
+          sprintf "Invalid user input, please select number between 1 - 6\nPlayer %A's move? " p
+        else
+          sprintf "Player %A's move? " p
+      else
+        if t then
+          sprintf "Invalid user input, please select number between 1 - 6\nAgain?"
+        else
+          sprintf "Again?"
     let i = getMove b p str
     if i <> -1 then
 
@@ -126,7 +132,7 @@ let turn (b : board) (p : player) : board =
           newB
         else
           //printfn "Yass it is called"
-          repeat newB p (n + 1)
+          repeat newB p (n + 1) false
       else
         let (newB, finalPit) = (distribute (clearPit b i) (1+i) (getItem b i))
         printfn "%b" (isHome b p finalPit)
@@ -134,12 +140,12 @@ let turn (b : board) (p : player) : board =
           newB
         else
           //printfn "yass it is called"
-          repeat newB p (n + 1)
+          repeat newB p (n + 1) false
     else
-      repeat b p n
+      repeat b p n true
 
 
-  repeat b p 0 
+  repeat b p 0 false
 
 let rec play (b : board) (p : player) : board =
   if isGameOver b then
