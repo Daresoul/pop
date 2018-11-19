@@ -14,11 +14,11 @@ let clearPit (l: int list) p =
     let c = l.[p+1..13]
     a @ b @ c
 
-let rec distribute (l: board) (p : pit) (b : int) : board * pit =
+let rec distribute (l: board) (p : pit) (b : int) : board * pit = //<---- tror add from zero fejlen er her. 
 
-  let a = l.[0..p-1]
-  let d = [l.[p]+1]
-  let c = l.[p+1..13]
+  let a = l.[..p-1] //Tager listen og klippe første del og gemmer det. 
+  let d = [l.[p]+1] //gemmer pittet som vælges
+  let c = l.[p+1..] //Listerne efter
   let uL = a @ d @ c
 
   if p >= 13 then
@@ -89,25 +89,29 @@ let isHome (b : board) (p : player) (i : pit) : bool =
       else
         false
 
+let pitEmpty (b:board)(i:int)(x:pit): pit = //checks if the selected pit is empty
+  if ((b.Item(i))=0) then -1 else x;
+
 let getMove (b : board) (p:player) (q:string) : pit =
   printfn "%s" q
 
   let userInput = System.Console.ReadLine()
 
   let userInt = System.Int32.TryParse(userInput)
-
+  
   match userInt with
   | (true, pitValue) ->
     if pitValue < 7 && pitValue > 0 then
-      match p with
-      | Player1     -> (b.Length / 2) - abs pitValue
-      | Player2     -> (b.Length / 2) + abs pitValue
+        match p with
+        | Player1     -> pitEmpty b (snd(userInt)) ((b.Length / 2) - abs pitValue)
+        | Player2     -> pitEmpty b (snd(userInt)+7) ((b.Length / 2) + abs pitValue)
     else
       -1
   | _           -> -1
 
+
+
 let turn (b : board) (p : player) : board =
-  
   
   let rec repeat (b: board) (p: player) (n: int) (t : bool) : board =
     printBoard b
@@ -123,11 +127,11 @@ let turn (b : board) (p : player) : board =
         else
           sprintf "Again?"
     let i = getMove b p str
-    if i <> -1 then
+    if i <> -1 then  //If move is true enteres this loop. 
 
-      if(i = 13) then
+      if(i = 13) then //If play2 selects last index in board list. 
         let (newB, finalPit) = (distribute (clearPit b i) (0) (getItem b i))
-        printfn "%b" (isHome b p finalPit)
+        printfn "Here %b\n" (isHome b p finalPit)
         if not (isHome b p finalPit) || (isGameOver newB) then
           newB
         else
@@ -135,19 +139,19 @@ let turn (b : board) (p : player) : board =
           repeat newB p (n + 1) false
       else
         let (newB, finalPit) = (distribute (clearPit b i) (1+i) (getItem b i))
-        printfn "%b" (isHome b p finalPit)
+        printfn "Also here %b" (isHome b p finalPit) //<----
         if not (isHome b p finalPit) || (isGameOver newB) then
           newB
         else
           //printfn "yass it is called"
           repeat newB p (n + 1) false
     else
-      repeat b p n true
-
+      repeat b p n true //If move is false. 
 
   repeat b p 0 false
 
-let rec play (b : board) (p : player) : board =
+let rec
+ play (b : board) (p : player) : board =
   if isGameOver b then
     printfn "%s" (findWinner b)
     b
