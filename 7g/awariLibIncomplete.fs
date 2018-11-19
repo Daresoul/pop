@@ -14,7 +14,7 @@ let clearPit (l: int list) p =
     let c = l.[p+1..13]
     a @ b @ c
 
-let rec distribute (l: board) (p : pit) (b : int) : board * pit = //<---- tror add from zero fejlen er her. 
+let rec distribute (l: board) (p : pit) (b : int) : board * pit = 
 
   let a = l.[..p-1] //Tager listen og klippe første del og gemmer det. 
   let d = [l.[p]+1] //gemmer pittet som vælges
@@ -89,8 +89,20 @@ let isHome (b : board) (p : player) (i : pit) : bool =
       else
         false
 
-let pitEmpty (b:board)(i:int)(x:pit): pit = //checks if the selected pit is empty
-  if ((b.Item(i))=0) then -1 else x;
+//Checks if a pit is epmty. If so returns -1, else retuns the object pit.
+let pitEmpty (b:board)(i:int)(x:pit): pit = 
+  if ((b.Item(i))=0) then  -1 else x;
+
+//Since the board list goes the reveresd of the numbers player one uses, the numbers are matched here. 
+let reverseNumbers(i:int): int =
+  match i with
+  | 1 -> 6
+  | 2 -> 5
+  | 3 -> 4
+  | 4 -> 3
+  | 5 -> 2
+  | 6 -> 1
+
 
 let getMove (b : board) (p:player) (q:string) : pit =
   printfn "%s" q
@@ -103,7 +115,7 @@ let getMove (b : board) (p:player) (q:string) : pit =
   | (true, pitValue) ->
     if pitValue < 7 && pitValue > 0 then
         match p with
-        | Player1     -> pitEmpty b (snd(userInt)) ((b.Length / 2) - abs pitValue)
+        | Player1     -> pitEmpty b (reverseNumbers(snd(userInt))) ((b.Length / 2) - abs pitValue)
         | Player2     -> pitEmpty b (snd(userInt)+7) ((b.Length / 2) + abs pitValue)
     else
       -1
@@ -118,12 +130,12 @@ let turn (b : board) (p : player) : board =
     let str = 
       if n = 0 then
         if t then
-          sprintf "Invalid user input, please select number between 1 - 6\nPlayer %A's move? " p
+          sprintf "Invalid user input, please select number between 1 - 6, and be sure that there is one or more beans in the pit. \nPlayer %A's move? " p
         else
           sprintf "Player %A's move? " p
       else
         if t then
-          sprintf "Invalid user input, please select number between 1 - 6\nAgain?"
+          sprintf "Invalid user input, please select number between 1 - 6, and be sure that there is one or more beans in the pit.\nAgain?"
         else
           sprintf "Again?"
     let i = getMove b p str
@@ -131,7 +143,7 @@ let turn (b : board) (p : player) : board =
 
       if(i = 13) then //If play2 selects last index in board list. 
         let (newB, finalPit) = (distribute (clearPit b i) (0) (getItem b i))
-        printfn "Here %b\n" (isHome b p finalPit)
+        //printfn "Here %b\n" (isHome b p finalPit)
         if not (isHome b p finalPit) || (isGameOver newB) then
           newB
         else
@@ -139,7 +151,7 @@ let turn (b : board) (p : player) : board =
           repeat newB p (n + 1) false
       else
         let (newB, finalPit) = (distribute (clearPit b i) (1+i) (getItem b i))
-        printfn "Also here %b" (isHome b p finalPit) //<----
+        //printfn "Also here %b" (isHome b p finalPit) //<----
         if not (isHome b p finalPit) || (isGameOver newB) then
           newB
         else
