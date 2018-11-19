@@ -9,17 +9,17 @@ let getItem (l: int list) p =
     l.[p]
 
 let clearPit (l: int list) p =
-    let æ = l.[0..p-1]
-    let ø = [0]
-    let å = l.[p+1..13]
-    æ @ ø @ å
+    let a = l.[0..p-1]
+    let b = [0]
+    let c = l.[p+1..13]
+    a @ b @ c
 
 let rec distribute (l: board) (p : pit) (b : int) : board * pit =
 
-  let æ = l.[0..p-1]
-  let ø = [l.[p]+1]
-  let å = l.[p+1..13]
-  let uL = æ @ ø @ å
+  let a = l.[0..p-1]
+  let d = [l.[p]+1]
+  let c = l.[p+1..13]
+  let uL = a @ d @ c
 
   if p >= 13 then
       distribute uL 0 (b-1)
@@ -29,7 +29,7 @@ let rec distribute (l: board) (p : pit) (b : int) : board * pit =
       distribute uL (p+1) (b-1)
 
 let printBoard(b: board): unit = //For printing the board a variation of the Maurits-printing-metoed seen in previus assigment.
-  printfn "    1  2  3  4  5  6\n\n    %i  %i  %i  %i  %i  %i\n %i        Awari       %i\n    %i  %i  %i  %i  %i  %i" (b.Item(6)) (b.Item(5)) (b.Item(4)) (b.Item(3)) (b.Item(2)) (b.Item(1)) (b.Item(7)) (b.Item(0)) (b.Item(8)) (b.Item(9)) (b.Item(10)) (b.Item(11)) (b.Item(12)) (b.Item(13))  
+  printfn "    1  2  3  4  5  6\n         <--       \n    %i  %i  %i  %i  %i  %i\n %i        Awari       %i\n    %i  %i  %i  %i  %i  %i" (b.Item(6)) (b.Item(5)) (b.Item(4)) (b.Item(3)) (b.Item(2)) (b.Item(1)) (b.Item(7)) (b.Item(0)) (b.Item(8)) (b.Item(9)) (b.Item(10)) (b.Item(11)) (b.Item(12)) (b.Item(13))  
   //Spacial locality? What is that... 
 
 let findWinner (b : board) : string =
