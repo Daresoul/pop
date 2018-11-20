@@ -5,8 +5,8 @@ type player = Player1 | Player2
 
 // intentionally many missing implementations and additions
 
-let getItem (l: int list) p =
-    l.[p]
+(*let getItem (l: int list) p =   //<--- Hvorfor har vi denne her
+    l.[p]*)
 
 
 let clearPit (l: int list) p =
@@ -17,20 +17,20 @@ let clearPit (l: int list) p =
 
 let rec distribute (l: board) (p : pit) (b : int) : board * pit =
 
-  let a = l.[..p-1] //Tager listen og klippe første del og gemmer det.
-  let d = [l.[p]+1] //gemmer pittet som vælges
-  let c = l.[p+1..] //Listerne efter
+  let a = l.[..p-1] 
+  let d = [l.[p]+1] //<--- error here. Hvis vi går forbi et home så bliver der skabt en bønne ekstra.
+  let c = l.[p+1..] // Der bliver også skabt en ekstra bønne hvis man lander lige før home (i.e. der kommer ekstra bønne i home, men vist kun for player 2)
   let uL = a @ d @ c
 
   if p >= 13 then
-      distribute uL 0 (b-1)
+      distribute uL 0 (b-1) //<--- måske er det ved her?
   elif b <= 1 then
       (uL, p)
   else
       distribute uL (p+1) (b-1)
 
 let printBoard(b: board): unit = //For printing the board a variation of the Maurits-printing-metoed seen in previus assigment.
-  printfn "    1  2  3  4  5  6\n         <--       \n    %i  %i  %i  %i  %i  %i\n %i        Awari       %i\n    %i  %i  %i  %i  %i  %i" (b.Item(6)) (b.Item(5)) (b.Item(4)) (b.Item(3)) (b.Item(2)) (b.Item(1)) (b.Item(7)) (b.Item(0)) (b.Item(8)) (b.Item(9)) (b.Item(10)) (b.Item(11)) (b.Item(12)) (b.Item(13))
+  printfn "\n    1   2   3   4   5   6\n           <--         \n    %i | %i | %i | %i | %i | %i\n %i          Awari          %i\n    %i | %i | %i | %i | %i | %i\n" (b.Item(6)) (b.Item(5)) (b.Item(4)) (b.Item(3)) (b.Item(2)) (b.Item(1)) (b.Item(7)) (b.Item(0)) (b.Item(8)) (b.Item(9)) (b.Item(10)) (b.Item(11)) (b.Item(12)) (b.Item(13))
   //Spacial locality? What is that...
 
 let findWinner (b : board) : string =
@@ -39,8 +39,9 @@ let findWinner (b : board) : string =
 
   if(player1Pit > player2Pit) then
     sprintf "Player 1 won with %i points, while Player 2 had %i" player1Pit player2Pit
-  else
+  elif(player1Pit < player2Pit) then
     sprintf "Player 2 won with %i points, while Player 1 had %i" player2Pit player1Pit
+  else sprintf "Both players are drawn with a score of %i:%i!"player1Pit player2Pit
 
 
 
@@ -90,15 +91,15 @@ let isHome (b : board) (p : player) (i : pit) : bool =
       else
         false
 
-let getReversePit (bLen : int) (i : pit) (p : player) : pit =
+(*let getReversePit (bLen : int) (i : pit) (p : player) : pit =
   match p with
   | Player1     -> (bLen / 2) - abs i
-  | Player2     -> (bLen / 2) + abs i
+  | Player2     -> (bLen / 2) + abs i*)
 
 
 // pit 1 = player 1's pit
 // pit 2 = player 2's pit
-let CreateNewBoardFromHitEmptyPit (board : board) (pit1 : pit) (pit2 : pit) (p : player) : board =
+(*let CreateNewBoardFromHitEmptyPit (board : board) (pit1 : pit) (pit2 : pit) (p : player) : board =
   match p with
   | Player1 ->
     let newHomeValue = board.[7] + board.[pit2] + 1
@@ -122,6 +123,7 @@ let CreateNewBoardFromHitEmptyPit (board : board) (pit1 : pit) (pit2 : pit) (p :
     let g = board.[(pit2+1) .. 13]
     a @ b @ c @ d @ e @ f @ g
 
+
 let HitEmptyPit (b : board) (i : pit) (p : player) =
   if (isHome b p i) then
     false
@@ -131,7 +133,7 @@ let HitEmptyPit (b : board) (i : pit) (p : player) =
     let player2 = getReversePit (b.Length) i Player2
     CreateNewBoardFromHitEmptyPit b player1 player2 p
     0
-
+*)
 
 //Checks if a pit is epmty. If so returns -1, else retuns the object pit.
 let pitEmpty (b:board)(i:int)(x:pit): pit =
@@ -146,7 +148,7 @@ let reverseNumbers(i:int): int =
   | 4 -> 3
   | 5 -> 2
   | 6 -> 1
-
+  | _ -> -1 //Added to make the compiler stop complaing about unmatched exceptions.
 
 let getMove (b : board) (p:player) (q:string) : pit =
   printfn "%s" q
@@ -186,28 +188,24 @@ let turn (b : board) (p : player) : board =
     if i <> -1 then  //If move is true enteres this loop.
 
       if(i = 13) then //If play2 selects last index in board list.
-        let (newB, finalPit) = (distribute (clearPit b i) (0) (getItem b i))
-        //printfn "Here %b\n" (isHome b p finalPit)
+        //let (newB, finalPit) = (distribute (clearPit b i) (0) (getItem b i)) <--- why
+        let (newB, finalPit) = (distribute (clearPit b i) (0) ( b.[i]))
         if not (isHome b p finalPit) || (isGameOver newB) then
           newB
         else
-          //printfn "Yass it is called"
           repeat newB p (n + 1) false
       else
-        let (newB, finalPit) = (distribute (clearPit b i) (1+i) (getItem b i))
-        //printfn "Also here %b" (isHome b p finalPit) //<----
+        //let (newB, finalPit) = (distribute (clearPit b i) (1+i) (getItem b i))<--- why
+        let (newB, finalPit) = (distribute (clearPit b i) (1+i) (b.[i]))
         if not (isHome b p finalPit) || (isGameOver newB) then
           newB
         else
-          //printfn "yass it is called"
           repeat newB p (n + 1) false
     else
       repeat b p n true //If move is false.
-
   repeat b p 0 false
 
-let rec
- play (b : board) (p : player) : board =
+let rec play (b : board) (p : player) : board = 
   if isGameOver b then
     printfn "%s" (findWinner b)
     b
