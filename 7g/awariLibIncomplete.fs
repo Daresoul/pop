@@ -7,14 +7,17 @@ type player = Player1 | Player2
 
 let getItem (l: int list) p =
     l.[p]
+    
 
-let clearPit (l: int list) p =
-    let æ = l.[0..p-1]
+let clearPit (b: board) p =
+    let æ = b.[0..p-1]
     let ø = [0]
-    let å = l.[p+1..13]
+    let å = b.[p+1..13]
     æ @ ø @ å
 
 let rec distribute (l: board) (p : pit) (b : int) : board * pit =
+
+  printfn "pit %i\nb %i" p b
 
   let æ = l.[0..p-1]
   let ø = [l.[p]+1]
@@ -89,6 +92,48 @@ let isHome (b : board) (p : player) (i : pit) : bool =
       else
         false
 
+let getReversePit (bLen : int) (i : pit) (p : player) : pit = 
+      match p with
+      | Player1     -> (bLen / 2) - abs i
+      | Player2     -> (bLen / 2) + abs i
+
+
+// pit 1 = player 1's pit
+// pit 2 = player 2's pit
+let CreateNewBoardFromHitEmptyPit (board : board) (pit1 : pit) (pit2 : pit) (p : player) : board =
+  match p with
+  | Player1 ->
+    let newHomeValue = board.[7] + board.[pit2] + 1
+    let a = board.[0 .. (pit1-1)]
+    let b = [0]
+    let c = board.[(pit1+1) .. 6]
+    let d = [newHomeValue]
+    let e = board.[8 .. (pit2-1)]
+    let f = [0]
+    let g = board.[(pit2+1) .. 13]
+
+    a @ b @ c @ d @ e @ f @ g
+  | Player2 ->
+    let newHomeValue = board.[0] + board.[pit1] + 1
+    let a = [newHomeValue]
+    let b = board.[1 .. (pit1-1)]
+    let c = [0]
+    let d = board.[(pit1+1) .. 6]
+    let e = board.[8 .. (pit2-1)]
+    let f = [0]
+    let g = board.[(pit2+1) .. 13]
+    a @ b @ c @ d @ e @ f @ g
+
+let HitEmptyPit (b : board) (i : pit) (p : player) =
+  if (isHome b p i) then
+    false
+    0
+  else
+    let player1 = getReversePit (b.Length) i Player1
+    let player2 = getReversePit (b.Length) i Player2
+
+    CreateNewBoardFromHitEmptyPit b player1 player2 p
+    0
 let getMove (b : board) (p:player) (q:string) : pit =
   printfn "%s" q
 
