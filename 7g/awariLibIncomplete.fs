@@ -3,11 +3,6 @@ type pit = int
 type board = int list
 type player = Player1 | Player2
 
-// intentionally many missing implementations and additions
-
-(*let getItem (l: int list) p =   //<--- Hvorfor har vi denne her
-    l.[p]*)
-
 
 let clearPit (l: int list) p =
     let a = l.[0..p-1]
@@ -16,14 +11,18 @@ let clearPit (l: int list) p =
     a @ b @ c
 
 let rec distribute (l: board) (p : pit) (b : int) : board * pit =
-
   let a = l.[..p-1] 
-  let d = [l.[p]+1] //<--- error here. Hvis vi går forbi et home så bliver der skabt en bønne ekstra.
-  let c = l.[p+1..] // Der bliver også skabt en ekstra bønne hvis man lander lige før home (i.e. der kommer ekstra bønne i home, men vist kun for player 2)
+  let d = [l.[p]+1]
+  let c = l.[p+1..]
   let uL = a @ d @ c
 
+  printfn "pit: %i\n bolds left: %i" p b 
+
   if p >= 13 then
-      distribute uL 0 (b-1) //<--- måske er det ved her?
+    if (b <> 1) then
+      distribute uL 0 (b-1)
+    else
+      (uL, p)
   elif b <= 1 then
       (uL, p)
   else
@@ -188,14 +187,12 @@ let turn (b : board) (p : player) : board =
     if i <> -1 then  //If move is true enteres this loop.
 
       if(i = 13) then //If play2 selects last index in board list.
-        //let (newB, finalPit) = (distribute (clearPit b i) (0) (getItem b i)) <--- why
         let (newB, finalPit) = (distribute (clearPit b i) (0) ( b.[i]))
         if not (isHome b p finalPit) || (isGameOver newB) then
           newB
         else
           repeat newB p (n + 1) false
       else
-        //let (newB, finalPit) = (distribute (clearPit b i) (1+i) (getItem b i))<--- why
         let (newB, finalPit) = (distribute (clearPit b i) (1+i) (b.[i]))
         if not (isHome b p finalPit) || (isGameOver newB) then
           newB
