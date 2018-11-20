@@ -10,23 +10,74 @@ let clearPit (l: int list) p =
     let c = l.[p+1..13]
     a @ b @ c
 
+let matchOppsitePit (p: pit): pit =
+  printfn "Enters matchOppsitePit"
+  match p with
+  | 1 -> 13
+  | 2 -> 12
+  | 3 -> 11
+  | 4 -> 10
+  | 5 -> 9
+  | 6 -> 8
+  | 8 -> 6
+  | 9 -> 5
+  | 10 -> 4
+  | 11 -> 3
+  | 12 -> 2
+  | 13 -> 1
+  | _ -> -1
+
+let emptyPit (b: board) (p: pit): board * pit =
+  printfn "Enters emptyPit"
+  if p < 7 then 
+    let op = matchOppsitePit p
+    printfn "Exit matchOppesitePit"
+    let a = b.[..p-1]
+    let c = [0]
+    let d = b.[p+1..6]
+    let home = [b.[7]+b.[p]+b.[op]+1]
+    let f = b.[8..op-1]
+    let g = [0]
+    let h = b.[op+1..13]
+    let uL = a @ c @ d @ home @ f @ g @ h
+    (uL, p)
+  else 
+    let op = matchOppsitePit p
+    printfn "Exit matchOppesitePit"
+    let home = [b.[0]+b.[p]+b.[op]+1]
+    let a = b.[0..op-1]
+    let c = [0]
+    let d = b.[op+1..6]
+    let e = [8..p-1]
+    let f = [0]
+    let g = b.[p+1..13]
+    let uL = home @ a @ c @ d @ e @ f @ g
+    (uL, p)    
+
 let rec distribute (l: board) (p : pit) (b : int) : board * pit =
   let a = l.[..p-1] 
   let d = [l.[p]+1]
-  let c = l.[p+1..]
-  let uL = a @ d @ c
+  let c = l.[p+1..] //if p = 0 && b = 1 => playerhome + zero pit + obs pit. 
+  if ((l.[p]=0) && (b = 1) && (not (p = 0)) && (not (p = 7))) then 
+    printfn "pit: %i\n bolds left: %i" p b 
+    emptyPit l p 
+  else 
+    let uL = a @ d @ c
 
-  printfn "pit: %i\n bolds left: %i" p b 
+    printfn "pit: %i\n bolds left: %i" p b 
 
-  if p >= 13 then
-    if (b <> 1) then
-      distribute uL 0 (b-1)
+    if p >= 13 then
+      if (b <> 1) then
+        distribute uL 0 (b-1)
+      else
+        (uL, p)
+    elif b <= 1 then
+        (uL, p)
     else
-      (uL, p)
-  elif b <= 1 then
-      (uL, p)
-  else
-      distribute uL (p+1) (b-1)
+        distribute uL (p+1) (b-1)
+
+
+    
 
 let printBoard(b: board): unit = //For printing the board a variation of the Maurits-printing-metoed seen in previus assigment.
   printfn "\n    1   2   3   4   5   6\n           <--         \n    %i | %i | %i | %i | %i | %i\n %i          Awari          %i\n    %i | %i | %i | %i | %i | %i\n" (b.Item(6)) (b.Item(5)) (b.Item(4)) (b.Item(3)) (b.Item(2)) (b.Item(1)) (b.Item(7)) (b.Item(0)) (b.Item(8)) (b.Item(9)) (b.Item(10)) (b.Item(11)) (b.Item(12)) (b.Item(13))
@@ -90,7 +141,7 @@ let isHome (b : board) (p : player) (i : pit) : bool =
       else
         false
 
-(*let getReversePit (bLen : int) (i : pit) (p : player) : pit =
+(*let getOppositePit (bLen : int) (i : pit) (p : player) : pit =
   match p with
   | Player1     -> (bLen / 2) - abs i
   | Player2     -> (bLen / 2) + abs i*)
@@ -128,8 +179,8 @@ let HitEmptyPit (b : board) (i : pit) (p : player) =
     false
     0
   else
-    let player1 = getReversePit (b.Length) i Player1
-    let player2 = getReversePit (b.Length) i Player2
+    let player1 = getOppositePit (b.Length) i Player1
+    let player2 = getOppositeit (b.Length) i Player2
     CreateNewBoardFromHitEmptyPit b player1 player2 p
     0
 *)
@@ -188,15 +239,19 @@ let turn (b : board) (p : player) : board =
 
       if(i = 13) then //If play2 selects last index in board list.
         let (newB, finalPit) = (distribute (clearPit b i) (0) ( b.[i]))
+        printfn "Enters if = 13"
         if not (isHome b p finalPit) || (isGameOver newB) then
           newB
         else
           repeat newB p (n + 1) false
       else
         let (newB, finalPit) = (distribute (clearPit b i) (1+i) (b.[i]))
+        printfn "Did not enter if = 13"
         if not (isHome b p finalPit) || (isGameOver newB) then
+          printfn "Not home or gameover"
           newB
         else
+          printfn "Passed if statments/no false move"
           repeat newB p (n + 1) false
     else
       repeat b p n true //If move is false.
@@ -213,4 +268,5 @@ let rec play (b : board) (p : player) : board =
         Player2
       else
         Player1
-    play newB nextP
+    printfn "Before recursive"    
+    play newB nextP //<--- Der går noget galt her når player1. 
