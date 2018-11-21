@@ -11,7 +11,7 @@ let clearPit (l: int list) p =
     a @ b @ c
 
 let matchOppsitePit (p: pit): pit =
-  printfn "Enters matchOppsitePit"
+  //printfn "Enters matchOppsitePit"
   match p with
   | 1 -> 13
   | 2 -> 12
@@ -27,9 +27,9 @@ let matchOppsitePit (p: pit): pit =
   | 13 -> 1
   | _ -> -1
 
-let emptyPit (b: board) (p: pit) (player : player): board * pit =
+let emptyPit (b: board) (p: pit) (player: player): board * pit =
   //printfn "Enters emptyPit"
-  if p < 7 then
+  if player = Player1 then 
     let op = matchOppsitePit p
     //printfn "Exit matchOppesitePit"
     let a = b.[..p-1]
@@ -42,17 +42,27 @@ let emptyPit (b: board) (p: pit) (player : player): board * pit =
     let uL = a @ c @ d @ home @ f @ g @ h
     (uL, p)
   else
+    //printfn "pit id = %i" p
     let op = matchOppsitePit p
+    //printfn "oPpit id = %i" op
     //printfn "Exit matchOppesitePit"
     let home = [b.[0]+b.[p]+b.[op]+1]
-    let a = b.[0..op-1]
+    let a = b.[..(op-1)]
     let c = [0]
-    let d = b.[op+1..6]
-    let e = [8..p-1]
+    let d = b.[op+1..7]
+    let e = b.[8..p-1]
     let f = [0]
     let g = b.[p+1..13]
-    let uL = home @ a @ c @ d @ e @ f @ g
-    (uL, p)
+    //printfn "aLength= %i" a.Length
+    if a.Length = 3 then
+      let uL = home @ b.[1..2] @ c @ d @ e @ f @ g 
+      //printfn "%A" uL
+      //printfn "a.Length %i" uL.Length
+      (uL, p)
+    else 
+      let uL = home @ a.Tail @ c @ d @ e @ f @ g 
+      //printfn "other.Length %i" uL.Length
+      (uL, p)
 
 let rec distribute (l: board) (p : pit) (b : int) (player : player) : board * pit =
   let a = l.[..p-1]
@@ -266,5 +276,5 @@ let rec play (b : board) (p : player) : board =
         Player2
       else
         Player1
-    printfn "Before recursive"
+    //printfn "Before recursive"
     play newB nextP
