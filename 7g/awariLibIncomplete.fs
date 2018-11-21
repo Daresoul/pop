@@ -16,7 +16,7 @@ let rec distribute (l: board) (p : pit) (b : int) : board * pit =
   let c = l.[p+1..]
   let uL = a @ d @ c
 
-  printfn "pit: %i\n bolds left: %i" p b 
+  //printfn "pit: %i\n bolds left: %i" p b 
 
   if p >= 13 then
     if (b <> 1) then
@@ -90,15 +90,17 @@ let isHome (b : board) (p : player) (i : pit) : bool =
       else
         false
 
-(*let getReversePit (bLen : int) (i : pit) (p : player) : pit =
+let getOppositePit (bLen : int) (i : pit) (p : player) : pit =
   match p with
   | Player1     -> (bLen / 2) - abs i
-  | Player2     -> (bLen / 2) + abs i*)
+  | Player2     -> (bLen / 2) + abs i
 
 
 // pit 1 = player 1's pit
 // pit 2 = player 2's pit
-(*let CreateNewBoardFromHitEmptyPit (board : board) (pit1 : pit) (pit2 : pit) (p : player) : board =
+let CreateNewBoardFromHitEmptyPit (board : board) (pit1 : pit) (pit2 : pit) (p : player) : board =
+  printfn "Player 1"
+  
   match p with
   | Player1 ->
     let newHomeValue = board.[7] + board.[pit2] + 1
@@ -125,14 +127,13 @@ let isHome (b : board) (p : player) (i : pit) : bool =
 
 let HitEmptyPit (b : board) (i : pit) (p : player) =
   if (isHome b p i) then
-    false
-    0
+    b
   else
-    let player1 = getReversePit (b.Length) i Player1
-    let player2 = getReversePit (b.Length) i Player2
-    CreateNewBoardFromHitEmptyPit b player1 player2 p
-    0
-*)
+    let player1 = getOppositePit (b.Length) i Player1
+    let player2 = getOppositePit (b.Length) i Player2
+    let newBoard = CreateNewBoardFromHitEmptyPit b player1 player2 p
+    newBoard
+
 
 //Checks if a pit is epmty. If so returns -1, else retuns the object pit.
 let pitEmpty (b:board)(i:int)(x:pit): pit =
@@ -188,16 +189,33 @@ let turn (b : board) (p : player) : board =
 
       if(i = 13) then //If play2 selects last index in board list.
         let (newB, finalPit) = (distribute (clearPit b i) (0) ( b.[i]))
-        if not (isHome b p finalPit) || (isGameOver newB) then
-          newB
+        printfn "finalpit: %i\nb.[finalpit]: %i" finalPit newB.[finalPit]
+        if newB.[finalPit] = 1 then
+          let board = HitEmptyPit newB finalPit p
+          if not (isHome b p finalPit) || (isGameOver board) then
+            board
+          else
+            repeat board p (n + 1) false
         else
-          repeat newB p (n + 1) false
+          if not (isHome b p finalPit) || (isGameOver newB) then
+            newB
+          else
+            repeat newB p (n + 1) false
       else
         let (newB, finalPit) = (distribute (clearPit b i) (1+i) (b.[i]))
-        if not (isHome b p finalPit) || (isGameOver newB) then
-          newB
+        printfn "finalpit: %i\nb.[finalpit]: %i" finalPit newB.[finalPit]
+        if newB.[finalPit] = 1 then
+          let board = HitEmptyPit newB finalPit p
+
+          if not (isHome b p finalPit) || (isGameOver board) then
+            board
+          else
+            repeat board p (n + 1) false
         else
-          repeat newB p (n + 1) false
+          if not (isHome b p finalPit) || (isGameOver newB) then
+            newB
+          else
+            repeat newB p (n + 1) false
     else
       repeat b p n true //If move is false.
   repeat b p 0 false
