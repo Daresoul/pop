@@ -29,7 +29,7 @@ let matchOppsitePit (p: pit): pit =
 
 let emptyPit (b: board) (p: pit) (player : player): board * pit =
   //printfn "Enters emptyPit"
-  if player = Player1 then
+  if p < 7 then
     let op = matchOppsitePit p
     //printfn "Exit matchOppesitePit"
     let a = b.[..p-1]
@@ -241,33 +241,16 @@ let turn (b : board) (p : player) : board =
 
       if(i = 13) then //If play2 selects last index in board list.
         let (newB, finalPit) = (distribute (clearPit b i) (0) ( b.[i]) p)
-        printfn "finalpit: %i\nb.[finalpit]: %i" finalPit newB.[finalPit]
-        if newB.[finalPit] = 1 then
-          let board = HitEmptyPit newB finalPit p
-          if not (isHome b p finalPit) || (isGameOver board) then
-            board
-          else
-            repeat board p (n + 1) false
+        if not (isHome b p finalPit) || (isGameOver newB) then
+          newB
         else
-          if not (isHome b p finalPit) || (isGameOver newB) then
-            newB
-          else
-            repeat newB p (n + 1) false
+          repeat newB p (n + 1) false
       else
         let (newB, finalPit) = (distribute (clearPit b i) (1+i) (b.[i]) p)
-        printfn "finalpit: %i\nb.[finalpit]: %i" finalPit newB.[finalPit]
-        if newB.[finalPit] = 1 then
-          let board = HitEmptyPit newB finalPit p
-
-          if not (isHome b p finalPit) || (isGameOver board) then
-            board
-          else
-            repeat board p (n + 1) false
+        if not (isHome b p finalPit) || (isGameOver newB) then
+          newB
         else
-          if not (isHome b p finalPit) || (isGameOver newB) then
-            newB
-          else
-            repeat newB p (n + 1) false
+          repeat newB p (n + 1) false
     else
       repeat b p n true //If move is false.
   repeat b p 0 false
