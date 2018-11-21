@@ -54,7 +54,7 @@ let emptyPit (b: board) (p: pit) (player: player): board * pit =
     let f = [0]
     let g = b.[p+1..13]
     //printfn "aLength= %i" a.Length
-    if a.Length = 3 then
+    if a.Length < 2 then
       let uL = home @ b.[1..2] @ c @ d @ e @ f @ g 
       //printfn "%A" uL
       //printfn "a.Length %i" uL.Length
