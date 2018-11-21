@@ -16,12 +16,3 @@ Awari.play (board5) (Awari.Player1)
 printfn "\nDraw test (2)";
 let board6 : Awari.board = [1; 0; 0; 0; 0; 0; 0; 1; 3; 3; 3; 3; 3; 3]
 Awari.play (board6) (Awari.Player1)
-
-printfn "\nDristribution check.";
-let board7 : Awari.board = [0; 1; 1; 0; 1; 1; 1; 0; 3; 3; 3; 3; 3; 3]
-printfn "%A" board7
-printfn "%A" (Awari.distribute (board7) 3 2)
-
-(*printfn "\nIlligal move zero select and out of range. Press 4, press non (1-6)";
-let board8 : Awari.board = [0; 1; 1; 0; 1; 1; 1; 0; 3; 3; 3; 3; 3; 3]
-Awari.play (board8) (Awari.Player1)*)

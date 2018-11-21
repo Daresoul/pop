@@ -27,9 +27,9 @@ let matchOppsitePit (p: pit): pit =
   | 13 -> 1
   | _ -> -1
 
-let emptyPit (b: board) (p: pit) (player: player): board * pit =
+let emptyPit (b: board) (p: pit) : board * pit =
   //printfn "Enters emptyPit"
-  if player = Player1 then 
+  if p <7 then 
     let op = matchOppsitePit p
     //printfn "Exit matchOppesitePit"
     let a = b.[..p-1]
@@ -54,7 +54,7 @@ let emptyPit (b: board) (p: pit) (player: player): board * pit =
     let f = [0]
     let g = b.[p+1..13]
     //printfn "aLength= %i" a.Length
-    if a.Length < 2 then
+    if a.Length < 3 then
       let uL = home @ b.[1..2] @ c @ d @ e @ f @ g 
       //printfn "%A" uL
       //printfn "a.Length %i" uL.Length
@@ -70,7 +70,7 @@ let rec distribute (l: board) (p : pit) (b : int) (player : player) : board * pi
   let c = l.[p+1..] //if p = 0 && b = 1 => playerhome + zero pit + obs pit.
   if ((l.[p]=0) && (b = 1) && (not (p = 0)) && (not (p = 7))) then
     //printfn "pit: %i\n bolds left: %i" p b
-    emptyPit l p player
+    emptyPit l p 
   else
     let uL = a @ d @ c
 
@@ -151,50 +151,6 @@ let isHome (b : board) (p : player) (i : pit) : bool =
         true
       else
         false
-
-let getOppositePit (bLen : int) (i : pit) (p : player) : pit =
-  match p with
-  | Player1     -> (bLen / 2) - abs i
-  | Player2     -> (bLen / 2) + abs i
-
-
-// pit 1 = player 1's pit
-// pit 2 = player 2's pit
-let CreateNewBoardFromHitEmptyPit (board : board) (pit1 : pit) (pit2 : pit) (p : player) : board =
-  printfn "Player 1"
-
-  match p with
-  | Player1 ->
-    let newHomeValue = board.[7] + board.[pit2] + 1
-    let a = board.[0 .. (pit1-1)]
-    let b = [0]
-    let c = board.[(pit1+1) .. 6]
-    let d = [newHomeValue]
-    let e = board.[8 .. (pit2-1)]
-    let f = [0]
-    let g = board.[(pit2+1) .. 13]
-    a @ b @ c @ d @ e @ f @ g
-
-  | Player2 ->
-    let newHomeValue = board.[0] + board.[pit1] + 1
-    let a = [newHomeValue]
-    let b = board.[1 .. (pit1-1)]
-    let c = [0]
-    let d = board.[(pit1+1) .. 6]
-    let e = board.[8 .. (pit2-1)]
-    let f = [0]
-    let g = board.[(pit2+1) .. 13]
-    a @ b @ c @ d @ e @ f @ g
-
-
-let HitEmptyPit (b : board) (i : pit) (p : player) =
-  if (isHome b p i) then
-    b
-  else
-    let player1 = getOppositePit (b.Length) i Player1
-    let player2 = getOppositePit (b.Length) i Player2
-    let newBoard = CreateNewBoardFromHitEmptyPit b player1 player2 p
-    newBoard
 
 
 //Checks if a pit is epmty. If so returns -1, else retuns the object pit.
