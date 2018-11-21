@@ -79,8 +79,21 @@ val isGameOver : b:board -> bool
 /// <returns>True if i is a homespot of player p</returns>
 val isHome : b:board -> p:player -> i:pit -> bool
 
+
+/// <summary>
+/// checks if the specific pit spot selected by a player is empty.If so returns -1, else returns pitvalue given. A bit redundant in its build but works with the specific code parameters. 
+/// </summary>
+/// <param b:board >A board to check</param>
+/// <param i:int> The index of the board list that shall be checked</param>
+/// <param p:pit> The pit coorsponding to the index of the board being checked</param>
+/// <returns>If the pit is not empty it just returns the pit number. If pit empty it returns -1</returns>
 val pitEmpty : b:board -> i : int -> x : pit -> pit
 
+////// <summary>
+/// /// Takes an int = [1-6] and returns the "reversed" int = [6-1] 
+/// </summary>
+/// <param name= i> the index that have to be reversed.</param>
+/// <returns>The reversed int</returns>
 val reverseNumbers : i : int -> int
 
 /// <summary>
