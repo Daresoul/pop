@@ -27,11 +27,11 @@ let matchOppsitePit (p: pit): pit =
   | 13 -> 1
   | _ -> -1
 
-let emptyPit (b: board) (p: pit): board * pit =
-  printfn "Enters emptyPit"
-  if p < 7 then
+let emptyPit (b: board) (p: pit) (player : player): board * pit =
+  //printfn "Enters emptyPit"
+  if player = Player1 then
     let op = matchOppsitePit p
-    printfn "Exit matchOppesitePit"
+    //printfn "Exit matchOppesitePit"
     let a = b.[..p-1]
     let c = [0]
     let d = b.[p+1..6]
@@ -43,7 +43,7 @@ let emptyPit (b: board) (p: pit): board * pit =
     (uL, p)
   else
     let op = matchOppsitePit p
-    printfn "Exit matchOppesitePit"
+    //printfn "Exit matchOppesitePit"
     let home = [b.[0]+b.[p]+b.[op]+1]
     let a = b.[0..op-1]
     let c = [0]
@@ -54,27 +54,27 @@ let emptyPit (b: board) (p: pit): board * pit =
     let uL = home @ a @ c @ d @ e @ f @ g
     (uL, p)
 
-let rec distribute (l: board) (p : pit) (b : int) : board * pit =
+let rec distribute (l: board) (p : pit) (b : int) (player : player) : board * pit =
   let a = l.[..p-1]
   let d = [l.[p]+1]
   let c = l.[p+1..] //if p = 0 && b = 1 => playerhome + zero pit + obs pit.
   if ((l.[p]=0) && (b = 1) && (not (p = 0)) && (not (p = 7))) then
-    printfn "pit: %i\n bolds left: %i" p b
-    emptyPit l p
+    //printfn "pit: %i\n bolds left: %i" p b
+    emptyPit l p player
   else
     let uL = a @ d @ c
 
-    printfn "pit: %i\n bolds left: %i" p b
+    //printfn "pit: %i\n bolds left: %i" p b
 
     if p >= 13 then
       if (b <> 1) then
-        distribute uL 0 (b-1)
+        distribute uL 0 (b-1) player
       else
         (uL, p)
     elif b <= 1 then
         (uL, p)
     else
-        distribute uL (p+1) (b-1)
+        distribute uL (p+1) (b-1) player
 
   //printfn "pit: %i\n bolds left: %i" p b
 
@@ -240,7 +240,7 @@ let turn (b : board) (p : player) : board =
     if i <> -1 then  //If move is true enteres this loop.
 
       if(i = 13) then //If play2 selects last index in board list.
-        let (newB, finalPit) = (distribute (clearPit b i) (0) ( b.[i]))
+        let (newB, finalPit) = (distribute (clearPit b i) (0) ( b.[i]) p)
         printfn "finalpit: %i\nb.[finalpit]: %i" finalPit newB.[finalPit]
         if newB.[finalPit] = 1 then
           let board = HitEmptyPit newB finalPit p
@@ -254,7 +254,7 @@ let turn (b : board) (p : player) : board =
           else
             repeat newB p (n + 1) false
       else
-        let (newB, finalPit) = (distribute (clearPit b i) (1+i) (b.[i]))
+        let (newB, finalPit) = (distribute (clearPit b i) (1+i) (b.[i]) p)
         printfn "finalpit: %i\nb.[finalpit]: %i" finalPit newB.[finalPit]
         if newB.[finalPit] = 1 then
           let board = HitEmptyPit newB finalPit p
@@ -284,4 +284,4 @@ let rec play (b : board) (p : player) : board =
       else
         Player1
     printfn "Before recursive"
-    play newB nextP //<--- Der går noget galt her når player1.
+    play newB nextP
