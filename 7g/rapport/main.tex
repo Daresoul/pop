@@ -50,37 +50,42 @@ Makes a large amount of calls to ensure that the game is over and if the moves b
          
     	\section{White Box Testing}
    		The whitebox testing was done eighter by testing specific functions isolated, or by calling \verb|play| but with special case board to see how the code reacted to specific inputs. (4 different win conditions and two draw conditions.) The different outputs are shown with each test here. 
+   		To run a test compile the library and the test. Then run the test. 
    		\textbf{clearPit test}\newline
         \verb|clearPit| is checked if it empties the element of the list if index 1, 3, 7 or 13 is given.\\
         \includegraphics[scale=0.6]{clearPitWhieBox.png}
         \\
+          \textbf{win condition check}\newline
+        Here a boolean return is checks if it is the correct winner. 
+        \\
+        \includegraphics[scale=0.587]{findWinnerWhiteBox.png}
+        \\
+        \textbf{game over check}\newline
+        A series of true-false checks of the \verb|gameOver| 
+        \\
+        \includegraphics[scale=0.587]{isGameOverWhiteBox.png}
+        
         \newpage
         \textbf{distribute check}\newline
         For \verb|distribute| it was check if the function did the arithmetic correct remaining beans (bolds left) from the right place(pit)
         \\
         \includegraphics[scale=0.59]{distributeWhiteBox.png}
         \\
-        \textbf{win condition check}\newline
-        Here a boolean return is checks if it is the correct winner. 
-        \\
-        \includegraphics[scale=0.587]{findWinnerWhiteBox.png}
-        \\
-         \textbf{game over check}\newline
-        A series of true-false checks of the \verb|gameOver| 
-        \\
-        \includegraphics[scale=0.587]{isGameOverWhiteBox.png}
-        \\
+      
+         
+     
         \textbf{isHome check}\newline
        A series of checks going through the different output of \verb|isHome| function. 
         \\
         \includegraphics[scale=0.613]{isHomeWhiteBox.png}
         \\
-        \newpage
+ 
         \textbf{getMove check}\newline
         Differet checks based upon user input and if they return the correct response. 
         \\
         \includegraphics[scale=0.5]{getMoveWhiteBox.png}
-        \\
+        \newpage
+        
         \textbf{emptyPit check}\newline
         Checks that the function \verb|emptyPit| returns correct if the players land on an empty pit.
         \\
@@ -91,6 +96,7 @@ Makes a large amount of calls to ensure that the game is over and if the moves b
         \\
         \includegraphics[scale=0.565]{reverseNumbersWhiteBox.png}
         \\
+        
          \textbf{pitEmpty check}\newline
         second last it was checked if a empty pit can be selected. 
         \\
@@ -98,6 +104,7 @@ Makes a large amount of calls to ensure that the game is over and if the moves b
         \\
         \textbf{Large game test check}\newline
         Finally a large test was done to check if most functions could pass arguments. This was done by passing different boards lists to the \verb|play| and monitor outputs. 
+         \includegraphics[scale=0.7]{gameTest.png}
       \newline
       
       All tests passed the tests given in the end. 
