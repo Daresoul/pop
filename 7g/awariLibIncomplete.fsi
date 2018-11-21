@@ -7,6 +7,39 @@ type board = int list
 type player = Player1 | Player2
 
 /// <summary>
+/// 
+/// </summary>
+/// <param name=""></param>
+/// <returns></returns>
+val clearPit : l : int list -> p : pit -> int list
+
+/// <summary>
+///  this will give you the opposite index on the map.
+/// </summary>
+/// <param name="p">the index you wanna find the opposite of</param>
+/// <returns>this returns the opposite index</returns>
+val matchOppsitePit : p : pit -> pit
+
+/// <summary>
+/// this will return a new board, when you hit an empty pit, this new board has the opposite pit emtied and layed into your home
+/// </summary>
+/// <param name="b">board int list</param>
+/// <param name="p">the pit index</param>
+/// <param name="player">player value</param>
+/// <returns>returns a new board where the beans has moved</returns>
+val emptyPit : b : board -> p : pit -> board * pit
+
+/// <summary>
+/// Distributing beans counter clockwise, capturing when relevant
+/// </summary>
+/// <param name="l">The present statu of the board</param>
+/// <param name="p">the pit value to use from</param>
+/// <param name="b">the amount to still distrubute</param>
+/// <param name="player">the player value</param>
+/// <returns>A new board after the beans of pit i has been distributed, and the last pit index</returns>
+val distribute : l:board -> p : pit -> b : int -> player : player -> board * pit
+
+/// <summary>
 /// Print the board
 /// </summary>
 /// <param name="b"> A board to be printed </param>
@@ -24,13 +57,11 @@ type player = Player1 | Player2
 val printBoard : b:board -> unit
 
 /// <summary>
-/// Check whether a pit is the player's home
+/// this will print a message of whom won the game
 /// </summary>
-/// <param name="b">A board to check</param>
-/// <param name="p">The player, whos home to check</param>
-/// <param name="i">A regular or home pit of a player</param>
-/// <returns>True if either side has no beans</returns>
-val isHome : b:board -> p:player -> i:pit -> bool
+/// <param name="b">the current board</param>
+/// <returns>returns a message to display for the users</returns>
+val findWinner : b : board -> string
 
 /// <summary>
 /// Check whether the game is over
@@ -40,6 +71,19 @@ val isHome : b:board -> p:player -> i:pit -> bool
 val isGameOver : b:board -> bool
 
 /// <summary>
+/// Check whether a pit is the player's home
+/// </summary>
+/// <param name="b">A board to check</param>
+/// <param name="p">The player, whos home to check</param>
+/// <param name="i">A regular or home pit of a player</param>
+/// <returns>True if i is a homespot of player p</returns>
+val isHome : b:board -> p:player -> i:pit -> bool
+
+val pitEmpty : b:board -> i : int -> x : pit -> pit
+
+val reverseNumbers : i : int -> int
+
+/// <summary>
 /// Get the pit of next move from the user
 /// </summary>
 /// <param name="b">The board the player is choosing from</param>
@@ -47,15 +91,6 @@ val isGameOver : b:board -> bool
 /// <param name="q">The string to ask the player</param>
 /// <returns>The pit the player has chosen</returns>
 val getMove : b:board -> p:player -> q:string -> pit
-
-/// <summary>
-/// Distributing beans counter clockwise, capturing when relevant
-/// </summary>
-/// <param name="b">The present statu of the board</param>
-/// <param name="p">The player, whos beans to distribute</param>
-/// <param name="i">The regular pit to distribute</param>
-/// <returns>A new board after the beans of pit i has been distributed, and which player's pit the last bean landed in</returns>
-val distribute : b:board -> p:player -> i:pit -> board * player * pit
 
 /// <summary>
 /// Interact with the user through getMove to perform a possibly repeated turn of a player

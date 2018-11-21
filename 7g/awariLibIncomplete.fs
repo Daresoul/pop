@@ -11,7 +11,7 @@ let clearPit (l: int list) p =
     a @ b @ c
 
 let matchOppsitePit (p: pit): pit =
-  printfn "Enters matchOppsitePit"
+  //printfn "Enters matchOppsitePit"
   match p with
   | 1 -> 13
   | 2 -> 12
