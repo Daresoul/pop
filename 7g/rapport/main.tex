@@ -1,3 +1,100 @@
+\documentclass{article}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+
+\title{7g rapport}
+\author{Henrik Flindt\\Nicolas Dyhrman\\Adrian Joensen}
+\date{\today}
+
+\begin{document}
+    \maketitle
+    \section{Our Plan}
+        To start the game the players enter fsharpc awariLibIncomplete.fs playAwari.fsx and mono playAwari.exe.
+        \\
+        Visually, we decided the playerscreen should be simple and easy. Instead of pixels of beans and pits we chose to use numbers and even spaces to illustrate the board.
+        \\
+        When it came to the programming, we decided a list is going to represent the board.
+        \\
+        Since we are trying to do functional programming we thought "Okay, if we can't figure out how to use Martin's template we will just make a bunch of functions that do what needs to be done and make a main function that uses all the functions in order to run the game."
+        \\
+        To choose a pit the player would enter an integer between 1 to 6.
+        \\
+        To exit the game the players have to press ctrl c then y.
+    \section{Here's What We Did}
+        Below we have some of Martin's template and some of the functions that do what needs to be done.
+        \\
+        \textbf{clearPit:} Clears the element that corresponds to the chosen pit in the list.
+        \\
+        \textbf{matchOppositePit:}
+        This function will give you the opposite index value on the board. So 1 and 13 is opposite of each other. This will return -1 if you give it a home value (So 0 or 7) or if a value higher than 13 or if lower than 0.
+        \\
+        \textbf{emptyPit:}
+        This function will return a new board if one of the players has hit an empty pit. This new board is where the pit you hit and the opposite pit is both emptying out and putting it into your own home. It will return a new board and the last pit used afterwards.
+        \\
+        \textbf{distribute:} adds by 1 to the elements after the corresponding element.
+        \\
+        \textbf{printBoard:} Prints the board. We added "$|$" for clarity and "Awari" for style.
+        \\
+        \textbf{findWinner:} Takes the elements that correspond to the players' homes and checks who won.
+        \\
+        \textbf{isGameOver:} Returns true if either side is empty.
+        \\
+        \textbf{isHome:} Checks if the player is on his home pit.
+        \\
+        \textbf{getOppositePit:} Takes the opponent's beans and returns it.
+        \\
+        \textbf{CreateNewBoardFromHitEmptyPit:} Updates the list when a player lands on the opponent's empty pit.
+        \\
+        \textbf{HitEmptyPit:} Detects if the player landed on the opponent's empty pit.
+        \\
+        \textbf{pitEmpty:} Returns if the pit is empty.
+        \\
+        \textbf{reverseNumbers:} Reverses the players possible input. For example if player 1 chooses 1 it will turn to last possible input 6 because the indexes and the pit numbers don't match.
+        \\
+        \textbf{getMove:} Receives the players' input and check if it's a legit move.
+        \\
+        \textbf{turn:} Checks who's turn it is according to the rules.
+        \\
+        \textbf{play:} Main function that runs the whole thing.
+        \\
+    \section{White Box Testing}
+        Here, we check if clearPit empties the element of the list if we enter index 1, 3, 7 or 13.\\
+        \includegraphics[scale=0.6]{clearPitWhieBox.png}
+        \\
+        For distribute, we check if the function does have the correct remaining beans (bolds left) from the right place(pit)
+        \\
+        \includegraphics[scale=0.6]{distributeWhiteBox.png}
+        \\
+        Here, we made sure that if either player's score is higher it returns the right boolean.
+        \\
+        \includegraphics[scale=0.6]{findWinnerWhiteBox.png}
+        \\
+        Here, we check it returns correctly depending on how the list is.
+        \\
+        \includegraphics[scale=0.6]{isGameOverWhiteBox.png}
+        \\
+        This insures what happens when the players land on the home pit.
+        \\
+        \includegraphics[scale=0.6]{isHomeWhiteBox.png}
+        \\
+        Here we see what getMove returns depending on the input.
+        \\
+        \includegraphics[scale=0.5]{getMoveWhiteBox.png}
+        \\
+        Checks what happens if the players land on an empty pit.
+        \\
+        \includegraphics[scale=0.6]{emptyPitWhiteBox.png}
+        \\
+        This checks when player input is 1, 3, 6 and 7 returns correctly.
+        \\
+        \includegraphics[scale=0.6]{reverseNumbersWhiteBox.png}
+        \\
+        Here, we check what happens if the pit is empty or not.
+        \\
+        \includegraphics[scale=0.6]{pitEmptyWhiteBox.png}
+        \\
+    \section{Source Code}
+    \begin{verbatim}
 module Awari
 type pit = int
 type board = int list
@@ -11,7 +108,7 @@ let clearPit (l: int list) p =
     a @ b @ c
 
 let matchOppsitePit (p: pit): pit =
-  //printfn "Enters matchOppsitePit"
+  printfn "Enters matchOppsitePit"
   match p with
   | 1 -> 13
   | 2 -> 12
@@ -27,11 +124,11 @@ let matchOppsitePit (p: pit): pit =
   | 13 -> 1
   | _ -> -1
 
-let emptyPit (b: board) (p: pit) (player: player): board * pit =
-  //printfn "Enters emptyPit"
-  if player = Player1 then 
+let emptyPit (b: board) (p: pit): board * pit =
+  printfn "Enters emptyPit"
+  if p < 7 then
     let op = matchOppsitePit p
-    //printfn "Exit matchOppesitePit"
+    printfn "Exit matchOppesitePit"
     let a = b.[..p-1]
     let c = [0]
     let d = b.[p+1..6]
@@ -42,49 +139,39 @@ let emptyPit (b: board) (p: pit) (player: player): board * pit =
     let uL = a @ c @ d @ home @ f @ g @ h
     (uL, p)
   else
-    //printfn "pit id = %i" p
     let op = matchOppsitePit p
-    //printfn "oPpit id = %i" op
-    //printfn "Exit matchOppesitePit"
+    printfn "Exit matchOppesitePit"
     let home = [b.[0]+b.[p]+b.[op]+1]
-    let a = b.[..(op-1)]
+    let a = b.[0..op-1]
     let c = [0]
-    let d = b.[op+1..7]
-    let e = b.[8..p-1]
+    let d = b.[op+1..6]
+    let e = [8..p-1]
     let f = [0]
     let g = b.[p+1..13]
-    //printfn "aLength= %i" a.Length
-    if a.Length < 2 then
-      let uL = home @ b.[1..2] @ c @ d @ e @ f @ g 
-      //printfn "%A" uL
-      //printfn "a.Length %i" uL.Length
-      (uL, p)
-    else 
-      let uL = home @ a.Tail @ c @ d @ e @ f @ g 
-      //printfn "other.Length %i" uL.Length
-      (uL, p)
+    let uL = home @ a @ c @ d @ e @ f @ g
+    (uL, p)
 
-let rec distribute (l: board) (p : pit) (b : int) (player : player) : board * pit =
+let rec distribute (l: board) (p : pit) (b : int) : board * pit =
   let a = l.[..p-1]
   let d = [l.[p]+1]
   let c = l.[p+1..] //if p = 0 && b = 1 => playerhome + zero pit + obs pit.
   if ((l.[p]=0) && (b = 1) && (not (p = 0)) && (not (p = 7))) then
-    //printfn "pit: %i\n bolds left: %i" p b
-    emptyPit l p player
+    printfn "pit: %i\n bolds left: %i" p b
+    emptyPit l p
   else
     let uL = a @ d @ c
 
-    //printfn "pit: %i\n bolds left: %i" p b
+    printfn "pit: %i\n bolds left: %i" p b
 
     if p >= 13 then
       if (b <> 1) then
-        distribute uL 0 (b-1) player
+        distribute uL 0 (b-1)
       else
         (uL, p)
     elif b <= 1 then
         (uL, p)
     else
-        distribute uL (p+1) (b-1) player
+        distribute uL (p+1) (b-1)
 
   //printfn "pit: %i\n bolds left: %i" p b
 
@@ -250,17 +337,34 @@ let turn (b : board) (p : player) : board =
     if i <> -1 then  //If move is true enteres this loop.
 
       if(i = 13) then //If play2 selects last index in board list.
-        let (newB, finalPit) = (distribute (clearPit b i) (0) ( b.[i]) p)
-        if not (isHome b p finalPit) || (isGameOver newB) then
-          newB
+        let (newB, finalPit) = (distribute (clearPit b i) (0) ( b.[i]))
+        printfn "finalpit: %i\nb.[finalpit]: %i" finalPit newB.[finalPit]
+        if newB.[finalPit] = 1 then
+          let board = HitEmptyPit newB finalPit p
+          if not (isHome b p finalPit) || (isGameOver board) then
+            board
+          else
+            repeat board p (n + 1) false
         else
-          repeat newB p (n + 1) false
+          if not (isHome b p finalPit) || (isGameOver newB) then
+            newB
+          else
+            repeat newB p (n + 1) false
       else
-        let (newB, finalPit) = (distribute (clearPit b i) (1+i) (b.[i]) p)
-        if not (isHome b p finalPit) || (isGameOver newB) then
-          newB
+        let (newB, finalPit) = (distribute (clearPit b i) (1+i) (b.[i]))
+        printfn "finalpit: %i\nb.[finalpit]: %i" finalPit newB.[finalPit]
+        if newB.[finalPit] = 1 then
+          let board = HitEmptyPit newB finalPit p
+
+          if not (isHome b p finalPit) || (isGameOver board) then
+            board
+          else
+            repeat board p (n + 1) false
         else
-          repeat newB p (n + 1) false
+          if not (isHome b p finalPit) || (isGameOver newB) then
+            newB
+          else
+            repeat newB p (n + 1) false
     else
       repeat b p n true //If move is false.
   repeat b p 0 false
@@ -276,5 +380,10 @@ let rec play (b : board) (p : player) : board =
         Player2
       else
         Player1
-    //printfn "Before recursive"
-    play newB nextP
+    printfn "Before recursive"
+    play newB nextP //<--- Der går noget galt her når player1.
+
+    \end{verbatim}
+    %\section{Conclusion}
+        %Visually the screen was a little difficult to distinguish since we are only using numbers as the board. While it could be better, it is easier to program with spaces and numbers.
+\end{document}
