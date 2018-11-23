@@ -1,0 +1,1 @@
+printfn "%A" (Awari.getMove ([0;0;0;0;0;0;0;8;9;1;11;12;13;14]) (Awari.Player2) ("enter a number"))
