@@ -1,20 +1,11 @@
 
 
-let bmp = ImgUtil .mk 256 256  //<-- lav et bmp som er 256 x 256 pixel stort
+let bmp = ImgUtil .mk 100 120  //<-- lav et bmp som er 256 x 256 pixel stort
 
+do ImgUtil . setSolidBox (ImgUtil . fromRgb(128 ,128 ,128)) (0,0) (99,119) bmp
 
-//Laver en streg et pixel af gangen fra venstre øverste hjørne (0;0) til højre nedre hjørne (255;255)
-for i=0 to 255 do 
-    do ImgUtil . setPixel ( ImgUtil . fromRgb (255 ,255 ,255) ) (i ,i) bmp
+do ImgUtil . setCircle (ImgUtil . red) 50 50 45 bmp
 
-//Laver en streg fra øverste højre hjørne (0;255) til nederste venstere hjørne (255;0)
-do ImgUtil . setLine (ImgUtil . fromRgb (255,255,255)) (0,255) (255,0) bmp
+do ImgUtil . setSolidBox (ImgUtil . blue) (40,40) (90,110) bmp
 
-//Laver en vinkelret firkant mellem (50;50) og (205;205)
-do ImgUtil . setBox (ImgUtil . fromRgb (255,255,255)) (50,50) (205,205) bmp
-
-//circle coordinate equation (x – h)^2 + (y – k)^2 = r2 where h and k are the center. Man burde kunen lave en funktion som ser om afstanden dist1 til (h;k) =< afstanden dist2 som er afstanden fra centrum. (Vi kunne i princis lave bounding box her, men lad os gemme det til senere)
-
-
-//Konventer bmp til en png fil. 
-do ImgUtil . toPngFile " test .png" bmp
+do ImgUtil . toPngFile "  8i0 .png" bmp

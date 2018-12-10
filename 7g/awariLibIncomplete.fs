@@ -12,24 +12,11 @@ let clearPit (l: int list) p =
 
 let matchOppsitePit (p: pit): pit =
   //printfn "Enters matchOppsitePit"
-  match p with
-  | 1 -> 13
-  | 2 -> 12
-  | 3 -> 11
-  | 4 -> 10
-  | 5 -> 9
-  | 6 -> 8
-  | 8 -> 6
-  | 9 -> 5
-  | 10 -> 4
-  | 11 -> 3
-  | 12 -> 2
-  | 13 -> 1
-  | _ -> -1
+  14-p
 
 let emptyPit (b: board) (p: pit) : board * pit =
   //printfn "Enters emptyPit"
-  if p <7 then 
+  if p < 7 then 
     let op = matchOppsitePit p
     //printfn "Exit matchOppesitePit"
     let a = b.[..p-1]
