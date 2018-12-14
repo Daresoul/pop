@@ -1,4 +1,5 @@
 module animals
+open System
 
 type symbol = char
 type position = int * int
@@ -32,6 +33,7 @@ type moose (repLen : int) =
   inherit animal (mSymbol, repLen)
 
   member this.tick () : moose option =
+    this.updateReproduction()
     None // Intentionally left blank. Insert code that updates the moose's age and optionally an offspring.
 
 /// A wolf is an animal with a hunger counter
@@ -46,8 +48,26 @@ type wolf (repLen : int, hungLen : int) =
       this.position <- None // Starve to death
   member this.resetHunger () =
     _hunger <- hungLen
+
   member this.tick () : wolf option =
-    None // Intentionally left blank. Insert code that updates the wolf's age and optionally an offspring.
+    
+    // if reproduction tick timer is 0 then
+      // and if hunger is over 50% then
+        // reproduce (by) checking for a space in each direction
+      //else check for eating
+    // else
+      // check if any moose nearby
+        // eat
+      // else
+        // move somewhere
+
+    this.updateReproduction() // Tells the reproduction tick timer to go 1 down
+
+    this.updateHunger() // Tells the hunger tick timer to go 1 down
+
+    None // Intentionally left blank. Insert code that updates the moose's age and optionally an offspring.
+     
+
 
 /// A board is a chess-like board implicitly representedy by its width and coordinates of the animals.
 type board =
@@ -57,7 +77,7 @@ type board =
 
 /// An environment is a chess-like board with all animals and implenting all rules.
 type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : int, wolvesRepLen : int, wolvesHungLen : int, verbose : bool) =
-  let _board : board = {
+  let mutable _board : board = {
     width = boardWidth;
     moose = List.init NMooses (fun i -> moose(mooseRepLen));
     wolves = List.init NWolves (fun i -> wolf(wolvesRepLen, wolvesHungLen));
@@ -87,15 +107,26 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
        m.position <- Some (anyEmptyField _board)
   do for w in _board.wolves do
        w.position <- Some (anyEmptyField _board)
-
   member this.size = boardWidth*boardWidth
   member this.count = _board.moose.Length + _board.wolves.Length
   member this.board = _board
+
+  //member this.removeWolf() =
+    
+
   member this.tick () = 
-    () // Intentionally left blank. Insert code that process animals here.
+    for wolf in _board.wolves do
+      wolf.tick()
+//      match wolf.position with
+//      | Some(x,y) -> wolf.tick()
+//      | None -> removeWolf
+      
+    
+    for moose in _board.moose do
+      moose.tick()
   override this.ToString () =
     let arr = draw _board
-    let mutable ret = "  "
+    let mutable ret = "\n\n  "
     for j = 0 to _board.width-1 do
       ret <- ret + string (j % 10) + " "
     ret <- ret + "\n"
@@ -104,4 +135,31 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
       for j = 0 to _board.width-1 do
         ret <- ret + string arr.[i,j] + " "
       ret <- ret + "\n"
+    ret <- ret + "Animals: " + this.count.ToString() + "\n"
+    ret <- ret + "mooses: " + _board.moose.Length.ToString() + "\n"
+    ret <- ret + "wolves: " + _board.wolves.Length.ToString() + "\n\n"
+
     ret
+
+
+type Game(maxtick : int) =
+
+  let env = environment(10, 10, 10, 10, 10, 10, true)
+  let mutable currentTick : int = 0
+  let mutable gameInfo = ""
+  member this.startGame() =
+    while (currentTick <= maxtick) do
+      env.tick()
+      gameInfo <- gameInfo + env.ToString()
+      currentTick <- currentTick + 1
+
+  member this.printgameInfo() = 
+    printfn "%s" gameInfo
+
+
+
+
+
+let game = Game(10)
+game.startGame()
+game.printgameInfo()
