@@ -36,13 +36,13 @@ let getSpot (a: Beast list) =
     let mutable r = []
     for i in a do
         r <- i.At :: r
-    r
+    List.rev r
 
 let getString (a: Beast list) =
     let mutable r = []
     for i in a do
         r <- i.Is :: r
-    r
+    List.rev r
 
 let isFree (a: spot) =
     List.contains a (getSpot queue)
@@ -84,4 +84,6 @@ let anyAct (a: Beast) =
         | 2 -> hunt a
         | _ -> 0
 
-printfn "%A" (getString (mix queue))
+queue <- mix queue
+
+printfn "%A" (getString queue)
