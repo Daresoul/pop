@@ -1,5 +1,6 @@
 module animals
 open System
+open System.Collections.Generic
 
 type symbol = char
 type position = int * int
@@ -34,11 +35,10 @@ type moose (repLen : int) =
   inherit animal (mSymbol, repLen)
 
   member this.tick () : moose option = 
-    // Move
-
-
-    this.updateReproduction()
-    None // Intentionally left blank. Insert code that updates the moose's age and optionally an offspring.
+    if this.reproduction <= 0 then
+      Some ( moose(repLen) )
+    else
+      None
 
 /// A wolf is an animal with a hunger counter
 type wolf (repLen : int, hungLen : int) =
@@ -54,22 +54,10 @@ type wolf (repLen : int, hungLen : int) =
     _hunger <- hungLen
 
   member this.tick () : wolf option =
-    
-    // if reproduction tick timer is 0 then
-      // and if hunger is over 50% then
-        // reproduce (by) checking for a space in each direction
-      //else check for eating
-    // else
-      // check if any moose nearby
-        // eat
-      // else
-        // move somewhere
-
-    this.updateReproduction() // Tells the reproduction tick timer to go 1 down
-
-    this.updateHunger() // Tells the hunger tick timer to go 1 down
-
-    None // Intentionally left blank. Insert code that updates the moose's age and optionally an offspring.
+    if this.reproduction <= 0 then
+      Some ( wolf(repLen, hungLen) )
+    else
+      None
      
 
 
@@ -115,6 +103,8 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
   member this.count = _board.moose.Length + _board.wolves.Length
   member this.board = _board
 
+    /// <summary>Gets a random direction (as vector)</summary>
+    ///<returns>The vector of the direction the animal wanna move</returns>
     member this.genMoveVector() =
       let rnd = System.Random().Next(0, 8)
       match rnd with
@@ -126,7 +116,11 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
       | 5 -> (1, 1)
       | 6 -> (1, 0)
       | 7 -> (1, -1)
-      
+
+
+  /// <summary>This will create a new position for an animal</summary>
+  /// <param name="pos">The position the animal is at right now, as an position option</param>
+  /// <returns>The new position option for the animal or None if already None</returns>
   member this.moveAnimal(pos) =
     let moveVector = this.genMoveVector()
     match pos with
@@ -137,6 +131,8 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
       (Some(newPos))
     | None -> None
 
+  /// <summary>Counts all mooses</summary>
+  /// <returns>An integer of how many not dead mooses left</returns>
   member this.countMoose =
     let mutable count = 0
     for m in _board.moose do
@@ -146,6 +142,8 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
 
     count
 
+  /// <summary>Counts all wolfs</summary>
+  /// <returns>An integer of how many not dead wolfs left</returns>
   member this.countWolfs =
     let mutable count = 0
     for w in _board.wolves do
@@ -155,6 +153,9 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
 
     count
 
+  /// <summary>Checks if any animal is at this position</summary>
+  /// <param name="pos">The position the animal is at right now, as an position option</param>
+  /// <returns>false if anything was there and true if nothing is there</returns>
   member this.checkForAnimalsAtPosition(pos) =
     let mutable verbose = true
     for w in _board.wolves do
@@ -166,6 +167,9 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
         verbose <- false
     
     verbose
+  /// <summary>Checks wether it is a legal move to make for the animal</summary>
+  /// <param name="pos">The position the animal is at right now, as an position option</param>
+  /// <returns>true if the move is valid and false if it is not a valid move</returns>
   member this.checkValidMove(pos) =
     match pos with
     | Some x ->
@@ -178,23 +182,100 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
         false
     | None -> true
 
-  member this.tick () = 
+  /// <summary>Gets all the coordinates of the board around a given animal</summary>
+  /// <param name="pos">The position the animal is at right now, as an position option</param>
+  /// <returns>a generic list with all the possible ways to move</returns>
+  member this.CheckEating(pos) =
+    let coords = [(0, -1); (-1, -1); (-1, 0); (-1, 1); (0, 1); (1, 1); (1, 0); (1, -1)]
+    let mutable availableEatingSpaces = new List<position>()
+
+    match pos with
+    | Some(x) ->
+      for i in coords do
+        if (this.checkValidMove(Some (fst x + fst i, snd x + snd i))) then
+          availableEatingSpaces.Add((fst x + fst i, snd x + snd i))
+
+      availableEatingSpaces
+
+    | None -> availableEatingSpaces
+
+  /// <summary>Checks if any animal is at this position</summary>
+  /// <param name="pos">The position the animal is at right now, as an position option</param>
+  /// <returns>Sends back a tuple of string and bool where string represents the type of animal and if it was there</returns>
+  member this.findIfAnimalStandsAtPosition(pos) =
+    let mutable verbose = (None,false)
     for wolf in _board.wolves do
-      wolf.tick()
+      if (wolf.position = pos) then
+        verbose <- (Some "w", true)
+
+    for moose in _board.moose do
+      if (moose.position = pos) then
+        verbose <- (Some "m", true)
+
+    verbose
+
+  /// <summary>Kills a specific moose from its position</summary>
+  /// <param name="pos">The position the animal is at right now, as an position option</param>
+  member this.KillMooseFromPosition(pos) =
+    for moose in _board.moose do
+      if (moose.position = pos) then
+        moose.position <- None
+
+  /// <summary>Moves all animals and make them do thir choices</summary>
+  member this.tick () =
+
+    // loops though all wolves
+    for wolf in _board.wolves do
+      // check all places around for eating (will return all faces remember to make it so it will only if there is standing anything)
+      let EatingPlaces = this.CheckEating( wolf.position )
+      if (EatingPlaces.Count = 0) then
+        // if no wolf is born
+        if wolf.tick() = None then
+          // check around for move
+          let mutable moveValid : bool = false
+
+          while not moveValid do
+            let newPos = this.moveAnimal(wolf.position)
+
+            if (this.checkValidMove(newPos)) then
+              moveValid <- true
+              wolf.position <- newPos
+        else
+          // set new wolf in!
+          wolf.resetReproduction()
+      else
+        //wolf.position <- Some (EatingPlaces.Item(0))
+        // going though all faces to check
+        for felt in EatingPlaces do
+          let value = this.findIfAnimalStandsAtPosition(Some felt)
+          match value with
+          | (Some "m", true) ->
+            wolf.position <- Some felt
+            this.KillMooseFromPosition(Some felt)
+          | _ ->
+            wolf.position <- wolf.position
+
+        wolf.resetHunger()
+
+      wolf.updateReproduction()
+      wolf.updateHunger()
+      
     
     for moose in _board.moose do
-      // for movement
-      let mutable moveValid : bool = false
 
-      while not moveValid do
-        let newPos = this.moveAnimal(moose.position)
+      if moose.tick() = None then
 
-        if (this.checkValidMove(newPos)) then
-          moveValid <- true
-          moose.position <- newPos
-          printfn "move made!"
+        // for movement
+        let mutable moveValid : bool = false
 
-      //moose.tick()
+        while not moveValid do
+          let newPos = this.moveAnimal(moose.position)
+
+          if (this.checkValidMove(newPos)) then
+            moveValid <- true
+            moose.position <- newPos
+
+      moose.updateReproduction()
 
   override this.ToString () =
     let arr = draw _board

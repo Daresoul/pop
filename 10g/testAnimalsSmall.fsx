@@ -1,4 +1,4 @@
-let game = animals.Game(2)
+let game = animals.Game(10)
 printfn "game start"
 game.startGame()
 printfn "game end"
