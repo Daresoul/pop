@@ -26,26 +26,6 @@ type animal (symb : symbol, repLen : int) =
   member this.resetReproduction () =
     _reproduction <- repLen
 
-  member this.genMoveVector() =
-      let rnd = System.Random().Next(0, 8)
-      match rnd with
-      | 0 -> (0, -1)
-      | 1 -> (-1, -1)
-      | 2 -> (-1, 0)
-      | 3 -> (-1, 1)
-      | 4 -> (0, 1)
-      | 5 -> (1, 1)
-      | 6 -> (1, 0)
-      | 7 -> (1, -1)
-      
-  member this.moveAnimal() =
-    let moveVector = this.genMoveVector()
-    match this.position with
-    | Some x ->
-      let newPos = ((fst x) + fst moveVector, (snd x) + snd moveVector)
-      (Some(newPos))
-    | None -> None
-
   override this.ToString () =
     string this.symbol
 
@@ -53,10 +33,7 @@ type animal (symb : symbol, repLen : int) =
 type moose (repLen : int) =
   inherit animal (mSymbol, repLen)
 
-  member this.tick () : moose option =
-    printfn "%A" (this.position)
-    this.position = this.moveAnimal()
-    printfn "%A" (this.position)
+  member this.tick () : moose option = 
     // Move
 
 
@@ -138,6 +115,28 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
   member this.count = _board.moose.Length + _board.wolves.Length
   member this.board = _board
 
+    member this.genMoveVector() =
+      let rnd = System.Random().Next(0, 8)
+      match rnd with
+      | 0 -> (0, -1)
+      | 1 -> (-1, -1)
+      | 2 -> (-1, 0)
+      | 3 -> (-1, 1)
+      | 4 -> (0, 1)
+      | 5 -> (1, 1)
+      | 6 -> (1, 0)
+      | 7 -> (1, -1)
+      
+  member this.moveAnimal(pos) =
+    let moveVector = this.genMoveVector()
+    match pos with
+    | Some x ->
+      let newPos = ((fst x) + fst moveVector, (snd x) + snd moveVector)
+
+
+      (Some(newPos))
+    | None -> None
+
   member this.countMoose =
     let mutable count = 0
     for m in _board.moose do
@@ -156,12 +155,46 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
 
     count
 
+  member this.checkForAnimalsAtPosition(pos) =
+    let mutable verbose = true
+    for w in _board.wolves do
+      if w.position = Some pos then
+        verbose <- false
+    
+    for m in _board.moose do
+      if m.position = Some pos then
+        verbose <- false
+    
+    verbose
+  member this.checkValidMove(pos) =
+    match pos with
+    | Some x ->
+      if fst x >= 0 && fst x < boardWidth && snd x >= 0 && snd x < boardWidth then
+        if this.checkForAnimalsAtPosition(x) then
+          true
+        else
+          false
+      else
+        false
+    | None -> true
+
   member this.tick () = 
     for wolf in _board.wolves do
       wolf.tick()
     
     for moose in _board.moose do
-      moose.tick()
+      // for movement
+      let mutable moveValid : bool = false
+
+      while not moveValid do
+        let newPos = this.moveAnimal(moose.position)
+
+        if (this.checkValidMove(newPos)) then
+          moveValid <- true
+          moose.position <- newPos
+          printfn "move made!"
+
+      //moose.tick()
 
   override this.ToString () =
     let arr = draw _board
@@ -185,7 +218,7 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
 
 type Game(maxtick : int) =
 
-  let env = environment(10, 1, 10, 1, 10, 10, true)
+  let env = environment(10, 10, 10, 10, 10, 10, true)
   let mutable currentTick : int = 0
   let mutable gameInfo = ""
   member this.startGame() =
