@@ -29,10 +29,9 @@ let createWordSequence (s : string) =
 /// <returns>Returns the text from a file called storeClausLilleClaus.txt</returns>
 /// <exception>Thrown when the file dosent exist</exception>
 let readFromFile : string =
-    let basePath = __SOURCE_DIRECTORY__
     try
-        if ( File.Exists (sprintf "%s\\storeClausLilleClaus.txt" basePath) ) then
-            let allLinesArray = File.ReadAllLines(sprintf "%s\\storeClausLilleClaus.txt" basePath)
+        if ( File.Exists ("storeClausLilleClaus.txt")) then
+            let allLinesArray = File.ReadAllLines "storeClausLilleClaus.txt"
             allLinesArray
             |> String.concat ", "
         else

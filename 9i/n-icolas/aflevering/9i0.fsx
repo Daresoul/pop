@@ -1,3 +1,4 @@
+open System
 /// <summary>This returns the i index of the array</summary>
 /// <param name="arr">The array you wanna find the index of</param>
 ///<param name="i">The index you wanna find</param>

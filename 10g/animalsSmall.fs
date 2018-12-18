@@ -25,6 +25,27 @@ type animal (symb : symbol, repLen : int) =
     _reproduction <- _reproduction - 1
   member this.resetReproduction () =
     _reproduction <- repLen
+
+  member this.genMoveVector() =
+      let rnd = System.Random().Next(0, 8)
+      match rnd with
+      | 0 -> (0, -1)
+      | 1 -> (-1, -1)
+      | 2 -> (-1, 0)
+      | 3 -> (-1, 1)
+      | 4 -> (0, 1)
+      | 5 -> (1, 1)
+      | 6 -> (1, 0)
+      | 7 -> (1, -1)
+      
+  member this.moveAnimal() =
+    let moveVector = this.genMoveVector()
+    match this.position with
+    | Some x ->
+      let newPos = ((fst x) + fst moveVector, (snd x) + snd moveVector)
+      (Some(newPos))
+    | None -> None
+
   override this.ToString () =
     string this.symbol
 
@@ -33,6 +54,12 @@ type moose (repLen : int) =
   inherit animal (mSymbol, repLen)
 
   member this.tick () : moose option =
+    printfn "%A" (this.position)
+    this.position = this.moveAnimal()
+    printfn "%A" (this.position)
+    // Move
+
+
     this.updateReproduction()
     None // Intentionally left blank. Insert code that updates the moose's age and optionally an offspring.
 
@@ -111,21 +138,35 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
   member this.count = _board.moose.Length + _board.wolves.Length
   member this.board = _board
 
-  //member this.removeWolf() =
-    
+  member this.countMoose =
+    let mutable count = 0
+    for m in _board.moose do
+      match m.position with
+      | Some (x) -> count <- count + 1
+      | None -> count <- count
+
+    count
+
+  member this.countWolfs =
+    let mutable count = 0
+    for w in _board.wolves do
+      match w.position with
+      | Some (x) -> count <- count + 1
+      | None -> count <- count
+
+    count
 
   member this.tick () = 
     for wolf in _board.wolves do
       wolf.tick()
-//      match wolf.position with
-//      | Some(x,y) -> wolf.tick()
-//      | None -> removeWolf
-      
     
     for moose in _board.moose do
       moose.tick()
+
   override this.ToString () =
     let arr = draw _board
+    let mooseCount = this.countMoose
+    let wolfCount = this.countWolfs
     let mutable ret = "\n\n  "
     for j = 0 to _board.width-1 do
       ret <- ret + string (j % 10) + " "
@@ -135,31 +176,24 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
       for j = 0 to _board.width-1 do
         ret <- ret + string arr.[i,j] + " "
       ret <- ret + "\n"
-    ret <- ret + "Animals: " + this.count.ToString() + "\n"
-    ret <- ret + "mooses: " + _board.moose.Length.ToString() + "\n"
-    ret <- ret + "wolves: " + _board.wolves.Length.ToString() + "\n\n"
+    ret <- ret + "Animals: " + (mooseCount + wolfCount).ToString() + "\n"
+    ret <- ret + "mooses: " + mooseCount.ToString() + "\n"
+    ret <- ret + "wolves: " + wolfCount.ToString() + "\n\n"
 
     ret
 
 
 type Game(maxtick : int) =
 
-  let env = environment(10, 10, 10, 10, 10, 10, true)
+  let env = environment(10, 1, 10, 1, 10, 10, true)
   let mutable currentTick : int = 0
   let mutable gameInfo = ""
   member this.startGame() =
     while (currentTick <= maxtick) do
       env.tick()
-      gameInfo <- gameInfo + env.ToString()
+      printfn "%s" (env.ToString())
+      //gameInfo <- gameInfo + env.ToString()
       currentTick <- currentTick + 1
 
   member this.printgameInfo() = 
     printfn "%s" gameInfo
-
-
-
-
-
-let game = Game(10)
-game.startGame()
-game.printgameInfo()
