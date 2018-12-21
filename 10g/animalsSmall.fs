@@ -119,7 +119,7 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
       | 4 -> (0, 1)
       | 5 -> (1, 1)
       | 6 -> (1, 0)
-      | 7 -> (1, -1)
+      | _ -> (1, -1) // i.e samme som 7
 
 
   /// <summary>This will create a new position for an animal</summary>
@@ -197,6 +197,21 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
 
     verbose
 
+
+  member this.checkFieldsAround(pos) =
+    match pos with
+    | Some x ->
+      let coords = [(0, -1); (-1, -1); (-1, 0); (-1, 1); (0, 1); (1, 1); (1, 0); (1, -1)]
+      let mutable result = false
+      for c in coords do
+        if (this.checkValidMove (Some (fst x + fst c, snd x + snd c))) then
+          result <- true
+      
+      result
+          
+
+    | None -> false
+
   /// <summary>Gets all the coordinates of the board around a given animal</summary>
   /// <param name="pos">The position the animal is at right now, as an position option</param>
   /// <returns>a generic list with all the possible ways to move</returns>
@@ -235,17 +250,28 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
 
         match wolf.tick() with
         | Some x ->
-          wolf.resetReproduction()
+          let coords = [(0, -1); (-1, -1); (-1, 0); (-1, 1); (0, 1); (1, 1); (1, 0); (1, -1)]
+          if Option.isSome wolf.position then
+            let posValue = Option.get wolf.position
+            let mutable hasBeenBorn = false
+            for i = 0 to (coords.Length - 1) do
+              if this.checkValidMove(Some (fst posValue + fst coords.[i], snd posValue + snd coords.[i])) then
+                if not hasBeenBorn then
+                  _board.wolves <- x::_board.wolves
+                  x.position <- Some (fst posValue + fst coords.[i], snd posValue + snd coords.[i])
+                  wolf.resetReproduction()
+                  hasBeenBorn <- true
         | None ->
           // check around for move
-          let mutable moveValid : bool = false
+          if this.checkFieldsAround(wolf.position) then
+            let mutable moveValid : bool = false
 
-          while not moveValid do
-            let newPos = this.moveAnimal(wolf.position)
+            while not moveValid do
+              let newPos = this.moveAnimal(wolf.position)
 
-            if (this.checkValidMove(newPos)) then
-              moveValid <- true
-              wolf.position <- newPos
+              if (this.checkValidMove(newPos)) then
+                moveValid <- true
+                wolf.position <- newPos
       else
         let attackChance = rnd.NextDouble()
         if (attackChance < attackPercent) then
@@ -275,15 +301,16 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
                 hasBeenBorn <- true
       | None ->
         //printfn "Moose chose to move!"
-        let mutable moveValid : bool = false
+        if this.checkFieldsAround(moose.position) then
+          let mutable moveValid : bool = false
 
-        while not moveValid do
-          let newPos = this.moveAnimal(moose.position)
+          while not moveValid do
+            let newPos = this.moveAnimal(moose.position)
 
-          if (this.checkValidMove(newPos)) then
-            moveValid <- true
-            moose.position <- newPos
-            moose.updateReproduction()
+            if (this.checkValidMove(newPos)) then
+              moveValid <- true
+              moose.position <- newPos
+      moose.updateReproduction()
 
   member this.WriteOutInfo (currentTick : int) =
     let arr = draw _board
@@ -291,17 +318,19 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
     let wolfCount = this.countWolfs
     let mutable ret = "\n\n  "
     for j = 0 to _board.width-1 do
-      ret <- ret + string (j % 10) + " "
+      ret <- ret + string (j) + " "
     ret <- ret + "\n"
     for i = 0 to _board.width-1 do
-      ret <- ret + string (i % 10) + " "
+      ret <- ret + string (i) + " "
       for j = 0 to _board.width-1 do
         ret <- ret + string arr.[i,j] + " "
       ret <- ret + "\r\n"
     ret <- ret + "Animals: " + (mooseCount + wolfCount).ToString() + "\r\n"
     ret <- ret + "mooses: " + mooseCount.ToString() + "\r\n"
     ret <- ret + "wolves: " + wolfCount.ToString() + "\r\n"
-    ret <- ret + "currentTick: " + currentTick.ToString() + "\r\n\r\n"
+    ret <- ret + "currentTick: " + currentTick.ToString() + "\r\n"
+    ret <- ret + "moose list: " + _board.moose.Length.ToString() + "\r\n"
+    ret <- ret + "wolf list: " + _board.wolves.Length.ToString() + "\r\n\r\n"
 
     ret
 
@@ -327,7 +356,7 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
 
 type Game(maxtick : int) =
 
-  let env = environment(10, 1, 5, 1, 10, 10, true)
+  let env = environment(30, 10, 10, 10, 10, 10, true)
   let mutable currentTick : int = 0
   let mutable gameInfo = ""
 
@@ -335,9 +364,9 @@ type Game(maxtick : int) =
     File.WriteAllText("gamedata.txt", str) 
   member this.startGame() =
     while (currentTick <= maxtick) do
-      printfn "%s" (env.ToString())
+      printfn "%s" (env.WriteOutInfo(currentTick))
       env.tick()
-      gameInfo <- gameInfo + env.WriteOutInfo(currentTick)
+      //gameInfo <- gameInfo + env.WriteOutInfo(currentTick)
       currentTick <- currentTick + 1
 
     writeToFile (gameInfo)
