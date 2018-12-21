@@ -11,6 +11,8 @@ let mSymbol : symbol = 'm'
 let wSymbol : symbol = 'w'
 let eSymbol : symbol = ' '
 let rnd = System.Random ()
+let attackPercent = 0.5
+
 
 /// An animal is a base class. It has a position and a reproduction counter.
 type animal (symb : symbol, repLen : int) =
@@ -51,13 +53,13 @@ type wolf (repLen : int, hungLen : int) =
   member this.updateHunger () =
     _hunger <- _hunger - 1
     if _hunger <= 0 then
-      this.position <- None // Starve to death
+      this.position <- None
   member this.resetHunger () =
     _hunger <- hungLen
 
   member this.tick () : wolf option =
     if this.reproduction <= 0 then
-      Some ( wolf(repLen, hungLen) )
+      Some (wolf(repLen, hungLen))
     else
       None
      
@@ -108,8 +110,8 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
     /// <summary>Gets a random direction (as vector)</summary>
     ///<returns>The vector of the direction the animal wanna move</returns>
     member this.genMoveVector() =
-      let rnd = System.Random().Next(0, 8)
-      match rnd with
+      let newrnd = System.Random().Next(0, 8)
+      match newrnd with
       | 0 -> (0, -1)
       | 1 -> (-1, -1)
       | 2 -> (-1, 0)
@@ -230,8 +232,11 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
       let EatingPlaces = this.CheckEating( wolf.position )
       //printfn "%A" EatingPlaces
       if (EatingPlaces.Count = 0) then
-        // if no wolf is born
-        if wolf.tick() = None then
+
+        match wolf.tick() with
+        | Some x ->
+          wolf.resetReproduction()
+        | None ->
           // check around for move
           let mutable moveValid : bool = false
 
@@ -241,13 +246,12 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
             if (this.checkValidMove(newPos)) then
               moveValid <- true
               wolf.position <- newPos
-        else
-          // set new wolf in!
-          wolf.resetReproduction()
       else
-        wolf.resetHunger()
-        this.KillMooseFromPosition(Some (EatingPlaces.Item(0)))
-        wolf.position <- Some (EatingPlaces.Item(0))
+        let attackChance = rnd.NextDouble()
+        if (attackChance < attackPercent) then
+          wolf.resetHunger()
+          this.KillMooseFromPosition(Some (EatingPlaces.Item(0)))
+          wolf.position <- Some (EatingPlaces.Item(0))
 
       wolf.updateReproduction()
       wolf.updateHunger()
@@ -293,11 +297,11 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
       ret <- ret + string (i % 10) + " "
       for j = 0 to _board.width-1 do
         ret <- ret + string arr.[i,j] + " "
-      ret <- ret + "\n"
-    ret <- ret + "Animals: " + (mooseCount + wolfCount).ToString() + "\n"
-    ret <- ret + "mooses: " + mooseCount.ToString() + "\n"
-    ret <- ret + "wolves: " + wolfCount.ToString() + "\n"
-    ret <- ret + "currentTick: " + currentTick.ToString() + "\n\n"
+      ret <- ret + "\r\n"
+    ret <- ret + "Animals: " + (mooseCount + wolfCount).ToString() + "\r\n"
+    ret <- ret + "mooses: " + mooseCount.ToString() + "\r\n"
+    ret <- ret + "wolves: " + wolfCount.ToString() + "\r\n"
+    ret <- ret + "currentTick: " + currentTick.ToString() + "\r\n\r\n"
 
     ret
 
@@ -314,9 +318,9 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
       for j = 0 to _board.width-1 do
         ret <- ret + string arr.[i,j] + " "
       ret <- ret + "\n"
-    ret <- ret + "Animals: " + (mooseCount + wolfCount).ToString() + "\n"
-    ret <- ret + "mooses: " + mooseCount.ToString() + "\n"
-    ret <- ret + "wolves: " + wolfCount.ToString() + "\n\n"
+    ret <- ret + "Animals: " + (mooseCount + wolfCount).ToString() + "\r\n"
+    ret <- ret + "mooses: " + mooseCount.ToString() + "\r\n"
+    ret <- ret + "wolves: " + wolfCount.ToString() + "\r\n\r\n"
 
     ret
 

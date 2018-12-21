@@ -1,18 +1,18 @@
 
 
   0 1 2 3 4 5 6 7 8 9 
-0                     
+0                   w 
 1                     
-2                     
+2     m               
 3                     
 4                     
 5                     
 6                     
-7       w             
+7                     
 8                     
 9                     
-Animals: 1
-mooses: 0
+Animals: 2
+mooses: 1
 wolves: 1
 currentTick: 0
 
@@ -20,17 +20,17 @@ currentTick: 0
 
   0 1 2 3 4 5 6 7 8 9 
 0                     
-1                     
+1                   w 
 2                     
-3                     
+3     m               
 4                     
 5                     
 6                     
 7                     
-8         w           
+8                     
 9                     
-Animals: 1
-mooses: 0
+Animals: 2
+mooses: 1
 wolves: 1
 currentTick: 1
 
@@ -39,16 +39,16 @@ currentTick: 1
   0 1 2 3 4 5 6 7 8 9 
 0                     
 1                     
-2                     
-3                     
+2                   w 
+3   m m               
 4                     
 5                     
 6                     
 7                     
 8                     
-9           w         
-Animals: 1
-mooses: 0
+9                     
+Animals: 3
+mooses: 2
 wolves: 1
 currentTick: 2
 
@@ -58,15 +58,15 @@ currentTick: 2
 0                     
 1                     
 2                     
-3                     
-4                     
+3                   w 
+4   m m               
 5                     
 6                     
 7                     
-8             w       
+8                     
 9                     
-Animals: 1
-mooses: 0
+Animals: 3
+mooses: 2
 wolves: 1
 currentTick: 3
 
@@ -77,14 +77,14 @@ currentTick: 3
 1                     
 2                     
 3                     
-4                     
-5                     
+4 m m               w 
+5     m               
 6                     
-7               w     
+7                     
 8                     
 9                     
-Animals: 1
-mooses: 0
+Animals: 4
+mooses: 3
 wolves: 1
 currentTick: 4
 
@@ -96,13 +96,13 @@ currentTick: 4
 2                     
 3                     
 4                     
-5                     
-6                 w   
+5 m m               w 
+6     m               
 7                     
 8                     
 9                     
-Animals: 1
-mooses: 0
+Animals: 4
+mooses: 3
 wolves: 1
 currentTick: 5
 
@@ -113,14 +113,14 @@ currentTick: 5
 1                     
 2                     
 3                     
-4                     
-5                     
-6                 w   
-7                     
+4 m                   
+5 m                   
+6   m               w 
+7     m               
 8                     
 9                     
-Animals: 1
-mooses: 0
+Animals: 5
+mooses: 4
 wolves: 1
 currentTick: 6
 
@@ -130,15 +130,15 @@ currentTick: 6
 0                     
 1                     
 2                     
-3                     
-4                     
-5                   w 
-6                     
+3   m                 
+4   m                 
+5     m               
+6       m           w 
 7                     
 8                     
 9                     
-Animals: 1
-mooses: 0
+Animals: 5
+mooses: 4
 wolves: 1
 currentTick: 7
 
@@ -148,15 +148,15 @@ currentTick: 7
 0                     
 1                     
 2                     
-3                     
-4                     
-5                     
-6                   w 
+3 m m                 
+4     m               
+5       m         w   
+6     m m             
 7                     
 8                     
 9                     
-Animals: 1
-mooses: 0
+Animals: 7
+mooses: 6
 wolves: 1
 currentTick: 8
 
@@ -167,14 +167,14 @@ currentTick: 8
 1                     
 2                     
 3                     
-4                     
-5                     
-6                     
-7                     
+4 m m m               
+5     m               
+6         m           
+7   m                 
 8                     
 9                     
-Animals: 0
-mooses: 0
+Animals: 6
+mooses: 6
 wolves: 0
 currentTick: 9
 
@@ -184,15 +184,15 @@ currentTick: 9
 0                     
 1                     
 2                     
-3                     
-4                     
+3 m m                 
+4   m m               
 5                     
-6                     
-7                     
+6       m             
+7     m     m         
 8                     
 9                     
-Animals: 0
-mooses: 0
+Animals: 7
+mooses: 7
 wolves: 0
 currentTick: 10
 
