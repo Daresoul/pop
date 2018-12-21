@@ -1,7 +1,7 @@
 
 type board() =
-    member this.wolf = [1;2;3;4;5;6]
-    member this.moose = [1;2;3]
+    member this.wolf = [0..8]
+    member this.moose = [0..2]
 
 let _board = board()
 
@@ -26,7 +26,6 @@ let makeQueue =
         queue <- List.filter (fun x -> not(x=queue.[j])) queue
     r
 
-
-printfn "wolf list = %A" (_board.wolf)
-printfn "moose list = %A" (_board.moose)
-printfn "%A" (makeQueue)
+printfn "wolf index list =\n%A" (_board.wolf)
+printfn "moose index list =\n%A" (_board.moose)
+printfn "order list =\n%A" (makeQueue)
