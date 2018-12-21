@@ -1,4 +1,9 @@
-member this.makeQueue() =
+
+type _board =
+    member this.wolf = [1;2;3;4;5;6]
+    member this.moose = [1;2;3]
+
+let makeQueue =
     let mutable queue = []
     
     let mutable End = _board.wolf.Length-1
@@ -17,3 +22,5 @@ member this.makeQueue() =
         r <- queue.[j] :: r
         queue <- List.filter (fun x -> not(x=queue.[j])) queue
     r
+
+printfn "%A" (makeQueue)
