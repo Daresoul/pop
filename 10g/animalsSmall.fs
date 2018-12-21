@@ -1,5 +1,6 @@
 module animals
 open System
+open System.IO
 open System.Collections.Generic
 
 type symbol = char
@@ -34,9 +35,10 @@ type animal (symb : symbol, repLen : int) =
 type moose (repLen : int) =
   inherit animal (mSymbol, repLen)
 
-  member this.tick () : moose option = 
+  member this.tick () : moose option =
+    //printfn "%A %b" this.reproduction (this.reproduction <= 0)
     if this.reproduction <= 0 then
-      Some ( moose(repLen) )
+      Some (moose(repLen))
     else
       None
 
@@ -182,6 +184,17 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
         false
     | None -> true
 
+  /// <summary>Checks if any animal is at this position</summary>
+  /// <param name="pos">The position the animal is at right now, as an position option</param>
+  /// <returns>Sends back a tuple of string and bool where string represents the type of animal and if it was there</returns>
+  member this.findMooseAtPosition(pos) =
+    let mutable verbose = false
+    for moose in _board.moose do
+      if (moose.position = pos) then
+        verbose <- true
+
+    verbose
+
   /// <summary>Gets all the coordinates of the board around a given animal</summary>
   /// <param name="pos">The position the animal is at right now, as an position option</param>
   /// <returns>a generic list with all the possible ways to move</returns>
@@ -191,28 +204,15 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
 
     match pos with
     | Some(x) ->
-      for i in coords do
-        if (this.checkValidMove(Some (fst x + fst i, snd x + snd i))) then
+      for i in coords do   
+        if this.findMooseAtPosition(Some ((fst x + fst i), (snd x + snd i))) then
           availableEatingSpaces.Add((fst x + fst i, snd x + snd i))
+
+          
 
       availableEatingSpaces
 
     | None -> availableEatingSpaces
-
-  /// <summary>Checks if any animal is at this position</summary>
-  /// <param name="pos">The position the animal is at right now, as an position option</param>
-  /// <returns>Sends back a tuple of string and bool where string represents the type of animal and if it was there</returns>
-  member this.findIfAnimalStandsAtPosition(pos) =
-    let mutable verbose = (None,false)
-    for wolf in _board.wolves do
-      if (wolf.position = pos) then
-        verbose <- (Some "w", true)
-
-    for moose in _board.moose do
-      if (moose.position = pos) then
-        verbose <- (Some "m", true)
-
-    verbose
 
   /// <summary>Kills a specific moose from its position</summary>
   /// <param name="pos">The position the animal is at right now, as an position option</param>
@@ -228,6 +228,7 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
     for wolf in _board.wolves do
       // check all places around for eating (will return all faces remember to make it so it will only if there is standing anything)
       let EatingPlaces = this.CheckEating( wolf.position )
+      //printfn "%A" EatingPlaces
       if (EatingPlaces.Count = 0) then
         // if no wolf is born
         if wolf.tick() = None then
@@ -244,28 +245,32 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
           // set new wolf in!
           wolf.resetReproduction()
       else
-        //wolf.position <- Some (EatingPlaces.Item(0))
-        // going though all faces to check
-        for felt in EatingPlaces do
-          let value = this.findIfAnimalStandsAtPosition(Some felt)
-          match value with
-          | (Some "m", true) ->
-            wolf.position <- Some felt
-            this.KillMooseFromPosition(Some felt)
-          | _ ->
-            wolf.position <- wolf.position
-
         wolf.resetHunger()
+        this.KillMooseFromPosition(Some (EatingPlaces.Item(0)))
+        wolf.position <- Some (EatingPlaces.Item(0))
 
       wolf.updateReproduction()
       wolf.updateHunger()
       
     
     for moose in _board.moose do
-
-      if moose.tick() = None then
-
-        // for movement
+      match moose.tick() with
+      | Some x ->
+        //printfn "Moose choosing to reproduce"
+        let coords = [(0, -1); (-1, -1); (-1, 0); (-1, 1); (0, 1); (1, 1); (1, 0); (1, -1)]
+        if Option.isSome moose.position then
+          let posValue = Option.get moose.position
+          //printfn "%A" posValue
+          let mutable hasBeenBorn = false
+          for i = 0 to (coords.Length - 1) do
+            if this.checkValidMove(Some (fst posValue + fst coords.[i], snd posValue + snd coords.[i])) then
+              if not hasBeenBorn then
+                _board.moose <- x::_board.moose
+                x.position <- Some (fst posValue + fst coords.[i], snd posValue + snd coords.[i])
+                moose.resetReproduction()
+                hasBeenBorn <- true
+      | None ->
+        //printfn "Moose chose to move!"
         let mutable moveValid : bool = false
 
         while not moveValid do
@@ -274,8 +279,27 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
           if (this.checkValidMove(newPos)) then
             moveValid <- true
             moose.position <- newPos
+            moose.updateReproduction()
 
-      moose.updateReproduction()
+  member this.WriteOutInfo (currentTick : int) =
+    let arr = draw _board
+    let mooseCount = this.countMoose
+    let wolfCount = this.countWolfs
+    let mutable ret = "\n\n  "
+    for j = 0 to _board.width-1 do
+      ret <- ret + string (j % 10) + " "
+    ret <- ret + "\n"
+    for i = 0 to _board.width-1 do
+      ret <- ret + string (i % 10) + " "
+      for j = 0 to _board.width-1 do
+        ret <- ret + string arr.[i,j] + " "
+      ret <- ret + "\n"
+    ret <- ret + "Animals: " + (mooseCount + wolfCount).ToString() + "\n"
+    ret <- ret + "mooses: " + mooseCount.ToString() + "\n"
+    ret <- ret + "wolves: " + wolfCount.ToString() + "\n"
+    ret <- ret + "currentTick: " + currentTick.ToString() + "\n\n"
+
+    ret
 
   override this.ToString () =
     let arr = draw _board
@@ -299,15 +323,20 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
 
 type Game(maxtick : int) =
 
-  let env = environment(10, 10, 10, 10, 10, 10, true)
+  let env = environment(10, 1, 5, 1, 10, 10, true)
   let mutable currentTick : int = 0
   let mutable gameInfo = ""
+
+  let writeToFile (str : string) =
+    File.WriteAllText("gamedata.txt", str) 
   member this.startGame() =
     while (currentTick <= maxtick) do
-      env.tick()
       printfn "%s" (env.ToString())
-      //gameInfo <- gameInfo + env.ToString()
+      env.tick()
+      gameInfo <- gameInfo + env.WriteOutInfo(currentTick)
       currentTick <- currentTick + 1
+
+    writeToFile (gameInfo)
 
   member this.printgameInfo() = 
     printfn "%s" gameInfo
