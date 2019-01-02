@@ -359,10 +359,10 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
     ret
 
 type Game(T : int, fileDest : string, n : int, e : int ,fe : int ,u : int ,fu : int ,s : int ) = 
-//T = iterations, filDest = file destination, n = size of square sides, e = antal elge, fu = formenrings tid elge, u = ulve , fu = antal ulve, s = sult tid
+//T = iterations, filDest = file destination, n = size of square sides, e = antal elge, fu = formenrings tid elge, u = antal ulve , fu = formerings tid ulve, s = sult tid
 
 
-  let env = environment(n, e, fu, u, fu, s, true)
+  let env = environment(n, e, fe, u, fu, s, true)
   let mutable currentTick : int = 0
   let mutable gameInfo = ""
 
