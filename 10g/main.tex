@@ -3,27 +3,31 @@
 \usepackage[utf8]{inputenc}
 \usepackage{listings}
 \usepackage{color}
+\usepackage{upquote}
 
-\definecolor{dkgreen}{rgb}{0,0.6,0}
-\definecolor{gray}{rgb}{0.5,0.5,0.5}
-\definecolor{mauve}{rgb}{0.58,0,0.82}
-
-\lstset{
-  frame=tb,
-  language=Java,
-  aboveskip=3mm,
-  belowskip=3mm,
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+ 
+\lstdefinelanguage{FSharp}%
+{morekeywords={let, override, new, match, with, rec, open, module, namespace, type, of, member, % 
+and, for, while, true, false, in, do, begin, end, fun, function, return, yield, try, %
+mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit, finally },
+  otherkeywords={ let!, return!, do!, yield!, use!, var, from, select, where, order, by },
+  keywordstyle=\color{bluekeywords},
+  sensitive=true,
+  basicstyle=\ttfamily,
+	breaklines=true,
+  xleftmargin=\parindent,
+  aboveskip=\bigskipamount,
+	tabsize=4,
+  morecomment=[l][\color{greencomments}]{///},
+  morecomment=[l][\color{greencomments}]{//},
+  morecomment=[s][\color{greencomments}]{{(*}{*)}},
+  morestring=[b]",
   showstringspaces=false,
-  columns=flexible,
-  basicstyle={\small\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
-  breaklines=true,
-  breakatwhitespace=true,
-  tabsize=3
+  literate={`}{\`}1,
+  stringstyle=\color{redstrings},
 }
 
 \title{10g rapport}
@@ -49,7 +53,7 @@
     \subsubsection{Wolf}    
 
     \section{Implementation}
-		\lstset{language=Pascal}
+		\lstset{language=FSharp}
 
 		\begin{lstlisting}
 /// An animal is a base class. It has a position and a reproduction counter.
@@ -70,6 +74,7 @@ type animal (symb : symbol, repLen : int) =
 
   override this.ToString () =
     string this.symbol
+    "delete this"
 		\end{lstlisting}
 		
          
