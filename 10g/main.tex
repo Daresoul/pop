@@ -41,7 +41,10 @@ mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit
     \textit{"A single type of bird can be called a goose, but more is geese, but the plural of moose is not meese, and finally one wolf becomes several wolves. English is like coding. Nobody really know why we do it that way we do, but people on the internet will yell at you for getting it wrong."} \newline -Based on common saying.
     \section{Manual}
    		fsharpi animalsSmall.fsi animalsSmall.fs animalsSmall.fsx
-    
+   		\\
+   		fsharpc animalsSmall.fsi animalsSmall.fs animalsSmall.fsx
+    	\\
+    	mono animalsSmall.exe animalsSmall.exe animalsSmall.exe
     \section{Design}
     	We use Jon's template.
     	\\
@@ -49,6 +52,7 @@ mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit
     	\\
     	To shuffle the tuple list, we will use a function with a for loop that will pick a random index, remove the element from the tuple list and also put it in a new list. The function should return the new list as a shuffled tuple list.
     	\\
+    	To run the simulation, we will use an object with a while loop.
     \subsection{Two-lists makes a board}
     \subsection{Animals}
     \subsubsection{Moose}
