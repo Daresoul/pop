@@ -1,0 +1,322 @@
+mono experimentWAnimals.exe 15 test4.txt 10 10 10 2 2 10
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0             w       
+1   w                 
+2       m             
+3   m               m 
+4     m               
+5                   m 
+6                     
+7       m             
+8             m   m   
+9                   m 
+Animals: 11
+mooses: 9
+wolves: 2
+currentTick: 0
+moose list: 9
+wolf list: 2
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0             w       
+1 w   w               
+2       m             
+3 m m             m m 
+4     m               
+5                 m m 
+6                     
+7                 m   
+8     m       m     m 
+9                 m   
+Animals: 16
+mooses: 13
+wolves: 3
+currentTick: 1
+moose list: 13
+wolf list: 3
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w           w       
+1     w       w       
+2         m         m 
+3   m m           m   
+4 m                 m 
+5                     
+6                 m m 
+7     m         m     
+8                 m   
+9                   m 
+Animals: 17
+mooses: 13
+wolves: 4
+currentTick: 2
+moose list: 13
+wolf list: 4
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0   w         w       
+1 w   w       w       
+2   w     m           
+3   m m           m   
+4 m               m   
+5                   m 
+6                 m   
+7     m             m 
+8 m             m     
+9                 m m 
+Animals: 20
+mooses: 14
+wolves: 6
+currentTick: 3
+moose list: 14
+wolf list: 6
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w         w       
+1 w w w       w       
+2 m w   m       m     
+3 m m             m   
+4     m               
+5                   m 
+6     m         m     
+7               m m   
+8 m               m m 
+9                     
+Animals: 23
+mooses: 15
+wolves: 8
+currentTick: 4
+moose list: 15
+wolf list: 8
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w   w         
+1   w w       w       
+2 w w m       m       
+3 m   m               
+4   m               m 
+5                 m   
+6   m         m       
+7 m           m     m 
+8                 m   
+9                 m   
+Animals: 24
+mooses: 14
+wolves: 10
+currentTick: 5
+moose list: 14
+wolf list: 10
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w   w w w         
+1 w w   w     w       
+2 w   w       m       
+3     w               
+4 m                 m 
+5 m                   
+6 m         m     m m 
+7             m       
+8   m             m m 
+9             m       
+Animals: 25
+mooses: 13
+wolves: 12
+currentTick: 6
+moose list: 13
+wolf list: 12
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w   w         
+1 w w w w w w w       
+2 w w w w     m       
+3   w                 
+4 m               m   
+5   m                 
+6   m                 
+7             m m m m 
+8   m         m m m   
+9                   m 
+Animals: 31
+mooses: 14
+wolves: 17
+currentTick: 7
+moose list: 14
+wolf list: 17
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w   w       
+1 w   w w w w w       
+2 w w w w     w       
+3   w w w w           
+4 w               m m 
+5     m               
+6                     
+7   m         m   m   
+8   m       m m   m m 
+9             m   m m 
+Animals: 36
+mooses: 14
+wolves: 22
+currentTick: 8
+moose list: 14
+wolf list: 22
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w w     
+1 w w w w w w w       
+2   w w w w w w       
+3 w   w w             
+4 w w m w w       m   
+5 w                 m 
+6                   m 
+7             m   m   
+8   m m     m m   m   
+9         m     m   m 
+Animals: 43
+mooses: 14
+wolves: 29
+currentTick: 9
+moose list: 14
+wolf list: 29
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w w     
+1 w w w w w w w       
+2 w w w w w           
+3 w w w w w w w       
+4 w w w w w w     m   
+5 w w w w         m   
+6               m   m 
+7   m           m     
+8 m         m m m m   
+9       m m     m     
+Animals: 51
+mooses: 14
+wolves: 37
+currentTick: 10
+moose list: 14
+wolf list: 37
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w       
+1 w w w w w w w   w   
+2 w w w w w w w w     
+3 w w w w     w       
+4 w w w w w w w       
+5 w w   w w w   m m   
+6 w w w w w       m   
+7               m m m 
+8     m   m   m       
+9   m   m   m m   m m 
+Animals: 60
+mooses: 15
+wolves: 45
+currentTick: 11
+moose list: 15
+wolf list: 45
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w       
+1 w w w w w w w w w   
+2 w w w w w w w w w   
+3 w w w w w w w w     
+4 w w w w w w w       
+5 w w w w w w w     m 
+6 w   w w w     m   m 
+7 w w w w     m m   m 
+8     m m m m   m m m 
+9 m       m   m       
+Animals: 71
+mooses: 16
+wolves: 55
+currentTick: 12
+moose list: 16
+wolf list: 55
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w w w   
+1 w w w w w w w w w w 
+2 w w w w w w w w     
+3 w w w w w   w   w w 
+4 w w w w w w     w   
+5 w w w w w w w w     
+6 w w w w   m     m   
+7 w w w w w   m m m   
+8   m m   m m   m   m 
+9       m m       m m 
+Animals: 74
+mooses: 15
+wolves: 59
+currentTick: 13
+moose list: 15
+wolf list: 59
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w w w w 
+1 w w w w w w w w w w 
+2 w w w w w w w w w w 
+3 w w w w w w w w w w 
+4 w w w w w w w w w   
+5 w w w w w w   w w   
+6 w w w w w   m   m   
+7 w w w   w w m m   m 
+8 m     m w m     m   
+9   m m m m   m   m m 
+Animals: 84
+mooses: 16
+wolves: 68
+currentTick: 14
+moose list: 16
+wolf list: 68
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w w w w 
+1 w w w w w w w w w w 
+2 w w w w w w w w w w 
+3 w w w w w w w w w   
+4 w w w w w w w w w w 
+5 w w w w   w w w w w 
+6 w w w   w w w m   w 
+7 w w w w w w     m m 
+8 w   m m w m m m     
+9 m     m       m m   
+Animals: 85
+mooses: 12
+wolves: 73
+currentTick: 15
+moose list: 12
+wolf list: 73
+
