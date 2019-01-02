@@ -44,17 +44,24 @@ mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit
 
     \section{Design}
     	The overall sourcecode lay out is based upon the one given as part of the assigment, except the environment. To that the behaviors and events were added. 
-    	
-        \subsection{Animals}	
-    	To move the animals, a random vector was pick based upon a random number from 0 to 7 (There are a total of 3x3-1 = 8 directions), where the direction was check if it's a valid, and if so change the animals' position with the vector.\newline
-    	To make the order of animals random, first the wolf list is selected and a tuole list is create a tuple list, where the first element will contain their symbol "w" and the second element will contain the index of the wolves. This is also done to the moose list. This is done for the entirety of the two lists, which are then joined and shuffled. \newline To shuffle the tuple list, a function with a for loop was used. It picks a random index, remove the element from the tuple list and put it in a new list. When the tuple is empty, the new list is returned.. After this shuffle, this tuple is used to deside the order of succession. \newline	
-    \subsubsection{Wolf}
-    The wolves ability to eat a moose was implemented specifically for them, and works in a similarly as the move function, but with mooses being a favored direction compared to a empty or wolf occupied location. If the wolf sees one or more mooses next to it, it will pick one at random and move there. The moose is noted as dead and removed later.  
-
-    \subsection{Two-lists makes a board}
-
- 
     
+   
+   
+    \subsection{Two-lists makes a board}
+    \subsection{Animals}
+    Animals are objects with properties symbol, position, reproduction. Symbol contains a character, either 'm', 'w' or ' ', and is used to identify the animal. Position contains either Some(int * int) or None, and is the position of the board. Reproduction contains an integer and is used to indicate when it is time to reproduce.
+    \\
+    Animals also has behaviours called updateReproduction() and resetReproduction(). The former reduces the reproduction property by 1, and the latter resets it to the start value.
+     To move the animals, a random vector was pick based upon a random number from 0 to 7 (There are a total of 3x3-1 = 8 directions), where the direction was check if it's a valid, and if so change the animals' position with the vector.\newline
+    To make the order of animals random, first the wolf list is selected and a tuole list is create a tuple list, where the first element will contain their symbol "w" and the second element will contain the index of the wolves. This is also done to the moose list. This is done for the entirety of the two lists, which are then joined and shuffled. \newline To shuffle the tuple list, a function with a for loop was used. It picks a random index, remove the element from the tuple list and put it in a new list. When the tuple is empty, the new list is returned.. After this shuffle, this tuple is used to deside the order of succession. \newline	
+    
+    \subsubsection{Wolf}
+    	Wolf inherits Animals, but has one more attribute hunger and many additional methods, updateHunger(), resetHunger() and tick(). Hunger is used to tell when it's time to hunt or die. updateHunger() reduces the hunger by 1 and changes position to None if hunger is 0. resetHunger() resets hunger to start value. tick() returns either a wolf object or None. 
+    The wolves ability to eat a moose was implemented specifically for them, and works in a similarly as the move function, but with mooses being a favored direction compared to a empty or wolf occupied location. If the wolf sees one or more mooses next to it, it will pick one at random and move there. The moose is noted as dead and removed later.  
+    
+    
+    \subsubsection{Moose}
+    	Moose inherits Animals, but has an additional method, tick(), which returns a Moose object or None.
 
     \section{Implementation}
         \subsection{Manual}

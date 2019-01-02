@@ -4,9 +4,11 @@ let repLen = 5
 let env = environment(10, 10, repLen, 10, 7, 5, true)
 
 
-printfn "////////////////////////////////////////////////////////\n
-         ////////////CHECKING TICK FUNCTIONS/////////////////////\n
-         ////////////////////////////////////////////////////////\n"
+printfn "\n\n\n////////////////////////////////////////////////////////
+////////////CHECKING TICK FUNCTIONS/////////////////////
+////////////////////////////////////////////////////////"
+
+printfn "\n \n \n"
 let mutable index = 0
 printfn "checking moose tick function index %i, rep value is %i. is it as expected? %b" index (env.board.moose.[index].reproduction) (Option.isNone(env.board.moose.[index].tick()))
 
@@ -19,6 +21,8 @@ printfn "checking moose tick function index %i, rep value is %i. is it as expect
 
 index <- 5
 printfn "checking moose tick function index %i, rep value is %i. is it as expected? %b" index (env.board.moose.[index].reproduction) (Option.isNone(env.board.moose.[index].tick()))
+
+printfn "\n \n"
 
 
 index <- 0
@@ -34,10 +38,14 @@ index <- 9
 env.board.wolves.[index].reproduction <- 0
 printfn "checking wolf tick function index %i, rep value is %i. is it as expected? %b" index (env.board.wolves.[index].reproduction) (Option.isSome(env.board.wolves.[index].tick()))
 
+printfn "\n \n \n"
+
 printfn "////////////////////////////////////////////////////////
 //////////////////////ENV FUNCTIONS/////////////////////
 ////////////////////////////////////////////////////////"
 
+
+printfn "\n \n \n"
 printfn "testing af genMoveVector, her har vi valgt bare at skrive den ud 10 gange da vi forudsætter at fsharps random er god nok."
 
 let sleeptime = 20
@@ -129,4 +137,138 @@ for m in env.board.moose do
     m.position <- Some (i, 0)
     i <- i + 1
 
-printfn "testing af checkValidMove."
+let mutable somePos = Some (0, 0)
+expectedBool <- false
+printfn "testing af checkValidMove. pos is %A. is this as expected? %b" somePos (expectedBool = (env.checkValidMove somePos))
+
+somePos <- Some (0, 1)
+expectedBool <- true
+printfn "testing af checkValidMove. pos is %A. is this as expected? %b" somePos (expectedBool = (env.checkValidMove somePos))
+
+somePos <- Some (1, 1)
+expectedBool <- true
+printfn "testing af checkValidMove. pos is %A. is this as expected? %b" somePos (expectedBool = (env.checkValidMove somePos))
+
+somePos <- Some (3, 0)
+expectedBool <- false
+printfn "testing af checkValidMove. pos is %A. is this as expected? %b" somePos (expectedBool = (env.checkValidMove somePos))
+
+somePos <- Some (4, 6)
+expectedBool <- true
+printfn "testing af checkValidMove. pos is %A. is this as expected? %b" somePos (expectedBool = (env.checkValidMove somePos))
+
+somePos <- None
+expectedBool <- true
+printfn "testing af checkValidMove. pos is %A. is this as expected? %b" somePos (expectedBool = (env.checkValidMove somePos))
+
+
+printfn "\n \n \n"
+
+somePos <- Some (0,0)
+expectedBool <- true
+printfn "testing af findMooseAtPosition. is this as expected? %b" ((env.findMooseAtPosition somePos) = expectedBool)
+
+somePos <- Some (0,1)
+expectedBool <- false
+printfn "testing af findMooseAtPosition. is this as expected? %b" ((env.findMooseAtPosition somePos) = expectedBool)
+
+somePos <- Some (3,0)
+expectedBool <- true
+printfn "testing af findMooseAtPosition. is this as expected? %b" ((env.findMooseAtPosition somePos) = expectedBool)
+
+somePos <- Some (7,5)
+expectedBool <- false
+printfn "testing af findMooseAtPosition. is this as expected? %b" ((env.findMooseAtPosition somePos) = expectedBool)
+
+printfn "\n \n \n"
+
+somePos <- Some (3,0)
+expectedBool <- true
+printfn "testing af checkFieldsAround. at pos %A. is this as expected? %b" somePos (expectedBool = (env.checkFieldsAround somePos))
+
+somePos <- None
+expectedBool <- false
+printfn "testing af checkFieldsAround. at pos %A. is this as expected? %b" somePos (expectedBool = (env.checkFieldsAround somePos))
+let newmoose1 = moose(repLen)
+let newmoose2 = moose(repLen)
+
+env.board.moose <- newmoose1::env.board.moose
+env.board.moose <- newmoose2::env.board.moose
+
+newmoose1.position <- Some (0, 1)
+newmoose2.position <- Some (1, 1)
+
+somePos <- Some (0, 0)
+expectedBool <- false
+printfn "testing af checkFieldsAround. at pos %A. is this as expected? %b" somePos (expectedBool = (env.checkFieldsAround somePos))
+
+printfn "\n \n \n"
+
+somePos <- Some (0,0)
+expected <- 1
+printfn "testing af CheckEating. at pos %A. this many found %i. is this as expected? %b" somePos (env.CheckEating somePos).Count (expected <= (env.CheckEating somePos).Count)
+
+somePos <- Some (5,5)
+expected <- 1
+printfn "testing af CheckEating. at pos %A. this many found %i. is this as expected? %b" somePos (env.CheckEating somePos).Count (expected >= (env.CheckEating somePos).Count)
+
+somePos <- Some (4,1)
+expected <- 1
+printfn "testing af CheckEating. at pos %A. this many found %i. is this as expected? %b" somePos (env.CheckEating somePos).Count (expected <= (env.CheckEating somePos).Count)
+
+somePos <- Some (1,0)
+expected <- 1
+printfn "testing af CheckEating. at pos %A. this many found %i. is this as expected? %b" somePos (env.CheckEating somePos).Count (expected <= (env.CheckEating somePos).Count)
+
+
+printfn "\n \n \n"
+
+index <- 2
+somePos <- Some (0,0)
+let mutable expectedOption = None
+env.KillMooseFromPosition somePos
+printfn "testing af KillMooseFromPosition. at pos %A. moose pos %A. is this as expected? %b" somePos env.board.moose.[index].position (env.board.moose.[index].position = expectedOption)
+
+index <- 4
+somePos <- Some (2,0)
+env.KillMooseFromPosition somePos
+printfn "testing af KillMooseFromPosition. at pos %A. moose pos %A. is this as expected? %b" somePos env.board.moose.[index].position (env.board.moose.[index].position = expectedOption)
+
+printfn "\n \n \n"
+
+let newwolf1 = wolf(repLen, 10)
+let newwolf2 = wolf(repLen, 10)
+
+env.board.wolves <- newwolf1::env.board.wolves
+env.board.wolves <- newwolf2::env.board.wolves
+
+printfn "test af makeQueue. is this scrambled? %A" env.makeQueue
+Thread.Sleep(sleeptime);
+printfn "test af makeQueue. is this scrambled? %A" env.makeQueue
+Thread.Sleep(sleeptime);
+printfn "test af makeQueue. is this scrambled? %A" env.makeQueue
+
+printfn "\n \n \n"
+
+let expectedwolfPopulation = 1
+let expectedMoosePopulation = 5
+
+let mutable verbose = true
+
+env.board.wolves.[0].position <- Some (1, 5)
+env.board.wolves.[1].position <- None
+
+newmoose1.position = None
+newmoose2.position = None
+
+env.removeDeadAnimals
+
+if (expectedwolfPopulation <> env.board.wolves.Length) then
+    verbose <- false
+
+if (expectedMoosePopulation <> env.board.moose.Length) then
+    verbose <- false
+
+printfn "there are %i wolves and %i mooses is this as expected? %b" env.board.wolves.Length env.board.moose.Length verbose
+
+
