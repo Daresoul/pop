@@ -24,7 +24,10 @@ type animal (symb : symbol, repLen : int) =
   member this.position
     with get () = _pos
     and set aPos = _pos <- aPos
-  member this.reproduction = _reproduction
+  member this.reproduction
+    with get() = _reproduction
+    and set x = _reproduction <- x
+
   member this.updateReproduction () =
     _reproduction <- _reproduction - 1
   member this.resetReproduction () =
@@ -39,7 +42,7 @@ type moose (repLen : int) =
 
   member this.tick () : moose option =
     //printfn "%A %b" this.reproduction (this.reproduction <= 0)
-    if this.reproduction <= 0 then
+    if this.reproduction < 1 then
       Some (moose(repLen))
     else
       None
@@ -236,38 +239,6 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
     for moose in _board.moose do
       if (moose.position = pos) then
         moose.position <- None
-
-  // member this.removeMooseAt (index : int) =
-  //   if _board.moose.Length > 0 then
-  //     //Laver en tuple af om boolean og int
-  //     // booleanen bliver lavet ved at den er true hvis den er alt andet end indexet.
-  //     let checkedList = List.mapi (fun i el -> (i <> index, el)) _board.moose
-
-  //     // tager den første tuple i alle elementerne i listen og tjekker om de er true, alt der ikke er true bliver smidt væk
-  //     let filteredList = List.filter fst checkedList
-
-  //     // laver listen af tupler om til den gamle liste uden det valgte index, det gør vi udfra snd tuplen af vores filterede liste.
-  //     let newList = List.map snd filteredList
-      
-  //     _board.moose <- newList
-  
-  // member this.removeWolfAt (index : int) =
-  //   printfn "list len: %A" _board.wolves.Length
-  //   printfn "list: %A" _board.wolves.[index]
-  //   printfn "index: %i" index
-
-  //   if _board.wolves.Length > 0 then
-  //     //Laver en tuple af om boolean og int
-  //     // booleanen bliver lavet ved at den er true hvis den er alt andet end indexet.
-  //     let checkedList = List.mapi (fun i el -> (i <> index, el)) _board.wolves
-
-  //     // tager den første tuple i alle elementerne i listen og tjekker om de er true, alt der ikke er true bliver smidt væk
-  //     let filteredList = List.filter fst checkedList
-
-  //     // laver listen af tupler om til den gamle liste uden det valgte index, det gør vi udfra snd tuplen af vores filterede liste.
-  //     let newList = List.map snd filteredList
-
-  //     _board.wolves <- newList
 
   member this.mooseMove(i : int) =
     let moose = _board.moose.[i]
