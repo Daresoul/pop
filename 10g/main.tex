@@ -1,6 +1,34 @@
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{upquote}
+
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+ 
+\lstdefinelanguage{FSharp}%
+{morekeywords={let, override, new, match, with, rec, open, module, namespace, type, of, member, % 
+and, for, while, true, false, in, do, begin, end, fun, function, return, yield, try, %
+mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit, finally },
+  otherkeywords={ let!, return!, do!, yield!, use!, var, from, select, where, order, by },
+  keywordstyle=\color{bluekeywords},
+  sensitive=true,
+  basicstyle=\ttfamily,
+	breaklines=true,
+  xleftmargin=\parindent,
+  aboveskip=\bigskipamount,
+	tabsize=4,
+  morecomment=[l][\color{greencomments}]{///},
+  morecomment=[l][\color{greencomments}]{//},
+  morecomment=[s][\color{greencomments}]{{(*}{*)}},
+  morestring=[b]",
+  showstringspaces=false,
+  literate={`}{\`}1,
+  stringstyle=\color{redstrings},
+}
 
 \title{10g rapport}
 \author{Henrik Flindt\\Nicolas Dyhrman\\Adrian Joensen}
@@ -12,19 +40,52 @@
     \section*{Wolf in Moose's Clothing}
     \textit{"A single type of bird can be called a goose, but more is geese, but the plural of moose is not meese, and finally one wolf becomes several wolves. English is like coding. Nobody really know why we do it that way we do, but people on the internet will yell at you for getting it wrong."} \newline -Based on common saying.
     \section{Manual}
-   
+   		fsharpi animalsSmall.fsi animalsSmall.fs animalsSmall.fsx
     
     \section{Design}
+    	We use Jon's template.
+    	\\
+    	To make the order of animals random, we create a tuple list containing a symbol and an index.
+    	\\
     \subsection{Two-lists makes a board}
     \subsection{Animals}
     \subsubsection{Moose}
     \subsubsection{Wolf}    
 
     \section{Implementation}
-       
+		\lstset{language=FSharp}
+
+		\begin{lstlisting}
+/// An animal is a base class. It has a position and a reproduction counter.
+type animal (symb : symbol, repLen : int) =
+  let mutable _reproduction = rnd.Next(1,repLen)
+  let mutable _pos : position option = None
+  let _symbol : symbol = symb
+
+  member this.symbol = _symbol
+  member this.position
+    with get () = _pos
+    and set aPos = _pos <- aPos
+  member this.reproduction = _reproduction
+  member this.updateReproduction () =
+    _reproduction <- _reproduction - 1
+  member this.resetReproduction () =
+    _reproduction <- repLen
+
+  override this.ToString () =
+    string this.symbol
+    "delete this"
+		\end{lstlisting}
+		
          
     \section{White Box Testing}
-   	   
+   	   \begin{tabular}{|c|c|c|}
+   	   		\hline
+   	   		Input & Expected & Result\\
+   	   		\hline
+   	   		&&\\
+   	   		\hline
+   	   \end{tabular}
     \section{Conclusion}
      
 

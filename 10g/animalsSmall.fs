@@ -238,53 +238,10 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
       if (moose.position = pos) then
         moose.position <- None
 
-  /// <summary>Moves all animals and make them do thir choices</summary>
-  member this.tick () =
+  member this.mooseMove(i : int) =
+    let moose = _board.moose.[i]
 
-    // loops though all wolves
-    for wolf in _board.wolves do
-      // check all places around for eating (will return all faces remember to make it so it will only if there is standing anything)
-      let EatingPlaces = this.CheckEating( wolf.position )
-      //printfn "%A" EatingPlaces
-      if (EatingPlaces.Count = 0) then
-
-        match wolf.tick() with
-        | Some x ->
-          let coords = [(0, -1); (-1, -1); (-1, 0); (-1, 1); (0, 1); (1, 1); (1, 0); (1, -1)]
-          if Option.isSome wolf.position then
-            let posValue = Option.get wolf.position
-            let mutable hasBeenBorn = false
-            for i = 0 to (coords.Length - 1) do
-              if this.checkValidMove(Some (fst posValue + fst coords.[i], snd posValue + snd coords.[i])) then
-                if not hasBeenBorn then
-                  _board.wolves <- x::_board.wolves
-                  x.position <- Some (fst posValue + fst coords.[i], snd posValue + snd coords.[i])
-                  wolf.resetReproduction()
-                  hasBeenBorn <- true
-        | None ->
-          // check around for move
-          if this.checkFieldsAround(wolf.position) then
-            let mutable moveValid : bool = false
-
-            while not moveValid do
-              let newPos = this.moveAnimal(wolf.position)
-
-              if (this.checkValidMove(newPos)) then
-                moveValid <- true
-                wolf.position <- newPos
-      else
-        let attackChance = rnd.NextDouble()
-        if (attackChance < attackPercent) then
-          wolf.resetHunger()
-          this.KillMooseFromPosition(Some (EatingPlaces.Item(0)))
-          wolf.position <- Some (EatingPlaces.Item(0))
-
-      wolf.updateReproduction()
-      wolf.updateHunger()
-      
-    
-    for moose in _board.moose do
-      match moose.tick() with
+    match moose.tick() with
       | Some x ->
         //printfn "Moose choosing to reproduce"
         let coords = [(0, -1); (-1, -1); (-1, 0); (-1, 1); (0, 1); (1, 1); (1, 0); (1, -1)]
@@ -310,7 +267,74 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
             if (this.checkValidMove(newPos)) then
               moveValid <- true
               moose.position <- newPos
-      moose.updateReproduction()
+        moose.updateReproduction()
+
+  member this.wolfMove(i : int) =
+    let wolf = _board.wolves.[i]
+
+    let EatingPlaces = this.CheckEating( wolf.position )
+    //printfn "%A" EatingPlaces
+    if (EatingPlaces.Count = 0) then
+
+      match wolf.tick() with
+      | Some x ->
+        let coords = [(0, -1); (-1, -1); (-1, 0); (-1, 1); (0, 1); (1, 1); (1, 0); (1, -1)]
+        if Option.isSome wolf.position then
+          let posValue = Option.get wolf.position
+          let mutable hasBeenBorn = false
+          for i = 0 to (coords.Length - 1) do
+            if this.checkValidMove(Some (fst posValue + fst coords.[i], snd posValue + snd coords.[i])) then
+              if not hasBeenBorn then
+                _board.wolves <- x::_board.wolves
+                x.position <- Some (fst posValue + fst coords.[i], snd posValue + snd coords.[i])
+                wolf.resetReproduction()
+                hasBeenBorn <- true
+      | None ->
+        // check around for move
+        if this.checkFieldsAround(wolf.position) then
+          let mutable moveValid : bool = false
+
+          while not moveValid do
+            let newPos = this.moveAnimal(wolf.position)
+
+            if (this.checkValidMove(newPos)) then
+              moveValid <- true
+              wolf.position <- newPos
+    else
+      let attackChance = rnd.NextDouble()
+      if (attackChance < attackPercent) then
+        wolf.resetHunger()
+        this.KillMooseFromPosition(Some (EatingPlaces.Item(0)))
+        wolf.position <- Some (EatingPlaces.Item(0))
+
+    wolf.updateReproduction()
+    wolf.updateHunger()
+
+  /// <summary>Moves all animals and make them do thir choices</summary>
+  member this.tick () =
+    let queList = this.makeQueue
+    0
+
+  member this.makeQueue =
+    let any = System.Random()
+    let mutable queue = []
+    
+    let mutable End = _board.wolves.Length-1
+    for i=0 to End do
+      queue <- ("w", i) :: queue
+    
+    End <- _board.moose.Length-1
+    for i=0 to End do
+      queue <- ("m", i) :: queue
+    
+    let mutable r = []
+
+    End <- queue.Length-1
+    for i=0 to End do
+        let j = any.Next(0, queue.Length)
+        r <- queue.[j] :: r
+        queue <- List.filter (fun x -> not(x=queue.[j])) queue
+    r
 
   member this.WriteOutInfo (currentTick : int) =
     let arr = draw _board
