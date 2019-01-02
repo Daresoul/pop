@@ -169,7 +169,7 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
         verbose <- false
     
     for m in _board.moose do
-      if m.position = Some pos then
+        if m.position = Some pos then
         verbose <- false
     
     verbose
@@ -380,10 +380,17 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
 
     ret
 
+  /// <summary>Setup and rund the moose-wolf game</summary>
+  /// <param name="T"> iterations of the game. I.e how many rounds</param>
+  /// <param name="filDest">file destination of the return file</param>
+  /// <param name="n">size of the square board </param>
+  /// <param name="e"> number of mooses at start </param>
+  /// <param name="fe">moose reproduction time </param>
+  /// <param name="u"> number of wolfs at start </param>
+  /// <param name="fu">wolf reproduction time</param>
+  /// <param name="s"> hunger time of wolfs</param>
+  /// <returns>Dont returns anything, but creats a .txt file</returns>
 type Game(T : int, fileDest : string, n : int, e : int ,fe : int ,u : int ,fu : int ,s : int ) = 
-//T = iterations, filDest = file destination, n = size of square sides, e = antal elge, fu = formenrings tid elge, u = antal ulve , fu = formerings tid ulve, s = sult tid
-
-
   let env = environment(n, e, fe, u, fu, s, true)
   let mutable currentTick : int = 0
   let mutable gameInfo = ""
