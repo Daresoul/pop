@@ -1,4 +1,14 @@
 [<EntryPoint>]
+  /// <summary>Setup and rund the moose-wolf game. Has a series of checks that ensure that users passes corret parameters. </summary>
+  /// <param name="args.[0]" > iterations of the game. I.e how many rounds</param>
+  /// <param name="args.[1] ">file destination of the return file</param>
+  /// <param name="args.[2] ">size of the square board </param>
+  /// <param name="args.[3] "> number of mooses at start </param>
+  /// <param name="args.[4] ">moose reproduction time </param>
+  /// <param name="args.[5] "> number of wolfs at start </param>
+  /// <param name="args.[6] ">wolf reproduction time</param>
+  /// <param name="args.[7] "> hunger time of wolfs</param>
+  /// <returns>Dont returns anything, but creats a .txt file</returns>
 let main args= 
     if (args.Length <> 8) then 
         printfn "Not enough or to many arguments.\n Please see asigment for correct form."
@@ -30,4 +40,3 @@ let main args=
             game.startGame()
     0
 
-    //T = iterations, filDest = file destination, n = size of square sides, e = antal elge, fu = formenrings tid elge, u = antal ulve , fu = formerings tid ulve, s = sult tid
