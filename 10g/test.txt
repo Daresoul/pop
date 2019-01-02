@@ -2,219 +2,419 @@
 
   0 1 2 3 4 5 6 7 8 9 
 0                     
-1 m                   
-2                     
-3                     
-4                     
-5                     
-6                     
-7       m     m       
-8                     
-9                     
-Animals: 3
-mooses: 3
-wolves: 0
-currentTick: 0
-moose list: 3
-wolf list: 0
-
-
-
-  0 1 2 3 4 5 6 7 8 9 
-0                     
-1                     
-2 m                   
-3                     
-4                     
-5                     
-6                     
-7                     
-8       m     m       
-9                     
-Animals: 3
-mooses: 3
-wolves: 0
-currentTick: 1
-moose list: 3
-wolf list: 0
-
-
-
-  0 1 2 3 4 5 6 7 8 9 
-0                     
 1                     
 2                     
-3 m                   
-4                     
+3               w m   
+4         w           
 5                     
 6                     
 7                     
-8                     
-9       m     m       
-Animals: 3
-mooses: 3
-wolves: 0
-currentTick: 2
-moose list: 3
-wolf list: 0
-
-
-
-  0 1 2 3 4 5 6 7 8 9 
-0                     
-1                     
-2                     
-3   m                 
-4                     
-5                     
-6                     
-7                     
-8                     
-9         m     m     
-Animals: 3
-mooses: 3
-wolves: 0
-currentTick: 3
-moose list: 3
-wolf list: 0
-
-
-
-  0 1 2 3 4 5 6 7 8 9 
-0                     
-1                     
-2                     
-3     m               
-4                     
-5                     
-6                     
-7                     
-8                     
-9           m     m   
-Animals: 3
-mooses: 3
-wolves: 0
-currentTick: 4
-moose list: 3
-wolf list: 0
-
-
-
-  0 1 2 3 4 5 6 7 8 9 
-0                     
-1                     
-2                     
-3       m             
-4                     
-5                     
-6                     
-7                     
-8                     
-9             m     m 
-Animals: 3
-mooses: 3
-wolves: 0
-currentTick: 5
-moose list: 3
-wolf list: 0
-
-
-
-  0 1 2 3 4 5 6 7 8 9 
-0                     
-1                     
-2       m             
-3                     
-4                     
-5                     
-6                     
-7                     
-8             m     m 
-9                     
-Animals: 3
-mooses: 3
-wolves: 0
-currentTick: 6
-moose list: 3
-wolf list: 0
-
-
-
-  0 1 2 3 4 5 6 7 8 9 
-0                     
-1       m             
-2     m               
-3                     
-4                     
-5                     
-6                     
-7             m       
-8                   m 
+8           m         
 9                     
 Animals: 4
-mooses: 4
-wolves: 0
-currentTick: 7
-moose list: 4
-wolf list: 0
-
-
-
-  0 1 2 3 4 5 6 7 8 9 
-0         m           
-1     m               
-2                     
-3                     
-4                     
-5                     
-6                     
-7             m       
-8                 m m 
-9                     
-Animals: 5
-mooses: 5
-wolves: 0
-currentTick: 8
-moose list: 5
-wolf list: 0
-
-
-
-  0 1 2 3 4 5 6 7 8 9 
-0     m               
-1           m         
-2                     
-3                     
-4                     
-5                     
-6             m       
-7                 m m 
-8                     
-9                     
-Animals: 5
-mooses: 5
-wolves: 0
-currentTick: 9
-moose list: 5
-wolf list: 0
+mooses: 2
+wolves: 2
+currentTick: 0
+moose list: 2
+wolf list: 2
 
 
 
   0 1 2 3 4 5 6 7 8 9 
 0                     
-1   m       m         
-2                     
-3                     
-4                     
-5                     
-6           m m       
+1                     
+2               m     
+3               w     
+4       w           m 
+5           w         
+6                     
 7                     
-8                 m   
-9             m       
+8           m         
+9                     
 Animals: 6
+mooses: 3
+wolves: 3
+currentTick: 1
+moose list: 3
+wolf list: 3
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0                     
+1                     
+2               w     
+3                     
+4         w         m 
+5         w w         
+6                     
+7                     
+8         m m         
+9                     
+Animals: 7
+mooses: 3
+wolves: 4
+currentTick: 2
+moose list: 3
+wolf list: 4
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0                     
+1                     
+2             w w     
+3                     
+4         w       m   
+5         w w         
+6                     
+7                     
+8                     
+9           m m       
+Animals: 8
+mooses: 3
+wolves: 5
+currentTick: 3
+moose list: 3
+wolf list: 5
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0               w     
+1               w w   
+2                     
+3                 m m 
+4         w           
+5       w w w         
+6                     
+7                     
+8                     
+9           m m       
+Animals: 11
+mooses: 4
+wolves: 7
+currentTick: 4
+moose list: 4
+wolf list: 7
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0             w       
+1             w w w   
+2                     
+3       w         m m 
+4       w w w w       
+5                     
+6                     
+7                     
+8       m m     m     
+9                     
+Animals: 14
+mooses: 5
+wolves: 9
+currentTick: 5
+moose list: 5
+wolf list: 9
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0           w         
+1             w   w   
+2       w w   m   w m 
+3           w         
+4       w     w       
+5                     
+6                     
+7       m             
+8       m       m     
+9                     
+Animals: 14
+mooses: 5
+wolves: 9
+currentTick: 6
+moose list: 5
+wolf list: 9
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0         w           
+1       w w   w   w   
+2       w         w   
+3         w w     m   
+4       w     w       
+5                     
+6                     
+7       m m           
+8   m m         m     
+9                     
+Animals: 17
 mooses: 6
-wolves: 0
-currentTick: 10
+wolves: 11
+currentTick: 7
 moose list: 6
-wolf list: 0
+wolf list: 11
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0     w     w         
+1       w w w     w   
+2     w     w     w   
+3     w w w w   m m   
+4       w     w       
+5       w             
+6                     
+7                     
+8 m m     m m   m     
+9 m m                 
+Animals: 25
+mooses: 9
+wolves: 16
+currentTick: 8
+moose list: 9
+wolf list: 16
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0       w   w         
+1 w w   w w w     w   
+2   w       w     w   
+3       w w w   w     
+4     w w w         m 
+5     w w             
+6         m           
+7                     
+8 m m       m   m     
+9   m m m             
+Animals: 29
+mooses: 9
+wolves: 20
+currentTick: 9
+moose list: 9
+wolf list: 20
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w     w w   w       
+1 w w   w   w w   w   
+2 w w   w w w     w   
+3   w w   w w w w     
+4 w w       w       m 
+5     w w w           
+6       m m           
+7     m   m           
+8 m   m m   m   m     
+9 m m   m             
+Animals: 41
+mooses: 13
+wolves: 28
+currentTick: 10
+moose list: 13
+wolf list: 28
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w   w     
+1 w w w w w w w w     
+2 w w w w   w w       
+3   w   w w   w w w   
+4   w     w w       m 
+5 w m w w w           
+6 m m   m m           
+7 m m   m             
+8   m m m   m m m     
+9 m m   m             
+Animals: 52
+mooses: 18
+wolves: 34
+currentTick: 11
+moose list: 18
+wolf list: 34
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w w w   
+1 w w w w   w w w     
+2 w w   w w w   w     
+3 w w w   w     w w   
+4 m w     w     w m m 
+5 w m w   w           
+6 m w w               
+7 m m   m m m   m     
+8 m m m m m m   m     
+9 m m m m             
+Animals: 58
+mooses: 22
+wolves: 36
+currentTick: 12
+moose list: 22
+wolf list: 36
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w w w   
+1 w w w w w w w w w w 
+2 w w w w   w w w     
+3 w w w w w     w w   
+4 w w w w         w   
+5 w w w w         m   
+6 m w w m   m         
+7 m m m m   m   m     
+8 m m m m m m   m     
+9 m m m m   m         
+Animals: 66
+mooses: 22
+wolves: 44
+currentTick: 13
+moose list: 22
+wolf list: 44
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w w w w 
+1 w   w w w     w   w 
+2 w w w w w w w w w   
+3 w w w w w w w w w   
+4 w w w w w w     w   
+5 w w w w w   w       
+6 m w w m m m m   m m 
+7 m m m m     m       
+8 m m m   m m   m     
+9 m m m m m m m       
+Animals: 74
+mooses: 25
+wolves: 49
+currentTick: 14
+moose list: 25
+wolf list: 49
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w w w   
+1 w w w w w w   w w w 
+2 w w w w w w w w w   
+3 w w   w w w w w w   
+4 w w w w w w       w 
+5 w w w w w w m       
+6 w w m w m m m w   m 
+7 m m   m m m m   m   
+8 m m m m m m m m     
+9 m m m m m m m       
+Animals: 80
+mooses: 28
+wolves: 52
+currentTick: 15
+moose list: 28
+wolf list: 52
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w w w w 
+1 w w w w w w w w w w 
+2 w w w w w w w w w w 
+3 w w w w w w w w w   
+4 w w   w w w w w   w 
+5 w w w w m w m       
+6 w w w m m w w m m m 
+7 m m m m m m m m m   
+8 m m m m m m m m     
+9 m m m m m m   m     
+Animals: 88
+mooses: 31
+wolves: 57
+currentTick: 16
+moose list: 31
+wolf list: 57
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w w w w 
+1 w w w w w w w w w w 
+2 w w w w w w w w w w 
+3 w w w w w w w w w   
+4 w w w w         w w 
+5 w w w     w   w w m 
+6 w w w w w w w m   m 
+7 m m m m m m       m 
+8 m m m m m m m m m m 
+9 m m m m m m m m     
+Animals: 86
+mooses: 28
+wolves: 58
+currentTick: 17
+moose list: 28
+wolf list: 58
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w w   w 
+1 w w w w w w w w w w 
+2 w w w w   w w w w   
+3 w w w w w   w w w w 
+4   w w w w w w   w w 
+5 w w w w w w   w   w 
+6 m w w w   w w   m m 
+7 m m m m m m w m m   
+8 m m m m m m m m m m 
+9 m m m m m m m m m   
+Animals: 88
+mooses: 30
+wolves: 58
+currentTick: 18
+moose list: 30
+wolf list: 58
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w w w w w   w w 
+1 w w w   w   w w w w 
+2 w w w w w w w w w w 
+3 w w w w w w w w w w 
+4 w w w w w w w w w w 
+5 w w w w w w w   w   
+6 m w w m       w m w 
+7 m m m w   w   w   m 
+8 m m m m m w m m m m 
+9 m m m m m m m m m m 
+Animals: 89
+mooses: 26
+wolves: 63
+currentTick: 19
+moose list: 26
+wolf list: 63
+
+
+
+  0 1 2 3 4 5 6 7 8 9 
+0 w w w     w w w w w 
+1 w w w w w w w w   w 
+2 w w w w w w w w w w 
+3 w   w w w w w w w w 
+4 w w w w   w w w w   
+5 w w w w w w w w w   
+6 w w w w       m w   
+7 m m m w w m m w m w 
+8 m m m m m w m m m   
+9 m m m m m m m m   m 
+Animals: 87
+mooses: 24
+wolves: 63
+currentTick: 20
+moose list: 24
+wolf list: 63
 

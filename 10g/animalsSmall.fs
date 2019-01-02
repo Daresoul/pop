@@ -170,7 +170,7 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
     
     for m in _board.moose do
         if m.position = Some pos then
-        verbose <- false
+          verbose <- false
     
     verbose
   /// <summary>Checks wether it is a legal move to make for the animal</summary>
