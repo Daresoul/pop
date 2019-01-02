@@ -38,7 +38,12 @@ mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit
     \maketitle
     
     \section*{Wolf in Moose's Clothing}
-    \textit{"A single type of bird can be called a goose, but more is geese, but the plural of moose is not meese, and finally one wolf becomes several wolves. English is like coding. Nobody really know why we do it that way we do, but people on the internet will yell at you for getting it wrong."} \newline -Based on common saying.
+    \textit{"A single type of bird can be called a goose, but more is geese, but the plural of moose is not meese, and finally one wolf becomes several wolves. English is like coding. Nobody really know why we do it that way we do, but people on the internet will yell at you for getting it wrong."} \newline -Based on common saying. \newline \newline
+    The main assignment is the creation of a game, that mimic the relations between mooses and wolfs in a closed park. Each iteration of the game will see the animals move, reproduce and potentially eat a moose. The game is played from the command line interface, by calling its main function called \verb|experimentWAnimals.exe| and give it eight arguments, that fits with the assignment specifications. If done correct, afther the program has run its cause a text file is created with information about the game. 
+    
+    \section{Main}
+    The main function was designed to sanitize the user input, and only allowing valid inputs. First it is checked if all the inputs are eighter integers, or in the case of the second argument, a string containing ".txt" in it. \newline Afterwards several minimum values was implemented, no max values were chosen. While this could be valid as to avoide overflows, all functions works on the premise of list, and thus overflow could only occur if it is an int32 overflow. Since the program begins to take prolonged time when the animal count increases, it is believed that this overflow risk is minimal in a human lifetime. All integer values give (except for the tick int) must be above 0. \newline While the code can handle 0 animals, a follow effect is that the other values then also should be zero. It was decided to solve this problem with avoiding it. As for the final tick int that can be all the subsets of integers, it is used to check that first round placement (i.e tick = 0) is random, and that a fil is always created (tick < 0 ).\newline The overall design is a row of if-statments. It's a simple code, but quite effective. 
+    
     \section{Manual}
    		fsharpi animalsSmall.fsi animalsSmall.fs animalsSmall.fsx
    		\\
