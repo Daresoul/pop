@@ -394,7 +394,7 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
     let mutable ret = "\n\n  "
     for j = 0 to _board.width-1 do
       ret <- ret + string (j) + " "
-    ret <- ret + "\n"
+    ret <- ret + "\r\n"
     for i = 0 to _board.width-1 do
       ret <- ret + string (i) + " "
       for j = 0 to _board.width-1 do
@@ -409,42 +409,20 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
 
     ret
 
-  override this.ToString () =
-    let arr = draw _board
-    let mooseCount = this.countMoose
-    let wolfCount = this.countWolfs
-    let mutable ret = "\n\n  "
-    for j = 0 to _board.width-1 do
-      ret <- ret + string (j % 10) + " "
-    ret <- ret + "\n"
-    for i = 0 to _board.width-1 do
-      ret <- ret + string (i % 10) + " "
-      for j = 0 to _board.width-1 do
-        ret <- ret + string arr.[i,j] + " "
-      ret <- ret + "\n"
-    ret <- ret + "Animals: " + (mooseCount + wolfCount).ToString() + "\r\n"
-    ret <- ret + "mooses: " + mooseCount.ToString() + "\r\n"
-    ret <- ret + "wolves: " + wolfCount.ToString() + "\r\n\r\n"
-
-    ret
+type Game(T : int, fileDest : string, n : int, e : int ,fe : int ,u : int ,fu : int ,s : int ) = 
+//T = iterations, filDest = file destination, n = size of square sides, e = antal elge, fu = formenrings tid elge, u = ulve , fu = antal ulve, s = sult tid
 
 
-type Game(maxtick : int) =
-
-  let env = environment(10, 10, 10, 10, 10, 10, true)
+  let env = environment(n, e, fu, u, fu, s, true)
   let mutable currentTick : int = 0
   let mutable gameInfo = ""
 
-  let writeToFile (str : string) =
-    File.WriteAllText("gamedata.txt", str) 
   member this.startGame() =
-    while (currentTick <= maxtick) do
-      printfn "%s" (env.WriteOutInfo(currentTick))
+    while (currentTick <= T) do
+      //printfn "%s" (env.WriteOutInfo(currentTick))
       env.tick()
-      //gameInfo <- gameInfo + env.WriteOutInfo(currentTick)
+      gameInfo <- gameInfo + env.WriteOutInfo(currentTick)
+ 
       currentTick <- currentTick + 1
-
-    writeToFile (gameInfo)
-
-  member this.printgameInfo() = 
-    printfn "%s" gameInfo
+    File.WriteAllText(fileDest, gameInfo)
+    

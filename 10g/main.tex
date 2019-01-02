@@ -1,6 +1,34 @@
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{upquote}
+
+\definecolor{bluekeywords}{rgb}{0.13,0.13,1}
+\definecolor{greencomments}{rgb}{0,0.5,0}
+\definecolor{redstrings}{rgb}{0.9,0,0}
+ 
+\lstdefinelanguage{FSharp}%
+{morekeywords={let, override, new, match, with, rec, open, module, namespace, type, of, member, % 
+and, for, while, true, false, in, do, begin, end, fun, function, return, yield, try, %
+mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit, finally },
+  otherkeywords={ let!, return!, do!, yield!, use!, var, from, select, where, order, by },
+  keywordstyle=\color{bluekeywords},
+  sensitive=true,
+  basicstyle=\ttfamily,
+	breaklines=true,
+  xleftmargin=\parindent,
+  aboveskip=\bigskipamount,
+	tabsize=4,
+  morecomment=[l][\color{greencomments}]{///},
+  morecomment=[l][\color{greencomments}]{//},
+  morecomment=[s][\color{greencomments}]{{(*}{*)}},
+  morestring=[b]",
+  showstringspaces=false,
+  literate={`}{\`}1,
+  stringstyle=\color{redstrings},
+}
 
 \title{10g rapport}
 \author{Henrik Flindt\\Nicolas Dyhrman\\Adrian Joensen}
@@ -15,13 +43,41 @@
    		fsharpi animalsSmall.fsi animalsSmall.fs animalsSmall.fsx
     
     \section{Design}
+    	We use Jon's template.
+    	\\
+    	To make the order of animals random, we first look at the wolf list and create a tuple list, where the first element will contain their symbol "w" and the second element will contain the index of the wolves. The same is done to the moose list and we will then join the two lists and shuffle. After the tuple list is shuffled, we will use it to determined who's turn it is.
+    	\\
+    	To shuffle the tuple list, we will use a function with a for loop that will pick a random index, remove the element from the tuple list and also put it in a new list. The function should return the new list as a shuffled tuple list.
+    	\\
     \subsection{Two-lists makes a board}
     \subsection{Animals}
     \subsubsection{Moose}
     \subsubsection{Wolf}    
 
     \section{Implementation}
-       
+		\lstset{language=FSharp}
+
+		\begin{lstlisting}
+/// An animal is a base class. It has a position and a reproduction counter.
+type animal (symb : symbol, repLen : int) =
+  let mutable _reproduction = rnd.Next(1,repLen)
+  let mutable _pos : position option = None
+  let _symbol : symbol = symb
+
+  member this.symbol = _symbol
+  member this.position
+    with get () = _pos
+    and set aPos = _pos <- aPos
+  member this.reproduction = _reproduction
+  member this.updateReproduction () =
+    _reproduction <- _reproduction - 1
+  member this.resetReproduction () =
+    _reproduction <- repLen
+
+  override this.ToString () =
+    string this.symbol
+		\end{lstlisting}
+		
          
     \section{White Box Testing}
    	   \begin{tabular}{|c|c|c|}
