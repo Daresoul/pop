@@ -30,4 +30,4 @@ let main args=
             game.startGame()
     0
 
-    //T = iterations, filDest = file destination, n = size of square sides, e = antal elge, fu = formenrings tid elge, u = antal ulve , fu = formerings tid ulve, s = sult tid
+    //T = iterations, filDest = file destination, n = size of square sides, e = antal elge, fu = formenrings tid elge, u = antal ulve , fu = formerings tid ulve, s = sult tid  
