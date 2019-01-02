@@ -73,30 +73,7 @@ mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit
     
      \subsection{Main function and its arguments}
     The main function was designed to sanitize the user input, and only allowing valid inputs. First it is checked if all the inputs are eighter integers, or in the case of the second argument, a string containing ".txt" in it. \newline Afterwards several minimum values was implemented, no max values were chosen. While this could be valid as to avoide overflows, all functions works on the premise of list, and thus overflow could only occur if it is an int32 overflow. Since the program begins to take prolonged time when the animal count increases, it is believed that this overflow risk is minimal in a human lifetime. All integer values give (except for the tick int) must be above 0. \newline While the code can handle 0 animals, a follow effect is that the other values then also should be zero. It was decided to solve this problem with avoiding it. As for the final tick int that can be all the subsets of integers, it is used to check that first round placement (i.e tick = 0) is random, and that a fil is always created (tick < 0 ).\newline The overall design is a row of if-statments. It's a simple code, but quite effective. 
-    \subsection{Animal as a Base Class}
-		\lstset{language=FSharp}
 
-		\begin{lstlisting}
-/// An animal is a base class. It has a position and a reproduction counter.
-type animal (symb : symbol, repLen : int) =
-  let mutable _reproduction = rnd.Next(1,repLen)
-  let mutable _pos : position option = None
-  let _symbol : symbol = symb
-
-  member this.symbol = _symbol
-  member this.position
-    with get () = _pos
-    and set aPos = _pos <- aPos
-  member this.reproduction = _reproduction
-  member this.updateReproduction () =
-    _reproduction <- _reproduction - 1
-  member this.resetReproduction () =
-    _reproduction <- repLen
-
-  override this.ToString () =
-    string this.symbol
-		\end{lstlisting}
-		
          
 \section{Whitebox testing}
     \subsection{moose.tick}
@@ -106,7 +83,7 @@ type animal (symb : symbol, repLen : int) =
     wolf.tick went as expected and only gave us an option if the wolfs $repLen$ was 0 or under. And otherwise gave us a None as it was not ready.
     
     \subsection{enviroment.genMoveVector}
-    Here was a problem since this function works purly by a randomizer it was hard for os to test and check if it was correct, although what we did was testing that it will give diffrent result when we run our whitebox test.
+    The general move functions was visually tested on single animals setup, with a low reproduction and hunger rate. This is due to the random nature of the movements, and the overall visual aspect of the movement. It was discovered that several animals, that could reproduce, sometimes appeared not to move. This is believed to be a false negative test, caused by the animals moving at random in synchronization fo a single iteration. Therefor the test was done with a higher level of manual control. \newline
     
     \subsection{enviroment.moveAnimal}
     moveAnimal went as expected and gave us the answers we expected.
