@@ -19,11 +19,11 @@ let main args=
             printfn "Fourth argument must be above 0" 
         elif (((args.[4] |> int) < 1)) then
             printfn "Fifth argument must be above 0"  
-        elif (((args.[5] |> int) < 0)) then
+        elif (((args.[5] |> int) < 1)) then
             printfn "Sixth argument must be above 0"    
-        elif (((args.[6] |> int) < 0)) then
+        elif (((args.[6] |> int) < 1)) then
             printfn "Seventh argument must be above 0"   
-        elif (((args.[7] |> int) < 0)) then
+        elif (((args.[7] |> int) < 1)) then
             printfn "Eight argument must be above 0"  
         else  //If the eight arguments passes the program runs. (Argument [0] can be any integer. By selecting 0 the program just outputs the start positions of the animals. If negative a blank file is created.)
             let game = animals.Game((args.[0] |> int) , args.[1] , (args.[2] |> int) , (args.[3] |> int) , (args.[4] |> int) , (args.[5] |> int) , (args.[6] |> int) , (args.[7] |> int))
