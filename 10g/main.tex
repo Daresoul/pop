@@ -1,6 +1,30 @@
 \documentclass{article}
 \usepackage{graphicx}
 \usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{color}
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{
+  frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=3
+}
 
 \title{10g rapport}
 \author{Henrik Flindt\\Nicolas Dyhrman\\Adrian Joensen}
@@ -15,13 +39,39 @@
    		fsharpi animalsSmall.fsi animalsSmall.fs animalsSmall.fsx
     
     \section{Design}
+    	We use Jon's template.
+    	\\
+    	To make the order of animals random, we create a tuple list containing a symbol and an index.
+    	\\
     \subsection{Two-lists makes a board}
     \subsection{Animals}
     \subsubsection{Moose}
     \subsubsection{Wolf}    
 
     \section{Implementation}
-       
+		\lstset{language=Pascal}
+
+		\begin{lstlisting}
+/// An animal is a base class. It has a position and a reproduction counter.
+type animal (symb : symbol, repLen : int) =
+  let mutable _reproduction = rnd.Next(1,repLen)
+  let mutable _pos : position option = None
+  let _symbol : symbol = symb
+
+  member this.symbol = _symbol
+  member this.position
+    with get () = _pos
+    and set aPos = _pos <- aPos
+  member this.reproduction = _reproduction
+  member this.updateReproduction () =
+    _reproduction <- _reproduction - 1
+  member this.resetReproduction () =
+    _reproduction <- repLen
+
+  override this.ToString () =
+    string this.symbol
+		\end{lstlisting}
+		
          
     \section{White Box Testing}
    	   \begin{tabular}{|c|c|c|}
