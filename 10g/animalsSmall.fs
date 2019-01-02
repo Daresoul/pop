@@ -207,7 +207,6 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
       let mutable result = false
       for c in coords do
         if (this.checkValidMove (Some (fst x + fst c, snd x + snd c))) then
-          printfn "%A" (Some (fst x + fst c, snd x + snd c))
           result <- true
       
       result

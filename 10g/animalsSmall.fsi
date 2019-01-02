@@ -33,7 +33,8 @@ type moose =
     /// <summary>Create a moose with symbol 'm'.</summary>
     /// <param name="repLen">The number of ticks until a moose attempts to produce an offspring.</param>
     new : repLen:int -> moose
-    /// Perform a tick for this moose, i.e., call updateReproduction.
+    /// <summary>Checks wether a moose is able to give birth</summary>
+    /// <return> returns a moose option if able to give birth otherwise it returns None </return>
     member tick : unit -> moose option
   end
 /// A wolf is an animal with hunger and methods for updating its age and hunger and for reproducing offspring. If the wolf has not eaten in a specified number of ticks, then it is taken off the board.
@@ -50,7 +51,8 @@ type wolf =
     member resetHunger : unit -> unit
     /// Reduce the hunger counter by a tick. If hunger reaches 0, then the wolf is removed from the board.
     member updateHunger : unit -> unit
-    /// Perform a tick for this wolf, i.e., call updateReproduction and updateHunger and possibly returns cub.
+    /// <summary>Checks wether a wolf is able to give birth</summary>
+    /// <return> returns a wolf option if able to give birth otherwise it returns None </return>
     member tick : unit -> wolf option
   end
 /// A square board with length width. The board is implicitly represented by its width and the coordinates in the animals.
@@ -83,6 +85,72 @@ type environment =
     member count : int
     /// The positions on the board.
     member size : int
-    /// Perform a tick by performing all animal's ticks in random order. Animals perform the following actions: Calves and cubs are added if there is room in a neighbouring position. Wolves eat a random Moose in a neighbouring position. If animals do not give birth, eat or are eaten, then they move to an available neighbouring position.
+
+    /// <summary>gives a vector for an animal to move in</summary>
+    /// <return> a random vector direction</return>
+    member genMoveVector : unit -> int * int
+
+    /// <summary>This will create a new position for an animal</summary>
+    /// <param name="pos">The position the animal is at right now, as an position option</param>
+    /// <returns>The new position option for the animal or None if already None</returns>
+    member moveAnimal : (int * int) option -> (int * int option)
+
+    /// <summary>Counts all mooses</summary>
+    /// <returns>An integer of how many not dead mooses left</returns>
+    member countMoose : int
+
+    /// <summary>Counts all Wolfs</summary>
+    /// <returns>An integer of how many not dead Wolfs left</returns>
+    member countWolfs : int
+
+    /// <summary>Checks if any animal is at this position</summary>
+    /// <param name="pos">The position the animal is at right now, as an position option</param>
+    /// <returns>false if anything was there and true if nothing is there</returns>
+    member checkForAnimalsAtPosition : position -> bool
+
+    /// <summary>Checks wether it is a legal move to make for the animal</summary>
+    /// <param name="pos">The position the animal is at right now, as an position option</param>
+    /// <returns>true if the move is valid and false if it is not a valid move</returns>
+    member checkValidMove : (int * int) option -> bool
+
+    /// <summary>Checks if any animal is at this position</summary>
+    /// <param name="pos">The position the animal is at right now, as an position option</param>
+    /// <returns>Sends back a tuple of string and bool where string represents the type of animal and if it was there</returns>
+    member findMooseAtPosition : position option -> bool
+
+    /// <summary>Checks positions around to see if ant valid moves</summary>
+    /// <param name="pos">the position of the animal</param>
+    /// <returns>Sends back all possible positions</returns>
+    member checkFieldsAround : (int * int) option -> bool
+
+    /// <summary>Gets all the coordinates of the board around a given animal</summary>
+    /// <param name="pos">The position the animal is at right now, as an position option</param>
+    /// <returns>a generic list with all the possible ways to move</returns>
+    member CheckEating : (int * int) option -> List<position>
+
+    /// <summary>Kills a specific moose from its position</summary>
+    /// <param name="pos">The position the animal is at right now, as an position option</param>
+    member KillMooseFromPosition : position option -> unit
+
+    /// <summary>The sequence of the moose choosing what to do, either move or reproduce</summary>
+    /// <param name="i">the index of the moose that wants to move</param>
+    member mooseMove : int -> unit
+
+    /// <summary>The sequence of the wolf choosing what to do, either move, reproduce or eat</summary>
+    /// <param name="i">the index of the wolf that wants to move</param>
+    member mooseMove : int -> unit
+
+    /// <summary>Removes all dead animals in both moose and wolf list</summary>
+    member removeDeadAnimals : unit
+
+    /// <summary> Goes though a scrambled list of all animals and calls the appropriate function to do their move </summary>
     member tick : unit -> unit
+
+    /// <summary> Scrambles both list into a single with a string to identify the type of animal and an index in their list </summary>
+    /// <return> returns a list of tuples with a string of animal type and an index in their respective lists </return>
+    member makeQueue : (string * int) list
+
+    /// <summary> Writes out a board with current tick and amount of animals in it, to a string </summary>
+    /// <return> string with board and info is returned </return>
+    member WriteOutInfo : int -> string
   end
