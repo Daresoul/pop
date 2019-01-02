@@ -46,7 +46,9 @@ mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit
     	\\
     	mono animalsSmall.exe animalsSmall.exe animalsSmall.exe
     \section{Design}
-    	We use Jon's template.
+    	We will use Jon's template, so many of the objects will remain the same, except the enviroment to which we will add all the behaviors and events.
+    	\\
+    	To move the animals, we pick a vector from 8('cause there are only 8 directions), check if it's a valid move('cause  the animal could be at the edges of the board) and change the animals' position with the vector.
     	\\
     	To make the order of animals random, we first look at the wolf list and create a tuple list, where the first element will contain their symbol "w" and the second element will contain the index of the wolves. The same is done to the moose list and we will then join the two lists and shuffle. After the tuple list is shuffled, we will use it to determined who's turn it is.
     	\\
