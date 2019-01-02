@@ -45,7 +45,9 @@ mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit
     \section{Design}
     	We use Jon's template.
     	\\
-    	To make the order of animals random, we create a tuple list containing a symbol and an index.
+    	To make the order of animals random, we first look at the wolf list and create a tuple list, where the first element will contain their symbol "w" and the second element will contain the index of the wolves. The same is done to the moose list and we will then join the two lists and shuffle. After the tuple list is shuffled, we will use it to determined who's turn it is.
+    	\\
+    	To shuffle the tuple list, we will use a function with a for loop that will pick a random index, remove the element from the tuple list and also put it in a new list. The function should return the new list as a shuffled tuple list.
     	\\
     \subsection{Two-lists makes a board}
     \subsection{Animals}
@@ -74,7 +76,6 @@ type animal (symb : symbol, repLen : int) =
 
   override this.ToString () =
     string this.symbol
-    "delete this"
 		\end{lstlisting}
 		
          

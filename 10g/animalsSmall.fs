@@ -154,7 +154,6 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
       match w.position with
       | Some (x) -> count <- count + 1
       | None -> count <- count
-
     count
 
   /// <summary>Checks if any animal is at this position</summary>
@@ -238,6 +237,38 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
       if (moose.position = pos) then
         moose.position <- None
 
+  // member this.removeMooseAt (index : int) =
+  //   if _board.moose.Length > 0 then
+  //     //Laver en tuple af om boolean og int
+  //     // booleanen bliver lavet ved at den er true hvis den er alt andet end indexet.
+  //     let checkedList = List.mapi (fun i el -> (i <> index, el)) _board.moose
+
+  //     // tager den første tuple i alle elementerne i listen og tjekker om de er true, alt der ikke er true bliver smidt væk
+  //     let filteredList = List.filter fst checkedList
+
+  //     // laver listen af tupler om til den gamle liste uden det valgte index, det gør vi udfra snd tuplen af vores filterede liste.
+  //     let newList = List.map snd filteredList
+      
+  //     _board.moose <- newList
+  
+  // member this.removeWolfAt (index : int) =
+  //   printfn "list len: %A" _board.wolves.Length
+  //   printfn "list: %A" _board.wolves.[index]
+  //   printfn "index: %i" index
+
+  //   if _board.wolves.Length > 0 then
+  //     //Laver en tuple af om boolean og int
+  //     // booleanen bliver lavet ved at den er true hvis den er alt andet end indexet.
+  //     let checkedList = List.mapi (fun i el -> (i <> index, el)) _board.wolves
+
+  //     // tager den første tuple i alle elementerne i listen og tjekker om de er true, alt der ikke er true bliver smidt væk
+  //     let filteredList = List.filter fst checkedList
+
+  //     // laver listen af tupler om til den gamle liste uden det valgte index, det gør vi udfra snd tuplen af vores filterede liste.
+  //     let newList = List.map snd filteredList
+
+  //     _board.wolves <- newList
+
   member this.mooseMove(i : int) =
     let moose = _board.moose.[i]
 
@@ -310,10 +341,30 @@ type environment (boardWidth : int, NMooses : int, mooseRepLen : int, NWolves : 
     wolf.updateReproduction()
     wolf.updateHunger()
 
+  member this.removeDeadAnimals =
+    let checkedListWolf = List.mapi (fun i el -> (_board.wolves.[i].position <> None, el)) _board.wolves
+    let filteredListWolf = List.filter fst checkedListWolf
+    let newListWolf = List.map snd filteredListWolf
+
+    _board.wolves <- newListWolf
+
+    let checkedListMoose = List.mapi (fun i el -> (_board.moose.[i].position <> None, el)) _board.moose
+    let filteredListMoose = List.filter fst checkedListMoose
+    let newListMoose = List.map snd filteredListMoose
+
+    _board.moose <- newListMoose
+
   /// <summary>Moves all animals and make them do thir choices</summary>
   member this.tick () =
     let queList = this.makeQueue
-    0
+
+    for animal in queList do
+      if (fst animal) = "w" then
+        this.wolfMove (snd animal)
+      elif (fst animal) = "m" then
+        this.mooseMove (snd animal)
+    
+    this.removeDeadAnimals
 
   member this.makeQueue =
     let any = System.Random()
