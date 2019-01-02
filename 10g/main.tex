@@ -46,9 +46,9 @@ mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit
     	\\
     	mono animalsSmall.exe animalsSmall.exe animalsSmall.exe
     \section{Design}
-    	We will use Jon's template, so many of the objects will remain the same, except the enviroment to which we will add all the behaviors and events.
+    	We will use Jon's template, so many of the objects will remain the same, except the enviroment to which we will add all the missing behaviors and events.
     	\\
-    	To move the animals, we pick a vector from 8('cause there are only 8 directions), check if it's a valid move('cause  the animal could be at the edges of the board) and change the animals' position with the vector.
+    	To move the animals, we pick a vector out of 8('cause there are only 8 directions), check if it's a valid move('cause  the animal could be at the edges of the board) and change the animals' position with the vector.
     	\\
     	To make the order of animals random, we first look at the wolf list and create a tuple list, where the first element will contain their symbol "w" and the second element will contain the index of the wolves. The same is done to the moose list and we will then join the two lists and shuffle. After the tuple list is shuffled, we will use it to determined who's turn it is.
     	\\
@@ -57,9 +57,13 @@ mutable, if, then, else, cloud, async, static, use, abstract, interface, inherit
     	To run the simulation, we will use an object with a while loop.
     \subsection{Two-lists makes a board}
     \subsection{Animals}
+    	Animals are objects with properties symbol, position, reproduction. Symbol contains a character, either 'm', 'w' or ' ', and is used to identify the animal. Position contains either Some(int * int) or None, and is the position of the board. Reproduction contains an integer and is used to indicate when it is time to reproduce.
+    	\\
+    	Animals also has behaviours called updateReproduction() and resetReproduction(). The former reduces the reproduction property by 1, and the latter resets it to the start value.
     \subsubsection{Moose}
+    	Moose inherits Animals, but has an additional method, tick(), which returns a Moose object or None.
     \subsubsection{Wolf}    
-
+		Wolf inherits Animals, but has one more attribute hunger and many additional methods, updateHunger(), resetHunger() and tick(). Hunger is used to tell when it's time to hunt or die. updateHunger() reduces the hunger by 1 and changes position to None if hunger is 0. resetHunger() resets hunger to start value. tick() returns either a wolf object or None. 
     \section{Implementation}
 		\lstset{language=FSharp}
 
