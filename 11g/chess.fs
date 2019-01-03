@@ -14,17 +14,18 @@ type chessPiece(color : Color) =
     match color with
       White -> (string this.nameOfType.[0]).ToUpper ()
       | Black -> (string this.nameOfType.[0]).ToLower ()
+      
   /// A list of runs, which is a list of relative movements, e.g.,
   /// [[(1,0); (2,0);...]; [(-1,0); (-2,0)]...]. Runs must be
   /// ordered such that the first in a list is closest to the piece
   /// at hand.      
   abstract member candiateRelativeMoves : Position list list
   /// Available moves and neighbours ([(1,0); (2,0);...], [p1; p2])
-  member this.availableMoves (board : Board) : (Position list * chessPiece list) =
-    board.getVacantNNeighbours this (*//§\label{chessPieceEnd}§*)
+  member this.availableMoves (board : Board) : (Position list * chessPiece list) = board.getVacantNNeighbours this (*//§\label{chessPieceEnd}§*)
+
+
+
 /// A board §\label{chessBoardBegin}§
-
-
 and Board () =
   let _array = Collections.Array2D.create<chessPiece option> 8 8 None
   /// Wrap a position as option type
@@ -90,7 +91,7 @@ and Board () =
     with
       _ -> (run, None) // outside the board
   /// find the list of all empty squares and list of neighbours
-  member this.getVacantNNeighbours (piece : chessPiece) : (Position list * chessPiece list)  =//<- addabt to make 11g.0 correct
+  member this.getVacantNNeighbours (piece : chessPiece) : (Position list * chessPiece list)  =
     match piece.position with
       None -> 
         ([],[])
@@ -105,3 +106,8 @@ and Board () =
           vacantPieceLists
           |> List.choose snd 
         (vacant, opponent)(*//§\label{chessBoardEnd}§*)
+
+
+
+
+ 
