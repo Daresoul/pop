@@ -15,15 +15,12 @@ type game()=
       king (White) :> chessPiece;
       rook (White) :> chessPiece;
       rook (White) :> chessPiece;
-      king (Black) :> chessPiece 
-      rook (Black) :> chessPiece;
-      rook (Black) :> chessPiece;|]
+      king (Black) :> chessPiece |]
     board.[0,4] <- Some pieces.[0]
     board.[0,7] <- Some pieces.[1]
-    board.[0,0] <- Some pieces.[2]
-    board.[7,4] <- Some pieces.[3]
-    board.[7,7] <- Some pieces.[4]
-    board.[7,0] <- Some pieces.[5]
+    board.[1,7] <- Some pieces.[2]
+    board.[7,6] <- Some pieces.[3]
+
     
    (*member this.HumanVhuman The while part here is only for human vs human *)
     //Starting the game

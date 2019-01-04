@@ -9,7 +9,21 @@ type king(col : Color) =
       [[(-1,0)];[(-1,1)];[(0,1)];[(1,1)];
       [(1,0)];[(1,-1)];[(0,-1)];[(-1,-1)]]
   // an overshadowing to ensuring that the king cannot be placed in check. 
-  //member this.avaliblemoves = //<- overshadow
+  override this.avaliblemoves (board : Board) : (Position list * chessPiece list) = 
+    match piece.position with
+      None -> 
+        ([],[])
+      | Some p ->
+        let convertNWrap = 
+          (relativeToAbsolute p) >> this.getVacantNOccupied
+        let vacantPieceLists = List.map convertNWrap piece.candiateRelativeMoves
+        // Extract and merge lists of vacant squares
+        let vacant = List.collect fst vacantPieceLists
+        // Extract and merge lists of first obstruction pieces and filter out own pieces
+        let opponent = 
+          vacantPieceLists
+          |> List.choose snd 
+        (vacant, opponent)(*//§\label{chessBoardEnd}§*)
 
   // Alle pieces er gemt i piece.position list. Linje 38 i Chess.fs Skaf alle x og y kooridnater for tårne. Disse værdier skal bruges for at exkludere en hel række som mulig bevægelses retning. Fin koordinat for alle konger af modsatte hold. Alle felter rundt om den skal også være exkluderede. 
   // Egen position er i position.get() linje 10-11 i chess.fs
