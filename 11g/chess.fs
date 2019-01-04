@@ -12,7 +12,7 @@ type chessPiece(color : Color) =
     and set(pos) = _position <- pos
   override this.ToString () = // E.g. "K" for white king
     match color with
-      White -> (string this.nameOfType.[0]).ToUpper ()
+      | White -> (string this.nameOfType.[0]).ToUpper ()
       | Black -> (string this.nameOfType.[0]).ToLower ()
       
   /// A list of runs, which is a list of relative movements, e.g.,
