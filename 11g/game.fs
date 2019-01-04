@@ -11,7 +11,7 @@ type game()=
     let mutable playerNumber = 0 //Internaly the players are zero indexed. 
     let mutable keepPlaying = true
     let board = Chess.Board () 
-    let pieces = [|
+    let pieces = [| //We are not really told what start-setup we should have. So i just made one. 
       king (White) :> chessPiece;
       rook (White) :> chessPiece;
       rook (White) :> chessPiece;
@@ -25,7 +25,7 @@ type game()=
     board.[7,7] <- Some pieces.[4]
     board.[7,0] <- Some pieces.[5]
     
-     
+   (*member this.HumanVhuman The while part here is only for human vs human *)
     //Starting the game
     while keepPlaying do
         printfn "%A" board
@@ -37,20 +37,14 @@ type game()=
             keepPlaying <- false
             printfn "Game over"
         elif (playerInput.Length <>5) || (exMove.Length <>2) then //<- Removes input of wrong format. 
-            printfn "Please follow the correct input format. Example: A1 B2"
+            printfn "Please follow the correct input format. Example: A1 B2" 
         else
             playerNumber <- ((playerNumber+1)%2)
            
-            printfn "%c" (exMove.[0].[0])
-            printfn "%c" (exMove.[0].[1])
-            printfn "%c" (exMove.[1].[0])
-            printfn "%c" (exMove.[1].[1])
-            //I think the input format shall be changed from 0,1 0,0 etc to the A2 to A1 format here?
-
-
-
-(*
-    board.move (1,1) (4,1) // Moves a piece from (1,1) to (3,1)
-    printfn "%A" board
-    Array.iter (printPiece board) pieces
-*)
+            printfn "%c" (exMove.[0].[0])   //We need a check to ensure this is a char
+            printfn "%c" (exMove.[0].[1])   //We need a check to ensure this is a int
+            printfn "%c" (exMove.[1].[0])   //We need a check to ensure this is a char
+            printfn "%c" (exMove.[1].[1])   //We need a check to ensure this is a int
+            //I think the input format shall be changed from 0,1 0,0 etc to the A2 to A1 format at this point?
+            
+            // board.move (x1,y1) (x2,y2)
