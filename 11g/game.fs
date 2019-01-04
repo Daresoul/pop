@@ -19,7 +19,7 @@ type game()=
     board.[0,4] <- Some pieces.[0]
     board.[0,7] <- Some pieces.[1]
     board.[1,7] <- Some pieces.[2]
-    board.[7,6] <- Some pieces.[3]
+    board.[2,6] <- Some pieces.[3]
 
     
    (*member this.HumanVhuman The while part here is only for human vs human *)
