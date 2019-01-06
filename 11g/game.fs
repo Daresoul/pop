@@ -1,8 +1,37 @@
 module Game
 open Chess
 open Pieces
+open System.Windows.Forms
 
 type game()=
+
+
+  member this.checkValidMove (pos : int * int) (piece : chessPiece option) (board : Board) = 
+    match piece with
+    | Some (p) ->
+      let availeableMoves = p.availableMoves board
+      let mutable isItAvailAble = false
+
+      for m in availeableMoves do
+        if (m = pos) then
+          isItAvailAble <- true
+      
+      isItAvailAble
+    | None ->
+      false
+
+  member this.getCharAsNumber (place : char) : int =
+    match place with
+    | 'A' -> 0
+    | 'B' -> 1
+    | 'C' -> 2
+    | 'D' -> 3
+    | 'E' -> 4
+    | 'F' -> 5
+    | 'G' -> 6
+    | 'H' -> 7
+    | _ -> -1
+
   member this.run()=
 
     let printPiece (board : Board) (p : chessPiece) : unit =
@@ -39,12 +68,38 @@ type game()=
         elif (playerInput.Length <>5) || (exMove.Length <>2) then //<- Removes input of wrong format. 
             printfn "Please follow the correct input format. Example: A1 B2" 
         else
-            playerNumber <- ((playerNumber+1)%2)
            
             printfn "%c" (exMove.[0].[0])   //We need a check to ensure this is a char
             printfn "%c" (exMove.[0].[1])   //We need a check to ensure this is a int
             printfn "%c" (exMove.[1].[0])   //We need a check to ensure this is a char
             printfn "%c" (exMove.[1].[1])   //We need a check to ensure this is a int
             //I think the input format shall be changed from 0,1 0,0 etc to the A2 to A1 format at this point?
-            
+            let firstChar = exMove.[0].[0]
+            let secondChar = exMove.[1].[0]
+
+
+            match System.Int32.TryParse(exMove.[0].[1].ToString()) with
+            | (true,int1) -> 
+              match System.Int32.TryParse(exMove.[1].[1].ToString()) with
+              | (true,int2) ->
+                let firstMove1 = this.getCharAsNumber (System.Char.ToUpper firstChar)
+                if firstMove1 <> -1 then
+                  let firstMove2 = int1 - 1
+                  let secondMove1 = this.getCharAsNumber (System.Char.ToUpper secondChar)
+                  if secondMove1 <> -1 then
+                    let secondMove2 = int2 - 1
+
+                    playerNumber <- ((playerNumber+1)%2)
+                    if (this.checkValidMove (firstMove1, int1) board.[firstMove1, int1] board) then
+                      board.move (firstMove1, int1) (secondMove1, int2)
+                    else
+                      printfn "The move was not available"
+                  else
+                  printfn "bad char"
+                printfn "bad char"
+              | _ ->
+                printfn "Please write it in as a char and int, ex. A1"
+            | _ ->
+              printfn "Please write it in as a char and int, ex. A1"
+
             // board.move (x1,y1) (x2,y2)

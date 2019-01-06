@@ -17,7 +17,7 @@ type king(col : Color) =
   
 
 
-  //Side note. Der er en fejl i avalibleMoves tror jeg. Sort konge kan ikke tage hvidt tår i det setup jeg har lavet... 
+  //Side note. Der er en fejl i avalibleMoves tror jeg. Sort konge kan ikke tage hvidt tår i det setup jeg har lavet...
 
 
 
