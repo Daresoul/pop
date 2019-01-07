@@ -12,12 +12,14 @@ type game()=
       let availeableMoves = p.availableMoves board
       let mutable isItAvailAble = false
 
-      for m in availeableMoves do
+      for m in fst availeableMoves do
+        printfn "check: %A = %A" m pos
         if (m = pos) then
           isItAvailAble <- true
       
       isItAvailAble
     | None ->
+      printfn "No piece on this field"
       false
 
   member this.getCharAsNumber (place : char) : int =
@@ -69,10 +71,14 @@ type game()=
             printfn "Please follow the correct input format. Example: A1 B2" 
         else
            
-            printfn "%c" (exMove.[0].[0])   //We need a check to ensure this is a char
-            printfn "%c" (exMove.[0].[1])   //We need a check to ensure this is a int
-            printfn "%c" (exMove.[1].[0])   //We need a check to ensure this is a char
-            printfn "%c" (exMove.[1].[1])   //We need a check to ensure this is a int
+            // check team of chosen piece
+            // Do this by checking if white = player1 (lower Case)
+            // and black = player2 (Capital)
+
+            //printfn "%c" (exMove.[0].[0])   //We need a check to ensure this is a char
+            //printfn "%c" (exMove.[0].[1])   //We need a check to ensure this is a int
+            //printfn "%c" (exMove.[1].[0])   //We need a check to ensure this is a char
+            //printfn "%c" (exMove.[1].[1])   //We need a check to ensure this is a int
             //I think the input format shall be changed from 0,1 0,0 etc to the A2 to A1 format at this point?
             let firstChar = exMove.[0].[0]
             let secondChar = exMove.[1].[0]
@@ -88,15 +94,16 @@ type game()=
                   let secondMove1 = this.getCharAsNumber (System.Char.ToUpper secondChar)
                   if secondMove1 <> -1 then
                     let secondMove2 = int2 - 1
-
-                    playerNumber <- ((playerNumber+1)%2)
-                    if (this.checkValidMove (firstMove1, int1) board.[firstMove1, int1] board) then
-                      board.move (firstMove1, int1) (secondMove1, int2)
+                    printfn "startMove: %i, %i" firstMove1 firstMove2
+                    if (this.checkValidMove (secondMove1, secondMove2) (board.[firstMove1, firstMove2]) (board)) then
+                      playerNumber <- ((playerNumber+1)%2)
+                      board.move (firstMove1, firstMove2) (secondMove1, secondMove2)
                     else
                       printfn "The move was not available"
                   else
-                  printfn "bad char"
-                printfn "bad char"
+                    printfn "bad char 2"
+                else
+                  printfn "bad char 1"
               | _ ->
                 printfn "Please write it in as a char and int, ex. A1"
             | _ ->
