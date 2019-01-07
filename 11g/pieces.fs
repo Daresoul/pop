@@ -10,11 +10,11 @@ type king(col : Color) =
       [(1,0)];[(1,-1)];[(0,-1)];[(-1,-1)]]
   // an overshadowing to ensuring that the king cannot be placed in check. 
   override this.availableMoves (board : Board) : (Position list * chessPiece list) =
-    let kingMove = this.candiateRelativeMoves
+    let kingMove = board.getPieces(col)
     let vaccant = board.getVacantNNeighbours this 
   // Lav mutable list til at samle dem op
-    do printfn "le test %A" kingMove
-    do printfn "Ano Ther le test %A" vaccant
+    //do printfn "le test %A" kingMove
+    //do printfn "Ano Ther le test %A" vaccant
     (*let findPieces A = Array2D.init (Array2D.length1 A) (Array2D.length2 A) (fun r c -> if A.[r,c] <> None then printfn "%A" A.[r,c] else printfn "x" )
 
     findPieces board*)

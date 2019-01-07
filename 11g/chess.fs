@@ -53,6 +53,14 @@ and Board () =
       if p.IsSome then p.Value.position <- Some (a,b)  (*//§\label{chessItemSet}§*)
       _array.[a, b] <- p
   /// Produce string of board for, e.g., the printfn function.
+  member this.getPieces (color : Color ) : int =
+    for a in 0..7 do
+      for b in 0..7 do
+        if ((this.Item(a,b).IsSome)) then        
+          printfn "%A" (this.Item(a,b))
+          0
+        else 1
+    0
   override this.ToString() =
     let rec boardStr (i : int) (j : int) : string =
       match (i,j) with 
