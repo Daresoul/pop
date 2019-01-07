@@ -21,7 +21,8 @@ type chessPiece(color : Color) =
   /// at hand.      
   abstract member candiateRelativeMoves : Position list list
   /// Available moves and neighbours ([(1,0); (2,0);...], [p1; p2])
-  member this.availableMoves (board : Board) : (Position list * chessPiece list) = board.getVacantNNeighbours this 
+  abstract member availableMoves: (Board) -> (Position list * chessPiece list) 
+  default this.availableMoves (board : Board) : (Position list * chessPiece list) = board.getVacantNNeighbours this 
   // Takes list board, returns a position linked chessPiece list. Gets it from getVacantNNeighbours "this"??
   (*//§\label{chessPieceEnd}§*)
 
@@ -108,8 +109,3 @@ and Board () =
           vacantPieceLists
           |> List.choose snd 
         (vacant, opponent)(*//§\label{chessBoardEnd}§*)
-
-
-
-
- 

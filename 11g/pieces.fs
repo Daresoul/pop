@@ -9,31 +9,17 @@ type king(col : Color) =
       [[(-1,0)];[(-1,1)];[(0,1)];[(1,1)];
       [(1,0)];[(1,-1)];[(0,-1)];[(-1,-1)]]
   // an overshadowing to ensuring that the king cannot be placed in check. 
-  override this.avaliblemoves (board : Board) : (Position list * chessPiece list) = 
-    match piece.position with
-      None -> 
-        ([],[])
-      | Some p ->
-        let convertNWrap = 
-          (relativeToAbsolute p) >> this.getVacantNOccupied
-        let vacantPieceLists = List.map convertNWrap piece.candiateRelativeMoves
-        // Extract and merge lists of vacant squares
-        let vacant = List.collect fst vacantPieceLists
-        // Extract and merge lists of first obstruction pieces and filter out own pieces
-        let opponent = 
-          vacantPieceLists
-          |> List.choose snd 
-        (vacant, opponent)(*//§\label{chessBoardEnd}§*)
+  override this.availableMoves (board : Board) : (Position list * chessPiece list) =
+    let kingMove = this.candiateRelativeMoves
+    let vaccant = board.getVacantNNeighbours this 
+  // Lav mutable list til at samle dem op
+    do printfn "le test %A" kingMove
+    do printfn "Ano Ther le test %A" vaccant
+    (*let findPieces A = Array2D.init (Array2D.length1 A) (Array2D.length2 A) (fun r c -> if A.[r,c] <> None then printfn "%A" A.[r,c] else printfn "x" )
 
-  // Alle pieces er gemt i piece.position list. Linje 38 i Chess.fs Skaf alle x og y kooridnater for tårne. Disse værdier skal bruges for at exkludere en hel række som mulig bevægelses retning. Fin koordinat for alle konger af modsatte hold. Alle felter rundt om den skal også være exkluderede. 
-  // Egen position er i position.get() linje 10-11 i chess.fs
-  
-  
-
-
-  //Side note. Der er en fejl i avalibleMoves tror jeg. Sort konge kan ikke tage hvidt tår i det setup jeg har lavet... 
-
-
+    findPieces board*)
+    vaccant
+    
 
 /// A rook is a chessPiece which moves horisontally and vertically
 type rook(col : Color) =

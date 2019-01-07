@@ -23,7 +23,7 @@ type game()=
 
     
    (*member this.HumanVhuman The while part here is only for human vs human *)
-    //Starting the game
+    //Starting the game    
     while keepPlaying do
         printfn "%A" board
         Array.iter (printPiece board) pieces
@@ -38,10 +38,10 @@ type game()=
         else
             playerNumber <- ((playerNumber+1)%2)
            
-            printfn "%c" (exMove.[0].[0])   //We need a check to ensure this is a char
-            printfn "%c" (exMove.[0].[1])   //We need a check to ensure this is a int
-            printfn "%c" (exMove.[1].[0])   //We need a check to ensure this is a char
-            printfn "%c" (exMove.[1].[1])   //We need a check to ensure this is a int
+            //printfn "%c" (exMove.[0].[0])   //We need a check to ensure this is a char
+            //printfn "%c" (exMove.[0].[1])   //We need a check to ensure this is a int
+            //printfn "%c" (exMove.[1].[0])   //We need a check to ensure this is a char
+            //printfn "%c" (exMove.[1].[1])   //We need a check to ensure this is a int
             //I think the input format shall be changed from 0,1 0,0 etc to the A2 to A1 format at this point?
             
-            // board.move (x1,y1) (x2,y2)
+            //board.move (0,0) (1,1)
