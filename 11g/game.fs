@@ -14,8 +14,13 @@ type game()=
         let mutable isItAvailAble = false
 
         for m in fst availeableMoves do
-          printfn "check: %A = %A" m pos
+          //printfn "check: %A = %A" m pos
           if (m = pos) then
+            isItAvailAble <- true
+
+        for p in snd availeableMoves do
+          if (p.position =  Some pos) then
+            pritfn "yes"
             isItAvailAble <- true
         
         isItAvailAble
@@ -52,12 +57,12 @@ type game()=
     let pieces = [| //We are not really told what start-setup we should have. So i just made one. 
       king (White) :> chessPiece;
       rook (White) :> chessPiece;
-      rook (White) :> chessPiece;
-      king (Black) :> chessPiece |]
+      king (Black) :> chessPiece;
+      rook (Black) :> chessPiece; |]
     board.[0,4] <- Some pieces.[0]
     board.[0,7] <- Some pieces.[1]
-    board.[1,7] <- Some pieces.[2]
-    board.[2,6] <- Some pieces.[3]
+    board.[7,7] <- Some pieces.[2]
+    board.[4,7] <- Some pieces.[3]
 
     //Starting the game    
     while keepPlaying do

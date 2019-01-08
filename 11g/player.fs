@@ -42,7 +42,10 @@ type Human() =
                     let secondMove1 = this.getCharAsNumber (System.Char.ToUpper secondChar)
                     if secondMove1 <> -1 then
                         let secondMove2 = int2 - 1
-                        [(firstMove1, firstMove2); (secondMove1, secondMove2)]
+                        if secondMove2 < 8 && secondMove2 > 0 && firstMove2 < 8 && firstMove2 > 0 then
+                            [(firstMove1, firstMove2); (secondMove1, secondMove2)]
+                        else
+                            []
                     else
                         []
                 else
