@@ -10,6 +10,7 @@ type king(col : Color) =
       [(1,0)];[(1,-1)];[(0,-1)];[(-1,-1)]]
   // an overshadowing to ensuring that the king cannot be placed in check. 
   override this.availableMoves (board : Board) : (Position list * chessPiece list) =
+    
     let kingMove = board.getPieces(col)
     let vaccant = board.getVacantNNeighbours this 
   // Lav mutable list til at samle dem op

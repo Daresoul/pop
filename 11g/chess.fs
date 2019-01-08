@@ -117,3 +117,6 @@ and Board () =
           vacantPieceLists
           |> List.choose snd 
         (vacant, opponent)(*//§\label{chessBoardEnd}§*)
+
+  // vi kan gøre 2 ting her, enten kan vi loope igennem alle mulige for alle brikker for hvert move kongen skal køre
+  // ellers kan vi prøve at samle en liste af alle steder de kunne bevæge sig ind og feede getVacantNOccupied med den liste

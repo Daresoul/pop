@@ -1,6 +1,7 @@
 module Game
 open Chess
 open Pieces
+open player
 open System.Windows.Forms
 
 type game()=
@@ -51,6 +52,9 @@ type game()=
 
   member this.run()=
 
+    let player1 = Human()
+    let player2 = Human()
+
     let printPiece (board : Board) (p : chessPiece) : unit =
       printfn "%A: %A %A" p p.position (p.availableMoves board)
     //Creats and set up the board and game.
@@ -67,49 +71,41 @@ type game()=
     board.[1,7] <- Some pieces.[2]
     board.[2,6] <- Some pieces.[3]
 
-    
-   (*member this.HumanVhuman The while part here is only for human vs human *)
     //Starting the game    
     while keepPlaying do
+
         printfn "%A" board
         Array.iter (printPiece board) pieces
+
+
         printfn "Player %i´s turn. Enter a move from a location to a location:" (playerNumber + 1)
-        let playerInput = string (System.Console.ReadLine())
-        let exMove = (playerInput.ToLower().Split([|' '|]))  
-        if playerInput ="quit" then 
+        if (playerNumber = 0) then
+          let moves = player1.nextMove
+
+          match moves with
+          | [] ->
+            printfn "Something about your formatting is wrong"
+          | [(-1, -1)] ->
             keepPlaying <- false
-            printfn "Game over"
-        elif (playerInput.Length <>5) || (exMove.Length <>2) then //<- Removes input of wrong format. 
-            printfn "Please follow the correct input format. Example: A1 B2" 
+          | [(x1,y1); (x2,y2)] ->
+            if (this.checkValidMove (x2, y2) (board.[x1, y1]) (board) playerNumber) then
+              playerNumber <- ((playerNumber+1)%2)
+              board.move (x1, y1) (x2, y2)
+          | _ ->
+            printfn "Something went wrong about your formating or inputs!"
         else
-           
-            let firstChar = exMove.[0].[0]
-            let secondChar = exMove.[1].[0]
+          let moves = player2.nextMove
+          
+          match moves with
+          | [] ->
+            printfn "Something about your formatting is wrong"
+          | [(-1, -1)] ->
+            keepPlaying <- false
+          | [(x1,y1); (x2,y2)] ->
+            if (this.checkValidMove (x2, y2) (board.[x1, y1]) (board) playerNumber) then
+              playerNumber <- ((playerNumber+1)%2)
+              board.move (x1, y1) (x2, y2)
+          | _ ->
+            printfn "Something went wrong about your formating or inputs!"
 
-
-            match System.Int32.TryParse(exMove.[0].[1].ToString()) with
-            | (true,int1) -> 
-              match System.Int32.TryParse(exMove.[1].[1].ToString()) with
-              | (true,int2) ->
-                let firstMove1 = this.getCharAsNumber (System.Char.ToUpper firstChar)
-                if firstMove1 <> -1 then
-                  let firstMove2 = int1 - 1
-                  let secondMove1 = this.getCharAsNumber (System.Char.ToUpper secondChar)
-                  if secondMove1 <> -1 then
-                    let secondMove2 = int2 - 1
-                    printfn "startMove: %i, %i" firstMove1 firstMove2
-                    if (this.checkValidMove (secondMove1, secondMove2) (board.[firstMove1, firstMove2]) (board) playerNumber) then
-                      playerNumber <- ((playerNumber+1)%2)
-                      board.move (firstMove1, firstMove2) (secondMove1, secondMove2)
-                    else
-                      printfn "The move was not available"
-                  else
-                    printfn "bad char 2"
-                else
-                  printfn "bad char 1"
-              | _ ->
-                printfn "Please write it in as a char and int, ex. A1"
-            | _ ->
-              printfn "Please write it in as a char and int, ex. A1"
-
-            // board.move (x1,y1) (x2,y2)
+     
