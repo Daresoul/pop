@@ -1,4 +1,5 @@
 module Chess (*//§\label{chessHeader}§*)
+open System.Collections.Generic
 type Color = White | Black
 type Position = int * int(*//§\label{chessTypeEnd}§*)
 /// An abstract chess piece §\label{chessPieceBegin}§
@@ -53,14 +54,14 @@ and Board () =
       if p.IsSome then p.Value.position <- Some (a,b)  (*//§\label{chessItemSet}§*)
       _array.[a, b] <- p
   /// Produce string of board for, e.g., the printfn function.
-  member this.getPieces (color : Color ) : int =
+  
+  /// Produce a list of the opponents list 
+  member this.getPieces (color : Color ) : List<string * int * int> =
+    let opponentList = new List<string * int * int>()
     for a in 0..7 do
       for b in 0..7 do
-        if ((this.Item(a,b).IsSome)) then        
-          printfn "%A" (this.Item(a,b))
-          0
-        else 1
-    0
+        if ((this.Item(a,b).IsSome) && ((this.Item(a,b).Value.color)<>color)) then opponentList.Add(this.Item(a,b).Value.nameOfType , a , b) 
+    opponentList
   override this.ToString() =
     let rec boardStr (i : int) (j : int) : string =
       match (i,j) with 
