@@ -14,13 +14,14 @@ type king(col : Color) =
     let kingMove = board.getPieces(col)
     let vaccant = board.getVacantNNeighbours this 
   // Lav mutable list til at samle dem op
-    //do printfn "le test %A" kingMove
-    //do printfn "Ano Ther le test %A" vaccant
+    do printfn "le test %A" kingMove
+    do printfn "Ano Ther le test %A" vaccant
     (*let findPieces A = Array2D.init (Array2D.length1 A) (Array2D.length2 A) (fun r c -> if A.[r,c] <> None then printfn "%A" A.[r,c] else printfn "x" )
 
     findPieces board*)
     vaccant
-    
+    // KongenTræk - potentielletræk_fraModstanderen_hvisKongen_erVæk
+    // Potentielletræk_fraModstanderen_hvisKongen_erVæk = (new board - konge) - opponent træk
 
 /// A rook is a chessPiece which moves horisontally and vertically
 type rook(col : Color) =
