@@ -6,7 +6,7 @@ open System.Windows.Forms
 
 type game()=
 
-  member this.validateAvailableMove (pos : int * int) (piece : chessPiece option) (board : Board) =
+  member this.validateAvailableMove (pos : int * int) (piece : chessPiece option) (board : Board) (color : Color) =
       // Just for security we are going to check if its a Some again
       match piece with
       | Some (p) -> 
@@ -19,8 +19,7 @@ type game()=
             isItAvailAble <- true
 
         for p in snd availeableMoves do
-          if (p.position =  Some pos) then
-            pritfn "yes"
+          if (p.position =  Some pos && color <> p.color) then
             isItAvailAble <- true
         
         isItAvailAble
@@ -34,9 +33,9 @@ type game()=
       // kan laves om til en enkelt ved at skrive en eller imellem de 2, ved ikke om det er bedre
       printfn "player: %i\ncolor: %A" player p.color
       if (player = 0 && p.color = Color.White) then
-        this.validateAvailableMove pos piece board
+        this.validateAvailableMove pos piece board p.color
       elif (player = 1 && p.color = Color.Black) then
-        this.validateAvailableMove pos piece board
+        this.validateAvailableMove pos piece board p.color
       else
         false
     | None ->
