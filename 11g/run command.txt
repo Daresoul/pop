@@ -1,2 +1,2 @@
-fsharpc chess.fs pieces.fs game.fs test.fsx
+fsharpc chess.fs pieces.fs player.fs game.fs test.fsx
 mono test.exe
