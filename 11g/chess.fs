@@ -56,11 +56,11 @@ and Board () =
   /// Produce string of board for, e.g., the printfn function.
   
   /// Produce a list of the opponents list 
-  member this.getPieces (color : Color ) : List<string * int * int> =
-    let opponentList = new List<string * int * int>()
+  member this.getPieces (color : Color ) : List<chessPiece> =
+    let opponentList = new List<chessPiece>()
     for a in 0..7 do
       for b in 0..7 do
-        if ((this.Item(a,b).IsSome) && ((this.Item(a,b).Value.color)<>color)) then opponentList.Add(this.Item(a,b).Value.nameOfType , a , b) 
+        if ((this.Item(a,b).IsSome) && ((this.Item(a,b).Value.color)<>color)) then opponentList.Add(this.Item(a,b).Value) 
     opponentList
   override this.ToString() =
     let rec boardStr (i : int) (j : int) : string =
@@ -117,4 +117,4 @@ and Board () =
         let opponent = 
           vacantPieceLists
           |> List.choose snd 
-        (vacant, opponent)(*//§\label{chessBoardEnd}§*)
+        (vacant, opponent)(*//§\label{chessBoardEnd}§*) //Var sporring fuld da han skrev det her...

@@ -59,10 +59,10 @@ type game()=
     let board = Chess.Board () 
     let pieces = [| //We are not really told what start-setup we should have. So i just made one. 
       king (White) :> chessPiece;
-      rook (White) :> chessPiece;
+      rook (Black) :> chessPiece;
       rook (White) :> chessPiece;
       king (Black) :> chessPiece |]
-    board.[0,4] <- Some pieces.[0]
+    board.[2,4] <- Some pieces.[0]
     board.[0,7] <- Some pieces.[1]
     board.[1,7] <- Some pieces.[2]
     board.[2,6] <- Some pieces.[3]
